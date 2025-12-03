@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui Standalone", "ImGui Standalone\ImGui Standalone.vcxproj", "{AF5FE85D-6A4A-47A3-B27C-0DA60EA93D51}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkullGirls Pallete Editor 2nd Encore", "PalleteEditor\ImGui Standalone.vcxproj", "{AF5FE85D-6A4A-47A3-B27C-0DA60EA93D51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
