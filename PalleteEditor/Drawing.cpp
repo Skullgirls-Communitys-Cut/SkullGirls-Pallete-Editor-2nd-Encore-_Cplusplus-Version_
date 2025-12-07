@@ -26,7 +26,7 @@ void Drawing::Draw()
 		ImGui::SetNextWindowBgAlpha(1.0f);
 		ImGui::Begin(lpWindowName, &bDraw, WindowFlags);
 		{
-			//Меню-Бар
+			//пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅ
 			if (ImGui::BeginMenuBar())
 			{
 				if (ImGui::BeginMenu("File"))
@@ -65,16 +65,16 @@ void Drawing::Draw()
 	
 				}
 
-				// Кнопка About прямо в меню баре
+				// пїЅпїЅпїЅпїЅпїЅпїЅ About пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 				if (ImGui::MenuItem("About"))
 				{
-					// Открываем окно About при нажатии
+					// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ About пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 					bShow_about_window = true;
 				}
 
 				ImGui::EndMenuBar();
 			}
-				//Окно "About"
+				//пїЅпїЅпїЅпїЅ "About"
 				if (bShow_about_window)
 				{
 					ImGui::Begin("About", &bShow_about_window);
@@ -101,7 +101,7 @@ void Drawing::Draw()
 						ImGui::Text("Start a match to use the editor.\nIf this message persists, the table may be invalid.");
 					}
 					else {
-						//Комбо-бокс выбора персонажа
+						//пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 						ImGui::Text("Select character:");
 						const char* preview_text = "Select";
 						for (const auto& character : PalEdit::Character_Vector) {
@@ -113,7 +113,7 @@ void Drawing::Draw()
 
 						if (ImGui::BeginCombo("##CharSelect", preview_text)) {
 							for (int i = 0; i < PalEdit::Character_Vector.size(); i++) {
-								// Сравниваем ID, а не индекс в векторе
+								// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID, пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 								bool is_selected = (PalEdit::current_character_idx == PalEdit::Character_Vector[i].ID);
 
 								std::string Display_Name = PalEdit::Character_Vector[i].Char_Name;
@@ -125,7 +125,7 @@ void Drawing::Draw()
 								}
 
 								if (ImGui::Selectable(Display_Name.c_str(), is_selected)) {
-									// Сохраняем ID выбранного персонажа
+									// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 									PalEdit::current_character_idx = PalEdit::Character_Vector[i].ID;
 									PalEdit::Read_Character();
 								}
@@ -138,7 +138,7 @@ void Drawing::Draw()
 						if (PalEdit::current_character_idx != -1) {
 							Character& currentChar = PalEdit::Character_Vector[PalEdit::FindVectorIndexByID(PalEdit::current_character_idx)];
 							int displayValue = currentChar.Current_Pallete_Num + 1;
-							if (ImGui::SliderInt("PalleteNum##", &displayValue, 1, currentChar.Max_Pallete_Num)) { //Слайдер выбора палетки
+							if (ImGui::SliderInt("PalleteNum##", &displayValue, 1, currentChar.Max_Pallete_Num)) { //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 								{
 
 									currentChar.Current_Pallete_Num = displayValue - 1;
@@ -148,7 +148,7 @@ void Drawing::Draw()
 							};
 							ImGui::Separator();
 
-							// Предварительные вычисления цветов (остаются без изменений)
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 							__int32& LineColor = currentChar.LineColor;
 							float LinecolorFloat[4] = {
 								((LineColor >> 16) & 0xFF) / 255.0f,
@@ -173,13 +173,13 @@ void Drawing::Draw()
 								((i32SuperShadow2 >> 24) & 0xFF) / 255.0f
 							};
 
-							// Создаем таблицу с 2 колонками
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ 2 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 							if (ImGui::BeginTable("ColorSettings", 2, ImGuiTableFlags_SizingFixedFit))
 							{
 								ImGui::TableSetupColumn("Options", ImGuiTableColumnFlags_WidthFixed, 200.0f);
 								ImGui::TableSetupColumn("Colors", ImGuiTableColumnFlags_WidthFixed, 150.0f);
 
-								// Первая строка: Don't display character
+								// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: Don't display character
 								ImGui::TableNextRow();
 								ImGui::TableSetColumnIndex(0);
 								if (ImGui::Checkbox("Don't display character", &PalEdit::bNODisplayChar)) {
@@ -199,7 +199,7 @@ void Drawing::Draw()
 									PalEdit::Read_Character();
 								}
 
-								// Вторая строка: Don't display shadows
+								// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: Don't display shadows
 								ImGui::TableNextRow();
 								ImGui::TableSetColumnIndex(0);
 								if (ImGui::Checkbox("Don't display shadows", &PalEdit::bNODisplayShadows)) {
@@ -219,7 +219,7 @@ void Drawing::Draw()
 									PalEdit::Read_Character();
 								}
 
-								// Третья строка: Display super shadow
+								// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: Display super shadow
 								ImGui::TableNextRow();
 								ImGui::TableSetColumnIndex(0);
 								if (ImGui::Checkbox("Display super shadow", &PalEdit::bDisplaySuperShadows)) {
@@ -240,7 +240,7 @@ void Drawing::Draw()
 								}
 								ImGui::TableNextRow();
 								ImGui::TableSetColumnIndex(0);
-								auto it = GroupColorGroup::characterGroups.find(currentChar.Char_Name); //Если есть JSON с Частями персонжей
+								auto it = GroupColorGroup::characterGroups.find(currentChar.Char_Name); //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ JSON пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 								if (it != GroupColorGroup::characterGroups.end() && !it->second.empty()) {
 									bJSONEnable = true;
 									ImGui::Checkbox("Group Character Parts", &bGrouping);
@@ -253,14 +253,16 @@ void Drawing::Draw()
 							ImGui::Separator();
 							if (bJSONEnable and bGrouping) {
 								auto it = GroupColorGroup::characterGroups.find(currentChar.Char_Name);
-								// Отображаем с группировкой
+								// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 								for (const auto& group : it->second) {
-									// Добавляем ImGuiTreeNodeFlags_DefaultOpen для открытого состояния по умолчанию
+									// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ImGuiTreeNodeFlags_DefaultOpen пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 									if (ImGui::CollapsingHeader(group.groupName.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-										// Используем стиль без отступов для более плотного расположения
+										// small button next to header to open the color-wheel window for this group
+										std::string wheelKey = currentChar.Char_Name + std::string("|") + group.groupName;
+										std::string btn_id = std::string("wheelBtn_") + std::to_string(group.startIndex);
 										ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 4));
 
-										// Отображаем цвета в группе
+										// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 										for (int i = group.startIndex;
 											i < group.startIndex + group.count && i < currentChar.Character_Colors.size();
 											i++) {
@@ -294,7 +296,7 @@ void Drawing::Draw()
 
 											ImGui::PopID();
 
-											// Используем SameLine() с проверкой, помещается ли следующий элемент
+											// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SameLine() пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 											bool isLastInGroup = (i == group.startIndex + group.count - 1);
 											bool isLastValidColor = (i == currentChar.Character_Colors.size() - 1);
 
@@ -303,8 +305,6 @@ void Drawing::Draw()
 											}
 										}
 										ImGui::Separator();
-										std::string wheelKey = currentChar.Char_Name + std::string("|") + group.groupName;
-										std::string btn_id = std::string("wheelBtn_") + std::to_string(group.startIndex);
 										ImGui::PushID(btn_id.c_str());
 										if (ImGui::Button(("Open Wheel##" + btn_id).c_str())) {
 											wheelOpenMap[wheelKey] = !wheelOpenMap[wheelKey];
@@ -320,15 +320,14 @@ void Drawing::Draw()
 
 										ImGui::PopStyleVar();
 									}
-
 								}
-							} //Если JSON нет.
+							} //пїЅпїЅпїЅпїЅ JSON пїЅпїЅпїЅ.
 							else {
 								for (int i = 1; i < currentChar.Character_Colors.size(); i++) {
-									// Получаем ссылку на 32-битный цвет
+									// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 32-пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 									__int32& colorValue = currentChar.Character_Colors[i];
 
-									// Распаковываем компоненты (формат ARGB)
+									// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ ARGB)
 									float colorFloat[4] = {
 										((colorValue >> 16) & 0xFF) / 255.0f,  // Red
 										((colorValue >> 8) & 0xFF) / 255.0f,   // Green
@@ -337,10 +336,10 @@ void Drawing::Draw()
 									};
 
 									ImGui::PushID(i);
-									// Отображаем ColorEdit
+									// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ColorEdit
 									if (ImGui::ColorEdit4(("Color##" + std::to_string(i)).c_str(), colorFloat, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaPreview | ImGuiColorEditFlags_AlphaBar)) {
 
-										// Упаковываем обратно в ARGB формат
+										// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ ARGB пїЅпїЅпїЅпїЅпїЅпїЅ
 										colorValue =
 											(static_cast<__int32>(colorFloat[3] * 255) << 24) |  // Alpha
 											(static_cast<__int32>(colorFloat[0] * 255) << 16) |  // Red
@@ -381,18 +380,18 @@ void Drawing::Draw()
 						for (int i = 0; i < AutoPallete::Auto_Pals.size(); i++) {
 							Auto_Pal& pal = AutoPallete::Auto_Pals[i];
 
-							// Используем PushID для создания уникального пространства имен
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ PushID пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 							ImGui::PushID(i);
 							ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.3f, 0.3f, 0.6f, 0.9f));
 
-							// Уникальный ID для каждого child
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ child
 							std::string childId = "pal_group_" + std::to_string(i);
 							ImGui::BeginChild(childId.c_str(), ImVec2(0, ImGui::GetFrameHeightWithSpacing() * 4), true, ImGuiWindowFlags_NoDecoration);
 
-							// Уникальный ID для каждой таблицы
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 							std::string tableId = "ColorSettings_" + std::to_string(i);
 							if (!ImGui::BeginTable(tableId.c_str(), 3, ImGuiTableFlags_SizingFixedFit)) {
-								// Если таблица не создана, пропускаем элемент
+								// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 								ImGui::EndChild();
 								ImGui::PopStyleColor();
 								ImGui::PopID();
@@ -400,15 +399,15 @@ void Drawing::Draw()
 							}
 							ImVec2 display_size = ImGui::GetIO().DisplaySize;
 
-							// Проценты от ширины экрана (но с ограничениями)
-							float labels_width = display_size.x * 1.1f;  // 11% от ширины экрана
-							float actions_width = display_size.x * 1.4f; // 14% от ширины экрана
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+							float labels_width = display_size.x * 1.1f;  // 11% пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+							float actions_width = display_size.x * 1.4f; // 14% пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 							ImGui::TableSetupColumn("Labels", ImGuiTableColumnFlags_WidthFixed, labels_width);
 							ImGui::TableSetupColumn("Inputs", ImGuiTableColumnFlags_WidthStretch);
 							ImGui::TableSetupColumn("Actions", ImGuiTableColumnFlags_WidthFixed, actions_width);
 
-							// Первая строка: Character Name
+							// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: Character Name
 							ImGui::TableNextRow();
 							ImGui::TableSetColumnIndex(0);
 							ImGui::AlignTextToFramePadding();
@@ -418,7 +417,7 @@ void Drawing::Draw()
 							const char* preview_value = pal.CharName.c_str();
 							ImGui::SetNextItemWidth(-FLT_MIN);
 
-							// Уникальный ID для combo
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅ combo
 							std::string comboId = "##CharacterName_" + std::to_string(i);
 							if (ImGui::BeginCombo(comboId.c_str(), preview_value)) {
 								for (int j = 0; j < IM_ARRAYSIZE(characterNames); j++) {
@@ -440,7 +439,7 @@ void Drawing::Draw()
 							ImGui::SameLine();
 							ImGui::SetNextItemWidth(-FLT_MIN);
 
-							// Уникальный ID для InputInt
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅ InputInt
 							std::string palNumId = "##PalNum_" + std::to_string(i);
 							int displayValue = pal.PalNum + 1;
 							if (ImGui::InputInt(palNumId.c_str(), &displayValue)) {
@@ -449,20 +448,20 @@ void Drawing::Draw()
 								AutoPallete::save();
 							}
 
-							// Вторая строка: Path
+							// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: Path
 							ImGui::TableNextRow();
 							ImGui::TableSetColumnIndex(0);
 							ImGui::AlignTextToFramePadding();
 							ImGui::Text("Path to the Palette");
 
 							ImGui::TableSetColumnIndex(1);
-							// НЕ статический буфер - создаем локальный для каждого элемента
+							// пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 							char pathBuffer[512];
 							strncpy_s(pathBuffer, pal.PalPath.c_str(), sizeof(pathBuffer));
 							pathBuffer[sizeof(pathBuffer) - 1] = '\0';
 							ImGui::SetNextItemWidth(-FLT_MIN);
 
-							// Уникальный ID для InputText
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅ InputText
 							std::string pathId = "##Path_" + std::to_string(i);
 							if (ImGui::InputText(pathId.c_str(), pathBuffer, sizeof(pathBuffer))) {
 								pal.PalPath = pathBuffer;
@@ -470,7 +469,7 @@ void Drawing::Draw()
 							}
 
 							ImGui::TableSetColumnIndex(2);
-							// Уникальный ID для кнопки Open
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Open
 
 							if (ImGui::Button("Open", ImVec2(-FLT_MIN, 0))) {
 								const char* filterPatterns[1] = { "*.pal" };
@@ -491,11 +490,11 @@ void Drawing::Draw()
 							ImGui::EndTable();
 							ImGui::Separator();
 
-							// Уникальный ID для кнопки Delete
+							// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ID пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Delete
 							if (ImGui::Button("Delete")) {
 								AutoPallete::Auto_Pals.erase(AutoPallete::Auto_Pals.begin() + i);
 								AutoPallete::save();
-								// После удаления нужно выйти из цикла
+								// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 								ImGui::EndChild();
 								ImGui::PopStyleColor();
 								ImGui::PopID();

@@ -8,19 +8,20 @@ namespace Memory {
         DWORD pid = 0;
         HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
         if (hSnapshot == INVALID_HANDLE_VALUE) {
-            return pid; // Возвращаем пустой вектор в случае ошибки
+            return pid; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         }
 
         PROCESSENTRY32 pe;
-        pe.dwSize = sizeof(pe); // Важно: инициализировать размер структуры
+        pe.dwSize = sizeof(pe); // пїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
+            //hi 
         if (!Process32First(hSnapshot, &pe)) {
             CloseHandle(hSnapshot);
             return pid;
         }
 
         do {
-            // Сравниваем имя процесса с искомым
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (Utills::to_lower(pe.szExeFile) == Utills::to_lower(targetProcessName)) {
                 pid = pe.th32ProcessID;
                 break;
@@ -28,13 +29,13 @@ namespace Memory {
         } while (Process32Next(hSnapshot, &pe));
 
         CloseHandle(hSnapshot);
-        return pid; // Возвращает все найденные PID (может быть несколько)
+        return pid; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ PID (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     }
 
     DWORD GetModuleBaseAddress(DWORD dwProcessId, std::wstring ModuleName) {
         HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwProcessId);
         if (hSnapshot == INVALID_HANDLE_VALUE) {
-            return 0; // Не удалось создать снимок процессов
+            return 0; // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
 
         MODULEENTRY32 ModuleEntry32 = { 0 };
@@ -51,7 +52,7 @@ namespace Memory {
         }
 
         CloseHandle(hSnapshot);
-        return dwModuleBaseAddress; // Вернет 0, если модуль не найден
+        return dwModuleBaseAddress; // пїЅпїЅпїЅпїЅпїЅпїЅ 0, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     }
 
 }

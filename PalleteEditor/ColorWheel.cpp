@@ -4,6 +4,12 @@
 #include <string>
 #include <unordered_map>
 #include <cmath>
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+#include "Utills.hpp"
+
 
 // per-wheel selected index (persisted by character|group key)
 static std::unordered_map<std::string, int> g_selectedIndexMap;
@@ -13,55 +19,190 @@ static std::unordered_map<std::string, float> g_wheelRatioMap;
 static std::unordered_map<std::string, float> g_leftWidthMap;
 // dragging state: which palette index is currently being dragged per wheel
 static std::unordered_map<std::string, int> g_draggingIndexMap;
+// picking state for screen color picker: map wheelKey -> index being picked
+static std::unordered_map<std::string, int> g_pickingIndexMap;
+// waiting-for-release flag so we don't immediately capture the button click
+static std::unordered_map<std::string, bool> g_pickingWaitingMap;
 
-// Convert RGB (0..1) to HSV (h in degrees 0..360, s,v 0..1)
-static void RGBtoHSV(float r, float g, float b, float& out_h, float& out_s, float& out_v)
+#ifdef _WIN32
+// Low-level mouse hook & pending pick buffer so we can swallow clicks
+static HHOOK g_mouseHook = NULL;
+static bool g_mouseHookInitialized = false;
+struct PendingPick { bool pending; POINT pt; std::string wheelKey; int index; int r; int g; int b; };
+static PendingPick g_pendingPick = { false, {0,0}, std::string(), -1, 0,0,0 };
+static CRITICAL_SECTION g_pickCs;
+
+static HWND g_previewWnd = NULL;
+static bool g_previewRegistered = false;
+
+static void InstallMouseHook();
+static void UninstallMouseHook();
+static void EnsurePreviewWindow();
+static void UpdatePreviewWindow(int x, int y, unsigned int r, unsigned int g, unsigned int b, const char* hexLabel);
+static void DestroyPreviewWindow();
+
+LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-    float max = std::fmax(r, std::fmax(g, b));
-    float min = std::fmin(r, std::fmin(g, b));
-    out_v = max;
-    float d = max - min;
-    out_s = max == 0.0f ? 0.0f : d / max;
-    if (d == 0.0f) { out_h = 0.0f; return; }
-    if (max == r) out_h = 60.0f * (fmod(((g - b) / d), 6.0f));
-    else if (max == g) out_h = 60.0f * (((b - r) / d) + 2.0f);
-    else out_h = 60.0f * (((r - g) / d) + 4.0f);
-    if (out_h < 0.0f) out_h += 360.0f;
+    if (nCode >= 0 && lParam) {
+        MSLLHOOKSTRUCT* info = (MSLLHOOKSTRUCT*)lParam;
+        if (wParam == WM_LBUTTONDOWN) {
+            // find any active pick that is not waiting and capture it
+            for (const auto& kv : g_pickingIndexMap) {
+                const std::string& key = kv.first;
+                auto wit = g_pickingWaitingMap.find(key);
+                bool waiting = true;
+                if (wit != g_pickingWaitingMap.end()) waiting = wit->second;
+                if (!waiting) {
+                    int pickIndex = kv.second;
+                    HDC hdc = GetDC(NULL);
+                    COLORREF cr = GetPixel(hdc, info->pt.x, info->pt.y);
+                    ReleaseDC(NULL, hdc);
+                    EnterCriticalSection(&g_pickCs);
+                    g_pendingPick.pending = true;
+                    g_pendingPick.pt = info->pt;
+                    g_pendingPick.wheelKey = key;
+                    g_pendingPick.index = pickIndex;
+                    g_pendingPick.r = GetRValue(cr);
+                    g_pendingPick.g = GetGValue(cr);
+                    g_pendingPick.b = GetBValue(cr);
+                    LeaveCriticalSection(&g_pickCs);
+
+                    // swallow the click so other windows don't receive it
+                    return 1;
+                }
+            }
+        }
+    }
+    return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
 }
 
-// Convert HSV (h in degrees 0..360, s,v 0..1) to RGB (0..1)
-static void HSVtoRGB(float h, float s, float v, float& out_r, float& out_g, float& out_b)
+static void InstallMouseHook()
 {
-    float C = v * s;
-    float X = C * (1.0f - fabs(fmod(h / 60.0f, 2.0f) - 1.0f));
-    float m = v - C;
-    float r=0,g=0,b=0;
-    if (h < 60.0f) { r = C; g = X; b = 0; }
-    else if (h < 120.0f) { r = X; g = C; b = 0; }
-    else if (h < 180.0f) { r = 0; g = C; b = X; }
-    else if (h < 240.0f) { r = 0; g = X; b = C; }
-    else if (h < 300.0f) { r = X; g = 0; b = C; }
-    else { r = C; g = 0; b = X; }
-    out_r = r + m; out_g = g + m; out_b = b + m;
+    if (!g_mouseHookInitialized) {
+        InitializeCriticalSection(&g_pickCs);
+        g_mouseHookInitialized = true;
+    }
+    if (!g_mouseHook) {
+        g_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, NULL, 0);
+    }
+    EnsurePreviewWindow();
 }
 
-// Convert ARGB int to float[4]
-static void ARGBToFloat4(__int32 cVal, float out[4])
+static void UninstallMouseHook()
 {
-    out[0] = ((cVal >> 16) & 0xFF) / 255.0f;
-    out[1] = ((cVal >> 8) & 0xFF) / 255.0f;
-    out[2] = (cVal & 0xFF) / 255.0f;
-    out[3] = ((cVal >> 24) & 0xFF) / 255.0f;
+    if (g_mouseHook) {
+        UnhookWindowsHookEx(g_mouseHook);
+        g_mouseHook = NULL;
+    }
+    if (g_mouseHookInitialized) {
+        DeleteCriticalSection(&g_pickCs);
+        g_mouseHookInitialized = false;
+    }
+    DestroyPreviewWindow();
 }
 
-// Compose ARGB int from floats (r,g,b,a in 0..1)
-static inline __int32 Float4ToARGB(float r, float g, float b, float a)
+// Simple topmost layered window to show the preview outside the app window
+static LRESULT CALLBACK PreviewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    return (static_cast<__int32>(a * 255.0f) << 24) |
-           (static_cast<__int32>(r * 255.0f) << 16) |
-           (static_cast<__int32>(g * 255.0f) << 8) |
-           (static_cast<__int32>(b * 255.0f));
+    if (msg == WM_MOUSEMOVE || msg == WM_LBUTTONDOWN || msg == WM_LBUTTONUP) {
+        // swallow mouse so clicks don't interact with this window
+        return 0;
+    }
+    return DefWindowProc(hwnd, msg, wParam, lParam);
 }
+
+static void EnsurePreviewWindow()
+{
+    if (g_previewWnd) return;
+    if (!g_previewRegistered) {
+        WNDCLASS wc = {};
+        wc.lpfnWndProc = PreviewWndProc;
+        wc.hInstance = GetModuleHandle(NULL);
+        wc.lpszClassName = TEXT("SG_PickPreview");
+        RegisterClass(&wc);
+        g_previewRegistered = true;
+    }
+    g_previewWnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TOPMOST, TEXT("SG_PickPreview"), TEXT(""), WS_POPUP, 0,0, 1,1, NULL, NULL, GetModuleHandle(NULL), NULL);
+    if (g_previewWnd) {
+        // make completely click-through except we will swallow clicks at hook level
+        SetWindowLong(g_previewWnd, GWL_EXSTYLE, GetWindowLong(g_previewWnd, GWL_EXSTYLE) | WS_EX_LAYERED | WS_EX_TOOLWINDOW | WS_EX_TOPMOST);
+        ShowWindow(g_previewWnd, SW_SHOW);
+    }
+}
+
+static void UpdatePreviewWindow(int x, int y, unsigned int r, unsigned int g, unsigned int b, const char* hexLabel)
+{
+    if (!g_previewWnd) return;
+    const int w = 120; const int h = 28;
+    HDC hdcScreen = GetDC(NULL);
+    HDC memDC = CreateCompatibleDC(hdcScreen);
+    BITMAPINFO bmi = {};
+    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    bmi.bmiHeader.biWidth = w;
+    bmi.bmiHeader.biHeight = -h; // top-down
+    bmi.bmiHeader.biPlanes = 1;
+    bmi.bmiHeader.biBitCount = 32;
+    bmi.bmiHeader.biCompression = BI_RGB;
+    void* bits = NULL;
+    HBITMAP hBitmap = CreateDIBSection(hdcScreen, &bmi, DIB_RGB_COLORS, &bits, NULL, 0);
+    if (!hBitmap) { DeleteDC(memDC); ReleaseDC(NULL, hdcScreen); return; }
+    HBITMAP oldBmp = (HBITMAP)SelectObject(memDC, hBitmap);
+    // fill transparent
+    memset(bits, 0, w * h * 4);
+    // draw filled rect (white background with black text for readability)
+    HBRUSH brush = CreateSolidBrush(RGB(255,255,255));
+    RECT rc = {4,4, w-4, h-4};
+    FillRect(memDC, &rc, brush);
+    DeleteObject(brush);
+    // draw border
+    HPEN pen = CreatePen(PS_SOLID, 1, RGB(0,0,0));
+    HPEN oldPen = (HPEN)SelectObject(memDC, pen);
+    Rectangle(memDC, 3,3, w-3, h-3);
+    SelectObject(memDC, oldPen);
+    DeleteObject(pen);
+    // draw text hexLabel to the right (black on white background)
+    SetTextColor(memDC, RGB(0,0,0));
+    SetBkMode(memDC, TRANSPARENT);
+    HFONT hf = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+    HFONT oldF = (HFONT)SelectObject(memDC, hf);
+    // position text to the right of the color square, not too far right
+    RECT tr = { 36, 4, w-6, h-4 };
+    DrawTextA(memDC, hexLabel, -1, &tr, DT_LEFT | DT_VCENTER | DT_SINGLELINE);
+    SelectObject(memDC, oldF);
+
+    // ensure all pixels are fully opaque (set alpha byte to 255) so the layered window fully covers underlying UI
+    unsigned char* pix = (unsigned char*)bits;
+    for (int yy = 0; yy < h; ++yy) {
+        for (int xx = 0; xx < w; ++xx) {
+            int off = (yy * w + xx) * 4;
+            pix[off + 3] = 255; // alpha byte (BGRA layout)
+        }
+    }
+
+    // use UpdateLayeredWindow to show the bitmap (with per-pixel alpha set to opaque)
+    POINT ptDst = { x + 16, y + 16 };
+    SIZE size = { w, h };
+    POINT ptSrc = {0,0};
+    BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
+    UpdateLayeredWindow(g_previewWnd, hdcScreen, &ptDst, &size, memDC, &ptSrc, 0, &bf, ULW_ALPHA);
+
+    // cleanup
+    SelectObject(memDC, oldBmp);
+    DeleteObject(hBitmap);
+    DeleteDC(memDC);
+    ReleaseDC(NULL, hdcScreen);
+}
+
+static void DestroyPreviewWindow()
+{
+    if (g_previewWnd) {
+        DestroyWindow(g_previewWnd);
+        g_previewWnd = NULL;
+    }
+}
+#endif
+
+// NOTE: color conversion helpers moved to Utills.hpp (Utills::RGBtoHSV / HSVtoRGB / ARGBToFloat4 / Float4ToARGB)
 
 void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& open)
 {
@@ -109,7 +250,7 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
     ImGui::BeginChild("Swatches", ImVec2(leftW, childHeight), true);
     for (int i = group.startIndex; i < group.startIndex + group.count && i < (int)currentChar.Character_Colors.size(); ++i) {
         __int32 cVal = currentChar.Character_Colors[i];
-        float sw[4]; ARGBToFloat4(cVal, sw);
+        float sw[4]; Utills::ARGBToFloat4(cVal, sw);
         ImGui::PushID(i);
         ImGui::ColorButton((std::string("sw_") + std::to_string(i)).c_str(), ImVec4(sw[0], sw[1], sw[2], sw[3]), ImGuiColorEditFlags_NoAlpha, ImVec2(32, 32));
         // clicking a swatch sets the selected node for the wheel
@@ -161,7 +302,7 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
 
         // Larger color editor (hide built-in numeric inputs to avoid duplicate labels)
         if (ImGui::ColorEdit4((std::string("ColorLarge##") + std::to_string(i)).c_str(), colorFloat, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel)) {
-            colorValue = Float4ToARGB(colorFloat[0], colorFloat[1], colorFloat[2], colorFloat[3]);
+            colorValue = Utills::Float4ToARGB(colorFloat[0], colorFloat[1], colorFloat[2], colorFloat[3]);
 
             // select this row when editing via color editor
             g_selectedIndexMap[wheelKey] = i;
@@ -188,13 +329,13 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
         ImGui::SameLine();
         // Value (V) control: show as prefix label and allow vertical dragging to adjust brightness
         float hv, hs, hh;
-        RGBtoHSV(colorFloat[0], colorFloat[1], colorFloat[2], hh, hs, hv);
+        Utills::RGBtoHSV(colorFloat[0], colorFloat[1], colorFloat[2], hh, hs, hv);
         ImGui::Text("V"); ImGui::SameLine();
         if (ImGui::DragFloat((std::string("##V") + std::to_string(i)).c_str(), &hv, 0.001f, 0.0f, 1.0f)) {
-            float nr,ng,nb; HSVtoRGB(hh, hs, hv, nr, ng, nb);
+                float nr,ng,nb; Utills::HSVtoRGB(hh, hs, hv, nr, ng, nb);
             colorFloat[0] = nr; colorFloat[1] = ng; colorFloat[2] = nb;
             // compose and apply immediately
-            __int32 newColor = Float4ToARGB(nr, ng, nb, colorFloat[3]);
+            __int32 newColor = Utills::Float4ToARGB(nr, ng, nb, colorFloat[3]);
             // selecting this index because user edited its V value
             g_selectedIndexMap[wheelKey] = i;
             PalEdit::ChangeColor(i, newColor);
@@ -206,9 +347,60 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
         // If any numeric changed, apply (and select the edited index)
         if (r != ((colorValue >> 16) & 0xFF) / 255.0f || g != ((colorValue >> 8) & 0xFF) / 255.0f || b != (colorValue & 0xFF) / 255.0f || a != ((colorValue >> 24) & 0xFF) / 255.0f) {
             g_selectedIndexMap[wheelKey] = i;
-            colorValue = Float4ToARGB(colorFloat[0], colorFloat[1], colorFloat[2], colorFloat[3]);
+            colorValue = Utills::Float4ToARGB(colorFloat[0], colorFloat[1], colorFloat[2], colorFloat[3]);
             PalEdit::ChangeColor(i, colorValue);
             PalEdit::Read_Character();
+        }
+
+        // Hex input (show as #AARRGGBB). Editable; accepts 6 (RRGGBB) or 8 (AARRGGBB) hex digits.
+        {
+            unsigned int a = (colorValue >> 24) & 0xFF;
+            unsigned int r_byte = (colorValue >> 16) & 0xFF;
+            unsigned int g_byte = (colorValue >> 8) & 0xFF;
+            unsigned int b_byte = (colorValue) & 0xFF;
+            char hexBuf[9]; // 8 hex chars + null
+            // default show AARRGGBB
+            sprintf_s(hexBuf, sizeof(hexBuf), "%02X%02X%02X%02X", a, r_byte, g_byte, b_byte);
+            ImGui::Text("Hex"); ImGui::SameLine(); ImGui::Text("#"); ImGui::SameLine();
+            std::string hexId = std::string("##hex_") + std::to_string(i);
+            ImGuiInputTextFlags hexFlags = ImGuiInputTextFlags_CharsHexadecimal | ImGuiInputTextFlags_CharsUppercase | ImGuiInputTextFlags_EnterReturnsTrue;
+            if (ImGui::InputText(hexId.c_str(), hexBuf, sizeof(hexBuf), hexFlags) || ImGui::IsItemDeactivatedAfterEdit()) {
+                // parse input
+                int len = (int)strlen(hexBuf);
+                unsigned int newA = a, newR = r_byte, newG = g_byte, newB = b_byte;
+                if (len == 8) {
+                    unsigned int v = 0;
+                    sscanf_s(hexBuf, "%8X", &v);
+                    newA = (v >> 24) & 0xFF;
+                    newR = (v >> 16) & 0xFF;
+                    newG = (v >> 8) & 0xFF;
+                    newB = v & 0xFF;
+                } else if (len == 6) {
+                    unsigned int v = 0;
+                    sscanf_s(hexBuf, "%6X", &v);
+                    newR = (v >> 16) & 0xFF;
+                    newG = (v >> 8) & 0xFF;
+                    newB = v & 0xFF;
+                }
+                // compose new color (preserve floats for other UI)
+                __int32 newColor = (static_cast<__int32>(newA) << 24) | (static_cast<__int32>(newR) << 16) | (static_cast<__int32>(newG) << 8) | (static_cast<__int32>(newB));
+                g_selectedIndexMap[wheelKey] = i;
+                colorValue = newColor;
+                PalEdit::ChangeColor(i, newColor);
+                currentChar.Character_Colors[i] = newColor;
+                PalEdit::Read_Character();
+            }
+        }
+
+        // Small screen color picker button: enters global picking mode where next screen click samples a pixel
+        ImGui::SameLine();
+        std::string pickId = std::string("Pick##picker_") + std::to_string(i);
+        if (ImGui::Button(pickId.c_str())) {
+            g_pickingIndexMap[wheelKey] = i;
+            g_pickingWaitingMap[wheelKey] = true; // wait for release to avoid immediate trigger
+#ifdef _WIN32
+            InstallMouseHook();
+#endif
         }
 
         ImGui::PopID();
@@ -262,8 +454,8 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
     // Use selected V as brightness for wheel background
     float selV = 1.0f;
     if (selected >= 0 && selected < (int)currentChar.Character_Colors.size()) {
-        float self[4]; ARGBToFloat4(currentChar.Character_Colors[selected], self);
-        float h,s,v; RGBtoHSV(self[0], self[1], self[2], h, s, v);
+        float self[4]; Utills::ARGBToFloat4(currentChar.Character_Colors[selected], self);
+        float h,s,v; Utills::RGBtoHSV(self[0], self[1], self[2], h, s, v);
         selV = v;
     }
 
@@ -272,6 +464,72 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
     ImGui::InvisibleButton((std::string("wheel_interact_") + wheelKey).c_str(), ImVec2(wheelWidth, detailsH));
     bool wheelHovered = ImGui::IsItemHovered();
     bool wheelActive = ImGui::IsItemActive();
+
+    // Handle global screen color picking if active for this wheel
+#ifdef _WIN32
+    auto pit = g_pickingIndexMap.find(wheelKey);
+    if (pit != g_pickingIndexMap.end()) {
+        int pickIndex = pit->second;
+        bool waiting = true;
+        auto wit = g_pickingWaitingMap.find(wheelKey);
+        if (wit != g_pickingWaitingMap.end()) waiting = wit->second;
+
+        // Show an on-screen preview near cursor while picking (sample continuously)
+        POINT pt; GetCursorPos(&pt);
+        HDC hdc = GetDC(NULL);
+        COLORREF cr = GetPixel(hdc, pt.x, pt.y);
+        ReleaseDC(NULL, hdc);
+        unsigned int rr = GetRValue(cr);
+        unsigned int gg = GetGValue(cr);
+        unsigned int bb = GetBValue(cr);
+
+        ImDrawList* fg = ImGui::GetForegroundDrawList();
+        ImVec2 mpos((float)pt.x + 16.0f, (float)pt.y + 16.0f);
+        ImU32 previewCol = IM_COL32((int)rr, (int)gg, (int)bb, 255);
+        fg->AddRectFilled(mpos, ImVec2(mpos.x + 24.0f, mpos.y + 24.0f), previewCol);
+        char hexLabel[16]; sprintf_s(hexLabel, sizeof(hexLabel), "#%02X%02X%02X", rr, gg, bb);
+        fg->AddRect(mpos, ImVec2(mpos.x + 24.0f, mpos.y + 24.0f), IM_COL32(0,0,0,180));
+        fg->AddText(ImGui::GetFont(), ImGui::GetFontSize()*0.9f, ImVec2(mpos.x + 28.0f, mpos.y + 4.0f), IM_COL32(255,255,255,230), hexLabel);
+    #ifdef _WIN32
+        UpdatePreviewWindow(pt.x, pt.y, rr, gg, bb, hexLabel);
+    #endif
+
+        // If the hook captured a click, it fills g_pendingPick; consume it here and apply without letting other windows receive the click
+        bool hasPending = false;
+        PendingPick copyPick;
+        EnterCriticalSection(&g_pickCs);
+        hasPending = g_pendingPick.pending;
+        if (hasPending) {
+            copyPick = g_pendingPick;
+            g_pendingPick.pending = false;
+        }
+        LeaveCriticalSection(&g_pickCs);
+
+        if (hasPending) {
+            unsigned int a = (currentChar.Character_Colors[copyPick.index] >> 24) & 0xFF;
+            __int32 newColor = (static_cast<__int32>(a) << 24) | (static_cast<__int32>(copyPick.r) << 16) | (static_cast<__int32>(copyPick.g) << 8) | (static_cast<__int32>(copyPick.b));
+            g_selectedIndexMap[wheelKey] = copyPick.index;
+            PalEdit::ChangeColor(copyPick.index, newColor);
+            currentChar.Character_Colors[copyPick.index] = newColor;
+            PalEdit::Read_Character();
+
+            // clear picking state for that wheel and uninstall hook
+            g_pickingIndexMap.erase(copyPick.wheelKey);
+            g_pickingWaitingMap.erase(copyPick.wheelKey);
+            UninstallMouseHook();
+        } else {
+            // if waiting for release, clear the waiting flag on LBUTTON up (same behavior as before)
+            SHORT vk = GetAsyncKeyState(VK_LBUTTON);
+            bool down = (vk & 0x8000) != 0;
+            if (waiting) {
+                if (!down) {
+                    g_pickingWaitingMap[wheelKey] = false;
+                    waiting = false;
+                }
+            }
+        }
+    }
+#endif
 
     // Draw hue-saturation disk (approximate by many quads)
     const int segments = 128;
@@ -283,7 +541,7 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
         ImVec2 q0 = ImVec2(canvasCenter.x + innerR * cosf(a0), canvasCenter.y + innerR * sinf(a0));
         ImVec2 q1 = ImVec2(canvasCenter.x + innerR * cosf(a1), canvasCenter.y + innerR * sinf(a1));
         float hue = (float)si / (float)segments * 360.0f;
-        float rr,gg,bb; HSVtoRGB(hue, 1.0f, selV, rr, gg, bb);
+        float rr,gg,bb; Utills::HSVtoRGB(hue, 1.0f, selV, rr, gg, bb);
         int col = IM_COL32((int)(rr*255), (int)(gg*255), (int)(bb*255), 255);
         ImVec2 poly[4] = { p0, p1, q1, q0 };
         draw_list->AddConvexPolyFilled(poly, 4, col);
@@ -295,8 +553,8 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
     int nodeRadius = 8;
     for (int idx = 0; idx < group.count && (group.startIndex + idx) < (int)currentChar.Character_Colors.size(); ++idx) {
         int paletteIndex = group.startIndex + idx;
-        float cf[4]; ARGBToFloat4(currentChar.Character_Colors[paletteIndex], cf);
-        float h,s,v; RGBtoHSV(cf[0], cf[1], cf[2], h, s, v);
+        float cf[4]; Utills::ARGBToFloat4(currentChar.Character_Colors[paletteIndex], cf);
+        float h,s,v; Utills::RGBtoHSV(cf[0], cf[1], cf[2], h, s, v);
         float angle = (h / 360.0f) * 2.0f * 3.14159265f;
         float r = innerR + (outerR - innerR) * s;
         ImVec2 pos = ImVec2(canvasCenter.x + r * cosf(angle), canvasCenter.y + r * sinf(angle));
@@ -337,10 +595,10 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
             if (newHue < 0.0f) newHue += 360.0f;
 
             // preserve original value (v) and alpha
-            float orig[4]; ARGBToFloat4(currentChar.Character_Colors[paletteIndex], orig);
-            float oh,os,ov; RGBtoHSV(orig[0], orig[1], orig[2], oh, os, ov);
-            float nr,ng,nb; HSVtoRGB(newHue, newSat, ov, nr, ng, nb);
-            __int32 newColor = Float4ToARGB(nr, ng, nb, orig[3]);
+            float orig[4]; Utills::ARGBToFloat4(currentChar.Character_Colors[paletteIndex], orig);
+            float oh,os,ov; Utills::RGBtoHSV(orig[0], orig[1], orig[2], oh, os, ov);
+            float nr,ng,nb; Utills::HSVtoRGB(newHue, newSat, ov, nr, ng, nb);
+            __int32 newColor = Utills::Float4ToARGB(nr, ng, nb, orig[3]);
             // write immediately
             PalEdit::ChangeColor(paletteIndex, newColor);
             // update local copy so UI reflects change immediately
