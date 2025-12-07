@@ -133,12 +133,16 @@ void ColorWheel::Draw(Character& currentChar, const ColorGroup& group, bool& ope
     if (ImGui::IsItemActive()) {
         float dx = ImGui::GetIO().MouseDelta.x;
         leftW += dx;
+
+        // Ограничения leftW
         if (leftW < 120.0f) leftW = 120.0f;
-        if (leftW > totalW - 160.0f - 2.0f*splitterW) leftW = totalW - 160.0f - 2.0f*splitterW;
+        if (leftW > totalW * 0.6f) leftW = totalW * 0.6f;
+
+        // Пересчитываем ТОЛЬКО leftW, сохраняем его
         g_leftWidthMap[wheelKey] = leftW;
-        // recompute editors and wheel widths
-        editorsWidth = totalW - leftW - wheelWidth - 2.0f * splitterW;
-        if (editorsWidth < 120.0f) editorsWidth = 120.0f;
+
+        // НЕ ПЕРЕСЧИТЫВАЕМ editorsWidth и wheelWidth здесь!
+        // Они пересчитаются в следующем кадре автоматически
     }
     ImGui::SameLine();
     ImGui::BeginChild("Editors", ImVec2(editorsWidth, detailsH), false);

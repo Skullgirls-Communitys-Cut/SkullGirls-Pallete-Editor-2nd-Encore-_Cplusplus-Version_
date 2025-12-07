@@ -71,6 +71,9 @@
     <ClCompile Include="Include\ImGui\imgui_widgets.cpp">
       <Filter>Include\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="ColorWheel.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI.h">
@@ -148,9 +151,15 @@
     <ClInclude Include="Include\ImGui\imstb_truetype.h">
       <Filter>Include\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="ColorWheel.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="TODO.md">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="CHANGELOG.md">
       <Filter>Source</Filter>
     </None>
   </ItemGroup>

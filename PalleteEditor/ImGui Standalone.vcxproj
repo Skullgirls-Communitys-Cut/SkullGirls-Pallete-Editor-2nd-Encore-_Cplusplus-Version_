@@ -161,6 +161,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Auto-Load-Pallete.cpp" />
+    <ClCompile Include="ColorWheel.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Data\GroupJSONFile.cpp" />
     <ClCompile Include="Data\PalleteFiles.cpp" />
@@ -182,6 +183,7 @@
   <ItemGroup>
     <ClInclude Include="Auto-Load-Pallete.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="ColorWheel.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Data\GroupJSONFiles.h" />
     <ClInclude Include="Data\PalleteFiles.h" />
@@ -208,6 +210,10 @@
     <ClInclude Include="ColorWheel.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CHANGELOG.md">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="TODO.md">
       <SubType>
       </SubType>

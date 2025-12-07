@@ -28,47 +28,46 @@ void config::init() {
         file >> data;
         std::string CharPartPath = get_string("CharPart");
         std::string Table = get_string("Table");
+
         if (CharPartPath != "") {
-            std::ifstream file(CharPartPath);
+            std::ifstream charFile(CharPartPath); // Переименовал для ясности
+            if (!charFile.is_open()) {
+                // Файл не открылся - пропускаем обработку
+                // Можно добавить сообщение об ошибке
+                std::cerr << "Cannot open CharPart file: " << CharPartPath << std::endl;
+            }
+            else {
+                ordered_json j;
+                charFile >> j;
 
-            ordered_json j;
-            file >> j;
+                GroupColorGroup::characterGroups.clear();
 
-            GroupColorGroup::characterGroups.clear();
-
-            for (auto& [charName, groups] : j.items()) {
-                std::vector<ColorGroup> charGroups;
-                int currentIndex = 1;
-                for (auto& [groupName, count] : groups.items()) {
-                    ColorGroup g;
-                    g.groupName = groupName;
-                    g.startIndex = currentIndex;
-                    g.count = count;
-                    charGroups.push_back(g);
-
-                    currentIndex += count;
+                for (auto& [charName, groups] : j.items()) {
+                    std::vector<ColorGroup> charGroups;
+                    int currentIndex = 1;
+                    for (auto& [groupName, count] : groups.items()) {
+                        ColorGroup g;
+                        g.groupName = groupName;
+                        g.startIndex = currentIndex;
+                        g.count = count;
+                        charGroups.push_back(g);
+                        currentIndex += count;
+                    }
+                    GroupColorGroup::characterGroups[charName] = charGroups;
                 }
-
-                GroupColorGroup::characterGroups[charName] = charGroups;
+                charFile.close();
             }
         }
         AutoPallete::load();
-    }   
+    }
     else {
         data = {
             {"CharPart", ""},
             {"Table", ""},
-            {"AutoLoadPals", {
-                {"0", {
-                    {"CharName", ""},
-                    {"PalNumber", 0},
-                    {"PathToPal", ""}
-                }}
-            }}
+            {"AutoLoadPals", json::array()}
         };
-        save(); // Создаем файл
+        save();
     }
-
     loaded = true;
 }
 
