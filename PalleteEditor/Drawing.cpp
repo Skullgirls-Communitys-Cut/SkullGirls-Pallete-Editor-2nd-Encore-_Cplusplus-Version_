@@ -79,7 +79,7 @@ void Drawing::Draw()
 				{
 					ImGui::Begin("About", &bShow_about_window);
 					ImGui::Text("Skullgirls Pallete Editor 2nd Enocore");
-					ImGui::TextDisabled("Version: v0.4 ");
+					ImGui::TextDisabled("Version: v0.5");
 					ImGui::Text("Also, check our Discord: ");
 					ImGui::TextLinkOpenURL("Discord", "https://discord.gg/4ufGJQjkpc");
 					ImGui::Separator();
