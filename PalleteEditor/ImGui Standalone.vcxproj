@@ -178,7 +178,6 @@
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="PalleteEditor.cpp" />
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="ColorWheel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Auto-Load-Pallete.h" />
@@ -207,7 +206,6 @@
     <ClInclude Include="StyleImGui.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="Utills.hpp" />
-    <ClInclude Include="ColorWheel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CHANGELOG.md">

@@ -305,8 +305,6 @@ void Drawing::Draw()
 											}
 										}
 										ImGui::Separator();
-										std::string wheelKey = currentChar.Char_Name + std::string("|") + group.groupName;
-										std::string btn_id = std::string("wheelBtn_") + std::to_string(group.startIndex);
 										ImGui::PushID(btn_id.c_str());
 										if (ImGui::Button(("Open Wheel##" + btn_id).c_str())) {
 											wheelOpenMap[wheelKey] = !wheelOpenMap[wheelKey];
