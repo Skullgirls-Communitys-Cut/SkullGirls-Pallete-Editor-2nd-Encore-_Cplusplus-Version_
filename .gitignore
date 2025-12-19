@@ -361,7 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/PalleteEditor/TODO.md
-/PalleteEditor/data01/Palettes
-/PalleteEditor/CHANGELOG.md
-/.gitignore
+
+/TODO.md

@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{5d324c16-f13d-4a35-be62-b8b8c9a23064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ImGui">
+      <UniqueIdentifier>{0efac25f-4ab2-4e04-aff6-b5afa571af5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectXWrapper">
+      <UniqueIdentifier>{e6f9d63c-8bde-4dbc-b402-e1911e7fb9b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tools/Some &quot;Utils&quot;">
+      <UniqueIdentifier>{21db9866-74cd-4188-a5ff-23f036f76ddb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TextFile">
+      <UniqueIdentifier>{9dc86e88-2755-4a82-9ba9-55949f6bce16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{b898fded-b06d-4358-874e-f59d397a9e40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files">
+      <UniqueIdentifier>{b916a665-0887-4f56-b61d-4e2236591545}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ImGuiFileDialog">
+      <UniqueIdentifier>{463ba879-1ec9-4f4a-963e-40d01f549f86}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXWrapper\IDirect3D9Proxy.h">
+      <Filter>DirectXWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXWrapper\IDirect3DDevice9Proxy.h">
+      <Filter>DirectXWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXWrapper\DirectXWrapper.h">
+      <Filter>DirectXWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXWrapper\common.h">
+      <Filter>DirectXWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imconfig.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui_impl_dx9.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui_impl_win32.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui_internal.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imstb_rectpack.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imstb_textedit.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imstb_truetype.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\StringFormating.hpp">
+      <Filter>Tools/Some "Utils"</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\MemoryWorker.hpp">
+      <Filter>Tools/Some "Utils"</Filter>
+    </ClInclude>
+    <ClInclude Include="AddressesTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProcessManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayableCharactersManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Logger.hpp">
+      <Filter>Tools/Some "Utils"</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Drawing.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\SetStyleImGui.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools\Colors.hpp">
+      <Filter>Tools/Some "Utils"</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\json.hpp">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Files\PaletteFiles.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGuiFileDialog\ImGuiFileDialog.h">
+      <Filter>Include\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGuiFileDialog\ImGuiFileDialogConfig.h">
+      <Filter>Include\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGuiFileDialog\dirent\dirent.h">
+      <Filter>Include\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\ImGuiCustom.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXWrapper\IDirect3D9Proxy.cpp">
+      <Filter>DirectXWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXWrapper\IDirect3DDevice9Proxy.cpp">
+      <Filter>DirectXWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXWrapper\DirectXWrapper.cpp">
+      <Filter>DirectXWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGui\imgui.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGui\imgui_demo.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGui\imgui_draw.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGui\imgui_impl_dx9.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGui\imgui_impl_win32.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGui\imgui_tables.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGui\imgui_widgets.cpp">
+      <Filter>Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayableCharactersManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Drawing.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Files\PaletteFiles.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\ImGuiFileDialog\ImGuiFileDialog.cpp">
+      <Filter>Include\ImGuiFileDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\ImGuiCustom.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="d3d9.def">
+      <Filter>DirectXWrapper</Filter>
+    </None>
+    <None Include="TODO.md">
+      <Filter>TextFile</Filter>
+    </None>
+  </ItemGroup>
+</Project>
