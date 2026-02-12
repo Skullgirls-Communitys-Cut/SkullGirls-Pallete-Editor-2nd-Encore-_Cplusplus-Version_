@@ -131,6 +131,7 @@ public:
     static bool ChangePaletteColor(int Color_ID, ImU32 &BGRAcolorValue);
 };
 
+
 inline static const char* PlayableCharacterNames[] = {
     "Filia",
     "Cerebella",

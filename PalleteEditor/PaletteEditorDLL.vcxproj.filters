@@ -34,11 +34,23 @@
     <Filter Include="Files">
       <UniqueIdentifier>{b916a665-0887-4f56-b61d-4e2236591545}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Include\ImGuiFileDialog">
-      <UniqueIdentifier>{463ba879-1ec9-4f4a-963e-40d01f549f86}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\EyeDropper">
       <UniqueIdentifier>{24a738b9-3b58-40e3-9fc9-d0bb694d434b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\ColorWheel">
+      <UniqueIdentifier>{d49e990d-d27f-450c-81e9-a73a5e9ee310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\steam">
+      <UniqueIdentifier>{25494711-d3be-4c14-a816-5a7914181c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Steam">
+      <UniqueIdentifier>{6368de87-5596-4397-9a84-7f96fd0610d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Things">
+      <UniqueIdentifier>{9a1c73bb-afb1-46cc-93f3-b163fcdfe4b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Fonts">
+      <UniqueIdentifier>{fe7e3c25-9d97-4861-b777-3092036d47fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,30 +71,6 @@
     </ClInclude>
     <ClInclude Include="DirectXWrapper\common.h">
       <Filter>DirectXWrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imconfig.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imgui.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imgui_impl_dx9.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imgui_impl_win32.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imgui_internal.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imstb_rectpack.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imstb_textedit.h">
-      <Filter>Include\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGui\imstb_truetype.h">
-      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Tools\StringFormating.hpp">
       <Filter>Tools/Some "Utils"</Filter>
@@ -120,15 +108,6 @@
     <ClInclude Include="Files\PaletteFiles.h">
       <Filter>Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ImGuiFileDialog\ImGuiFileDialog.h">
-      <Filter>Include\ImGuiFileDialog</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGuiFileDialog\ImGuiFileDialogConfig.h">
-      <Filter>Include\ImGuiFileDialog</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ImGuiFileDialog\dirent\dirent.h">
-      <Filter>Include\ImGuiFileDialog</Filter>
-    </ClInclude>
     <ClInclude Include="UI\ImGuiCustom.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -143,6 +122,180 @@
     </ClInclude>
     <ClInclude Include="UI\Eyedropper\Eyedropper.h">
       <Filter>UI\EyeDropper</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\ColorWheel.h">
+      <Filter>UI\ColorWheel</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamapplist.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamapps.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamappticket.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamclient.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamcontroller.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamfriends.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamgamecoordinator.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamgameserver.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamgameserverstats.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamhtmlsurface.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamhttp.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteaminput.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteaminventory.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteammatchmaking.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteammusic.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteammusicremote.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamnetworking.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamnetworkingmessages.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamnetworkingsockets.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamnetworkingutils.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamparentalsettings.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamps3overlayrenderer.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamremoteplay.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamremotestorage.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamscreenshots.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamugc.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamuser.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamuserstats.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamutils.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\isteamvideo.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\matchmakingtypes.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steam_api.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steam_api_common.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steam_api_flat.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steam_api_internal.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steam_gameserver.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamclientpublic.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamencryptedappticket.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamhttpenums.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamnetworkingfakeip.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamnetworkingtypes.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamps3params.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamtypes.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\steam\steamuniverse.h">
+      <Filter>Include\steam</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamLogger.h">
+      <Filter>Steam</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\LoggerWidget.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkingPalette.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\xxhash.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imconfig.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui_impl_dx9.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui_impl_win32.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imgui_internal.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imstb_rectpack.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imstb_textedit.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ImGui\imstb_truetype.h">
+      <Filter>Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\lrucache.hpp">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +313,54 @@
     </ClCompile>
     <ClCompile Include="DirectXWrapper\DirectXWrapper.cpp">
       <Filter>DirectXWrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="ProcessManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayableCharactersManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Drawing.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Files\PaletteFiles.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\ImGuiCustom.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Files\GroupJSONFile.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Files\Config.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoLoadPalette.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Eyedropper\Eyedropper.cpp">
+      <Filter>UI\EyeDropper</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\ColorWheel.cpp">
+      <Filter>UI\ColorWheel</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamLogger.cpp">
+      <Filter>Steam</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PixelCode.cpp">
+      <Filter>UI\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\DreamOrphans.cpp">
+      <Filter>UI\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkingPalette.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\xxhash.c">
+      <Filter>Include</Filter>
     </ClCompile>
     <ClCompile Include="Include\ImGui\imgui.cpp">
       <Filter>Include\ImGui</Filter>
@@ -182,45 +383,6 @@
     <ClCompile Include="Include\ImGui\imgui_widgets.cpp">
       <Filter>Include\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="ProcessManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayableCharactersManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\Drawing.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\UI.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Files\PaletteFiles.cpp">
-      <Filter>Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\ImGuiFileDialog\ImGuiFileDialog.cpp">
-      <Filter>Include\ImGuiFileDialog</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\ImGuiCustom.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\DreamOrphans.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Files\GroupJSONFile.cpp">
-      <Filter>Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Files\Config.cpp">
-      <Filter>Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AutoLoadPalette.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\PixelCode.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\Eyedropper\Eyedropper.cpp">
-      <Filter>UI\EyeDropper</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d9.def">
@@ -228,6 +390,9 @@
     </None>
     <None Include="TODO.md">
       <Filter>TextFile</Filter>
+    </None>
+    <None Include="Include\steam\steam_api.json">
+      <Filter>Include\steam</Filter>
     </None>
   </ItemGroup>
 </Project>

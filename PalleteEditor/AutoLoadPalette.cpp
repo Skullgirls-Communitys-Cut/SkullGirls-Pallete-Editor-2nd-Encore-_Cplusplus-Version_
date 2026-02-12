@@ -4,6 +4,8 @@
 #include <json.hpp>
 #include "PlayableCharactersManager.h"
 #include "Files/PaletteFiles.h"
+#include "NetworkingPalette.h"
+
 
 using json = nlohmann::json;
 
@@ -15,7 +17,20 @@ void AutoPalette::init() {
     const std::optional<std::string>* characterNames = PlayableCharactersManager::instance().GetCharacterNames();
 
     // Для каждого слота персонажей
-    for (int slot = 0; slot < MAX_PLAYABLE_CHARACTERS; ++slot) {
+
+    int slot;
+    int max_slot;
+    if (b_LoadOnlyMySide && (NetworkingPalette::GetInstance().GetRNG0() != 0)) {
+        slot = (NetworkingPalette::GetInstance().IsPlayer1()) ? 0 : 3;
+        max_slot = (NetworkingPalette::GetInstance().IsPlayer1()) ? 3 : 6;
+        LOG_LOCAL_DEBUG(AutoLoadLogger, "Load Auto Load Palette Online");
+    }
+    else {
+        slot = 0;
+        max_slot = 6;
+        LOG_LOCAL_DEBUG(AutoLoadLogger, "Load Auto Load Palette Offline ");
+    }
+    for (; slot < max_slot; ++slot) {
         try {
             // Проверяем, есть ли персонаж в этом слоте
             if (!characterNames[slot].has_value()) {
@@ -39,6 +54,8 @@ void AutoPalette::init() {
                     // Проверяем совпадение номера палитры
                     if (currentChar.Current_Palette_Num == autoPal.PalNum) {
                         PalleteFile::LoadFromFile(autoPal.PalPath);
+                        NetworkingPalette::GetInstance().AddNewPaletteToCache(autoPal, slot);
+                        LOG_LOCAL_INFO(AutoLoadLogger, "Load Auto Load Palette for ", currentChar.Char_Name, ": ", autoPal.PalNum);
                         break; // Прерываем поиск для этого персонажа
                     }
                 }

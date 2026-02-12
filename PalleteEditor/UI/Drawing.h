@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "pch.h"
+#include "Files/GroupJSONFiles.h"
+#include "UI/LoggerWidget.hpp"
 
 class Drawing
 {
@@ -11,6 +13,7 @@ private:
 	inline static bool bDrawAll = true;
 	inline static bool bDrawAboutWindow = false;
 	inline static bool bDrawColorGroup = true;
+	inline static bool bDrawSimpleColorEdit = false;
 #ifdef _DEBUG
 	inline static bool bDrawDevWindow = true;
 	inline static bool bDrawConsole = true;
@@ -22,10 +25,8 @@ private:
 
 	inline static bool bUseColorPickerMode = false;
 	inline static int m_ActiveColorIndex = 1;
-public:
-	static void Draw();
-
 private:
+	inline static std::vector<ImU32> s_ClipboardColors;
 	//Our draw functions, for understanding and editing
 	static void DrawMenuBar();
 	static void DrawAboutWindow();
@@ -42,6 +43,33 @@ private:
 	static void ProcessColorChange(int index, const ImVec4& colorVec);
 
 	static void DrawAutoLoadPaletteTabItem();
+	static void DrawOptionsTabItem();
+	static void CopyGroupColors(const ColorGroup& group);
+	static void PasteGroupColors(const ColorGroup& group);
+public:
+	static void Draw();
 
-	static void DrawDevWindow();
+	class Developer {
+	private:
+		inline static bool ShowSteamInfo = false;
+		inline static bool ShowLogs = false;
+		inline static bool ShowDemoWindow = false;
+		inline static bool ShowTestWindow = false;
+	private:
+
+		static void DrawDevWindow();		
+		static void DrawSteamInfo();
+	public:
+		inline static void DrawDev() {
+			DrawDevWindow();
+			DrawSteamInfo();
+			g_logWidget->draw(&ShowLogs);
+			if (ShowDemoWindow) {
+				ImGui::ShowDemoWindow(&ShowDemoWindow);
+			}
+		}
+	};
+	
+
+
 };

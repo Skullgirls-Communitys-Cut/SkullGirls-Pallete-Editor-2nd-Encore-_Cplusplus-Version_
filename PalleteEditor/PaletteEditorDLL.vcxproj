@@ -70,6 +70,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <ModuleDefinitionFile>$(ProjectDir)DirectXWrapper\d3d9.def</ModuleDefinitionFile>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+      <AdditionalDependencies>steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\steam;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
+      <UACUIAccess>true</UACUIAccess>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -92,6 +98,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <ModuleDefinitionFile>$(ProjectDir)DirectXWrapper\d3d9.def</ModuleDefinitionFile>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+      <AdditionalDependencies>steam_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\steam;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
+      <UACUIAccess>true</UACUIAccess>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -100,15 +112,6 @@
     <ClInclude Include="Files\Config.h" />
     <ClInclude Include="Files\GroupJSONFiles.h" />
     <ClInclude Include="Files\PaletteFiles.h" />
-    <ClInclude Include="Include\ImGuiFileDialog\dirent\dirent.h" />
-    <ClInclude Include="Include\ImGuiFileDialog\ImGuiFileDialog.h" />
-    <ClInclude Include="Include\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
-    <ClInclude Include="Include\json.hpp" />
-    <ClInclude Include="PlayableCharactersManager.h" />
-    <ClInclude Include="DirectXWrapper\common.h" />
-    <ClInclude Include="DirectXWrapper\DirectXWrapper.h" />
-    <ClInclude Include="DirectXWrapper\IDirect3D9Proxy.h" />
-    <ClInclude Include="DirectXWrapper\IDirect3DDevice9Proxy.h" />
     <ClInclude Include="Include\ImGui\imconfig.h" />
     <ClInclude Include="Include\ImGui\imgui.h" />
     <ClInclude Include="Include\ImGui\imgui_impl_dx9.h" />
@@ -117,16 +120,72 @@
     <ClInclude Include="Include\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Include\ImGui\imstb_textedit.h" />
     <ClInclude Include="Include\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Include\json.hpp" />
+    <ClInclude Include="Include\lrucache.hpp" />
+    <ClInclude Include="Include\steam\isteamapplist.h" />
+    <ClInclude Include="Include\steam\isteamapps.h" />
+    <ClInclude Include="Include\steam\isteamappticket.h" />
+    <ClInclude Include="Include\steam\isteamclient.h" />
+    <ClInclude Include="Include\steam\isteamcontroller.h" />
+    <ClInclude Include="Include\steam\isteamfriends.h" />
+    <ClInclude Include="Include\steam\isteamgamecoordinator.h" />
+    <ClInclude Include="Include\steam\isteamgameserver.h" />
+    <ClInclude Include="Include\steam\isteamgameserverstats.h" />
+    <ClInclude Include="Include\steam\isteamhtmlsurface.h" />
+    <ClInclude Include="Include\steam\isteamhttp.h" />
+    <ClInclude Include="Include\steam\isteaminput.h" />
+    <ClInclude Include="Include\steam\isteaminventory.h" />
+    <ClInclude Include="Include\steam\isteammatchmaking.h" />
+    <ClInclude Include="Include\steam\isteammusic.h" />
+    <ClInclude Include="Include\steam\isteammusicremote.h" />
+    <ClInclude Include="Include\steam\isteamnetworking.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingmessages.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingsockets.h" />
+    <ClInclude Include="Include\steam\isteamnetworkingutils.h" />
+    <ClInclude Include="Include\steam\isteamparentalsettings.h" />
+    <ClInclude Include="Include\steam\isteamps3overlayrenderer.h" />
+    <ClInclude Include="Include\steam\isteamremoteplay.h" />
+    <ClInclude Include="Include\steam\isteamremotestorage.h" />
+    <ClInclude Include="Include\steam\isteamscreenshots.h" />
+    <ClInclude Include="Include\steam\isteamugc.h" />
+    <ClInclude Include="Include\steam\isteamuser.h" />
+    <ClInclude Include="Include\steam\isteamuserstats.h" />
+    <ClInclude Include="Include\steam\isteamutils.h" />
+    <ClInclude Include="Include\steam\isteamvideo.h" />
+    <ClInclude Include="Include\steam\matchmakingtypes.h" />
+    <ClInclude Include="Include\steam\steamclientpublic.h" />
+    <ClInclude Include="Include\steam\steamencryptedappticket.h" />
+    <ClInclude Include="Include\steam\steamhttpenums.h" />
+    <ClInclude Include="Include\steam\steamnetworkingfakeip.h" />
+    <ClInclude Include="Include\steam\steamnetworkingtypes.h" />
+    <ClInclude Include="Include\steam\steamps3params.h" />
+    <ClInclude Include="Include\steam\steamtypes.h" />
+    <ClInclude Include="Include\steam\steamuniverse.h" />
+    <ClInclude Include="Include\steam\steam_api.h" />
+    <ClInclude Include="Include\steam\steam_api_common.h" />
+    <ClInclude Include="Include\steam\steam_api_flat.h" />
+    <ClInclude Include="Include\steam\steam_api_internal.h" />
+    <ClInclude Include="Include\steam\steam_gameserver.h" />
+    <ClInclude Include="Include\xxhash.h" />
+    <ClInclude Include="NetworkingPalette.h" />
+    <ClInclude Include="PlayableCharactersManager.h" />
+    <ClInclude Include="DirectXWrapper\common.h" />
+    <ClInclude Include="DirectXWrapper\DirectXWrapper.h" />
+    <ClInclude Include="DirectXWrapper\IDirect3D9Proxy.h" />
+    <ClInclude Include="DirectXWrapper\IDirect3DDevice9Proxy.h" />
     <ClInclude Include="MainThread.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ProcessManager.h" />
+    <ClInclude Include="SteamLogger.h" />
     <ClInclude Include="Tools\Colors.hpp" />
     <ClInclude Include="Tools\Logger.hpp" />
     <ClInclude Include="Tools\MemoryWorker.hpp" />
     <ClInclude Include="Tools\StringFormating.hpp" />
+    <ClInclude Include="UI\ColorWheel.h" />
     <ClInclude Include="UI\Drawing.h" />
     <ClInclude Include="UI\Eyedropper\Eyedropper.h" />
     <ClInclude Include="UI\ImGuiCustom.h" />
+    <ClInclude Include="UI\LoggerWidget.hpp" />
     <ClInclude Include="UI\SetStyleImGui.h" />
     <ClInclude Include="UI\UI.h" />
   </ItemGroup>
@@ -142,7 +201,6 @@
     <ClCompile Include="Files\Config.cpp" />
     <ClCompile Include="Files\GroupJSONFile.cpp" />
     <ClCompile Include="Files\PaletteFiles.cpp" />
-    <ClCompile Include="Include\ImGuiFileDialog\ImGuiFileDialog.cpp" />
     <ClCompile Include="Include\ImGui\imgui.cpp" />
     <ClCompile Include="Include\ImGui\imgui_demo.cpp" />
     <ClCompile Include="Include\ImGui\imgui_draw.cpp" />
@@ -150,9 +208,13 @@
     <ClCompile Include="Include\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Include\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Include\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Include\xxhash.c" />
     <ClCompile Include="MainThread.cpp" />
+    <ClCompile Include="NetworkingPalette.cpp" />
     <ClCompile Include="ProcessManager.cpp" />
     <ClCompile Include="PlayableCharactersManager.cpp" />
+    <ClCompile Include="SteamLogger.cpp" />
+    <ClCompile Include="UI\ColorWheel.cpp" />
     <ClCompile Include="UI\Drawing.cpp" />
     <ClCompile Include="UI\DreamOrphans.cpp" />
     <ClCompile Include="UI\Eyedropper\Eyedropper.cpp" />
@@ -162,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="d3d9.def" />
+    <None Include="Include\steam\steam_api.json" />
     <None Include="TODO.md">
       <SubType>
       </SubType>

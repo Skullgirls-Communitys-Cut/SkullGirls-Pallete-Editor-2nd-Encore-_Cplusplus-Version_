@@ -6,7 +6,9 @@
 #include "AddressesTable.h"
 #include "PlayableCharactersManager.h"
 #include "Files/Config.h"
+
 #include "AutoLoadPalette.h"
+#include "NetworkingPalette.h"
 
 #pragma region Global Variable
 
@@ -37,6 +39,7 @@ namespace MainThread {
 	std::atomic<bool> b_NODisplayShadows = false;
 	std::atomic<bool> b_DisplaySuperShadows = false;
 }
+
 #pragma endregion
 
 static bool lastStateb_DisplaySuperShadows = MainThread::b_DisplaySuperShadows;
@@ -70,7 +73,11 @@ int MainThreadProc(HMODULE hModule) {
 	LOG_LOCAL_VARIABLE_HEX(MainThreadLogger, ProcessManager::instance().s_BaseAddress);
 	LOG_LOCAL_VARIABLE_HEX(MainThreadLogger, ProcessManager::instance().s_SG_Process);
 
+	Sleep(7000);
+
+
 	if (!PatchAGame()) return -1;
+
 	LOG_LOCAL_DEBUG(MainThreadLogger, "Entering the Main Loop");
 	while (!bMainStopThread) {
 		MainLoop();
@@ -189,7 +196,6 @@ int MainLoop() {
 		MainThread::Match_Readed = true;
 
 		AutoPalette::init();
-
 	}
 	// Если мы НЕ в матче И читали персонажей (значит были в матче)
 	else if (s_GameStatus != GAME_STATUS_MATCH_STARTED && MainThread::Match_Readed) {
@@ -201,6 +207,8 @@ int MainLoop() {
 
 	}
 	OptionsProcessing();
-
+	NetworkingPalette::GetInstance().ReadIncomingPackages();
+	Sleep(10);
 	return 0;
+
 }

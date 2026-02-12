@@ -14,6 +14,7 @@ auto CharManagerLogger = LOGGER::createLocal("Character Manager", LogLevel::GENE
 
 ProcessManager& procMgr = ProcessManager::instance();
 
+
 bool PlayableCharactersManager::RefreshCharacterSlots() {
     LOG_LOCAL_FUNCTION_ENTRY(CharManagerLogger);
 

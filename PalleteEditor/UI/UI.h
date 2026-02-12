@@ -24,6 +24,7 @@ private:
     static void ResizePreReset();
     static void ResizePostReset(IDirect3DDevice9* device, HRESULT res);
     static void RenderPostPresent(IDirect3DDevice9* device, HRESULT res);
+    static bool IsFullscreen();
     static bool s_initialized;
     static bool s_visible;
     static HWND s_hwnd;
@@ -32,4 +33,5 @@ private:
     // WndProc hook
     static WNDPROC s_originalWndProc;
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    
 };

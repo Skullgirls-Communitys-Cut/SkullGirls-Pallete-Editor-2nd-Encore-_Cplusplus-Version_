@@ -13,6 +13,10 @@
 #include <iomanip>
 #include <sstream>
 #include <memory>
+#include <vector>
+#include <deque>
+#include <functional>
+#include <atomic>
 #include <windows.h>
 
 struct Colors {
@@ -36,38 +40,64 @@ enum class LogLevel {
     CRITICAL_LOG
 };
 
+// Структура для хранения записи лога
+struct LogEntry {
+    std::chrono::system_clock::time_point timestamp;
+    std::string timeStr;
+    std::string loggerName;
+    LogLevel level;
+    std::string message;
+    std::thread::id threadId;
+    std::string levelStr;
+};
+
+// Интерфейс для подписчиков на логи (альтернативный подход)
+class ILogSubscriber {
+public:
+    virtual ~ILogSubscriber() = default;
+    virtual void onLogMessage(const LogEntry& entry) = 0;
+};
+
 class LOGGER {
 private:
     LogLevel m_level;
     bool m_useColors;
+    bool m_useConsoleOutput;
     std::mutex m_mutex;
     std::string m_name;
+
+    // История логов (кольцевой буфер)
+    static constexpr size_t MAX_LOG_HISTORY = 10000;
+    static inline std::deque<LogEntry> m_logHistory;
+    static inline std::mutex m_historyMutex;
+
+    // Подписчики (используем weak_ptr)
+    static inline std::vector<std::weak_ptr<ILogSubscriber>> m_subscribers;
+    static inline std::mutex m_subscribersMutex;
 
     LOGGER(const LOGGER&) = delete;
     LOGGER& operator=(const LOGGER&) = delete;
 
     // Приватный конструктор для синглтона
-    LOGGER() : m_level(
-        LogLevel::GENERAL_LOG
-    ), m_useColors(true), m_name("Global") {
-        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (hOut != INVALID_HANDLE_VALUE) {
-            DWORD dwMode = 0;
-            GetConsoleMode(hOut, &dwMode);
-            dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-            SetConsoleMode(hOut, dwMode);
-        }
+    LOGGER() : m_level(LogLevel::GENERAL_LOG),
+        m_useColors(true),
+        m_useConsoleOutput(true),
+        m_name("Global") {
+        initConsole();
     }
 
     // Публичный конструктор для локальных логгеров
-    LOGGER(const std::string& name, LogLevel level, bool useColors)
-        : m_level(level), m_useColors(useColors), m_name(name) {
+    LOGGER(const std::string& name, LogLevel level, bool useColors, bool useConsoleOutput)
+        : m_level(level),
+        m_useColors(useColors),
+        m_useConsoleOutput(useConsoleOutput),
+        m_name(name) {
         initConsole();
     }
 
     void initConsole() {
 #ifdef _WIN32
-        if (m_useColors) {
+        if (m_useColors && m_useConsoleOutput) {
             HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
             if (hOut != INVALID_HANDLE_VALUE) {
                 DWORD dwMode = 0;
@@ -84,8 +114,6 @@ private:
         auto time = std::chrono::system_clock::to_time_t(now);
 
         std::stringstream ss;
-
-        // Используем безопасную версию localtime_s
         std::tm tm_struct;
 
         errno_t err = localtime_s(&tm_struct, &time);
@@ -94,11 +122,17 @@ private:
         }
 
         ss << std::put_time(&tm_struct, "%H:%M:%S");
+
+        // Добавляем миллисекунды
+        auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now.time_since_epoch()) % 1000;
+        ss << '.' << std::setfill('0') << std::setw(3) << milliseconds.count();
+
         return ss.str();
     }
 
     std::string getLevelColor(LogLevel level) {
-        if (!m_useColors) return "";
+        if (!m_useColors || !m_useConsoleOutput) return "";
 
         switch (level) {
         case LogLevel::DEBUG_LOG:    return Colors::CYAN;
@@ -111,7 +145,7 @@ private:
         }
     }
 
-    std::string getLevelPrefix(LogLevel level) {
+    std::string getLevelStr(LogLevel level) {
         switch (level) {
         case LogLevel::DEBUG_LOG:    return "DEBUG";
         case LogLevel::GENERAL_LOG:  return "GENERAL";
@@ -123,19 +157,71 @@ private:
         }
     }
 
+    // Сохраняет запись лога в историю и уведомляет подписчиков
+    void saveToHistory(const LogEntry& entry) {
+        {
+            std::lock_guard<std::mutex> lock(m_historyMutex);
+            m_logHistory.push_back(entry);
+
+            if (m_logHistory.size() > MAX_LOG_HISTORY) {
+                m_logHistory.pop_front();
+            }
+        }
+
+        // Уведомляем подписчиков
+        notifySubscribers(entry);
+    }
+
+    // Уведомляет всех подписчиков
+    void notifySubscribers(const LogEntry& entry) {
+        std::lock_guard<std::mutex> lock(m_subscribersMutex);
+
+        // Очищаем "мертвые" weak_ptr и уведомляем живых
+        m_subscribers.erase(
+            std::remove_if(m_subscribers.begin(), m_subscribers.end(),
+                [&](const std::weak_ptr<ILogSubscriber>& wp) {
+                    auto sp = wp.lock();
+                    if (sp) {
+                        sp->onLogMessage(entry);
+                        return false; // Не удаляем живые
+                    }
+                    return true; // Удаляем мертвые
+                }),
+            m_subscribers.end()
+        );
+    }
+
     void logImpl(LogLevel level, const std::string& message) {
+        std::string timeStr = getCurrentTime();
+        std::string levelStr = getLevelStr(level);
         std::string color = getLevelColor(level);
-        std::string reset = m_useColors ? Colors::RESET : "";
+        std::string reset = (m_useColors && m_useConsoleOutput) ? Colors::RESET : "";
 
-        auto& output = (level >= LogLevel::ERROR_LOG) ? std::cerr : std::cout;
+        // Создаем запись лога
+        LogEntry entry{
+            std::chrono::system_clock::now(),
+            timeStr,
+            m_name,
+            level,
+            message,
+            std::this_thread::get_id(),
+            levelStr
+        };
 
-        std::cout << "[" << getCurrentTime() << "] "
-            << color
-            << "[" << m_name << "] "
-            << "[" << getLevelPrefix(level) << "] "
-            << message
-            << reset
-            << std::endl;
+        // Вывод в консоль
+        if (m_useConsoleOutput) {
+            auto& output = (level >= LogLevel::ERROR_LOG) ? std::cerr : std::cout;
+            output << "[" << timeStr << "] "
+                << color
+                << "[" << m_name << "] "
+                << "[" << levelStr << "] "
+                << message
+                << reset
+                << std::endl;
+        }
+
+        // Сохраняем в историю
+        saveToHistory(entry);
     }
 
 public:
@@ -158,7 +244,9 @@ public:
     static void enableColors(bool enable) {
         std::lock_guard<std::mutex> lock(getGlobal().m_mutex);
         getGlobal().m_useColors = enable;
-        getGlobal().initConsole();
+        if (enable && getGlobal().m_useConsoleOutput) {
+            getGlobal().initConsole();
+        }
     }
 
     static bool colorsEnabled() {
@@ -166,11 +254,22 @@ public:
         return getGlobal().m_useColors;
     }
 
+    static void enableConsoleOutput(bool enable) {
+        std::lock_guard<std::mutex> lock(getGlobal().m_mutex);
+        getGlobal().m_useConsoleOutput = enable;
+    }
+
+    static bool consoleOutputEnabled() {
+        std::lock_guard<std::mutex> lock(getGlobal().m_mutex);
+        return getGlobal().m_useConsoleOutput;
+    }
+
     // Метод для создания локальных логгеров
     static std::unique_ptr<LOGGER> createLocal(const std::string& name,
         LogLevel level = LogLevel::GENERAL_LOG,
-        bool useColors = true) {
-        return std::unique_ptr<LOGGER>(new LOGGER(name, level, useColors));
+        bool useColors = true,
+        bool useConsoleOutput = true) {
+        return std::unique_ptr<LOGGER>(new LOGGER(name, level, useColors, useConsoleOutput));
     }
 
     // Метод для глобального логгера
@@ -213,16 +312,68 @@ public:
     void enableLocalColors(bool enable) {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_useColors = enable;
-        initConsole();
+        if (enable && m_useConsoleOutput) {
+            initConsole();
+        }
     }
 
     bool localColorsEnabled() {
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_useColors;
     }
+
+    void enableLocalConsoleOutput(bool enable) {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_useConsoleOutput = enable;
+    }
+
+    bool localConsoleOutputEnabled() {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_useConsoleOutput;
+    }
+
+    // Методы для работы с историей логов
+    static std::vector<LogEntry> getLogHistory() {
+        std::lock_guard<std::mutex> lock(m_historyMutex);
+        return std::vector<LogEntry>(m_logHistory.begin(), m_logHistory.end());
+    }
+
+    static void clearLogHistory() {
+        std::lock_guard<std::mutex> lock(m_historyMutex);
+        m_logHistory.clear();
+    }
+
+    static size_t getLogHistorySize() {
+        std::lock_guard<std::mutex> lock(m_historyMutex);
+        return m_logHistory.size();
+    }
+
+    // Методы для подписки на логи
+    static void subscribe(const std::shared_ptr<ILogSubscriber>& subscriber) {
+        std::lock_guard<std::mutex> lock(m_subscribersMutex);
+        m_subscribers.push_back(subscriber);
+    }
+
+    static void unsubscribe(const std::shared_ptr<ILogSubscriber>& subscriber) {
+        std::lock_guard<std::mutex> lock(m_subscribersMutex);
+
+        // Ищем и удаляем конкретный подписчик
+        for (auto it = m_subscribers.begin(); it != m_subscribers.end(); ++it) {
+            auto sp = it->lock();
+            if (sp && sp == subscriber) {
+                m_subscribers.erase(it);
+                break;
+            }
+        }
+    }
+
+    static void clearSubscribers() {
+        std::lock_guard<std::mutex> lock(m_subscribersMutex);
+        m_subscribers.clear();
+    }
 };
 
-// Макросы для глобального логгера (остались без изменений)
+// Макросы для глобального логгера
 #define LOG_DEBUG(...) do { \
     LOGGER::log(LogLevel::DEBUG_LOG, __VA_ARGS__); \
 } while(0)

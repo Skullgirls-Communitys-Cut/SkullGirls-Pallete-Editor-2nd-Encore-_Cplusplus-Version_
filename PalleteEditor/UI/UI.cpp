@@ -20,12 +20,28 @@ extern "C" UINT WINAPI D3D9DeviceFuncHook(UINT funcId, void* funcRef); //For cal
 auto UILogger = LOGGER::createLocal("UI", LogLevel::DEBUG_LOG);
 
 void UI::ResizePreReset() {
+    LOG_LOCAL_DEBUG(UILogger, "ResizePreReset is called!");
     if (UI::IsInitialized())
         ImGui_ImplDX9_InvalidateDeviceObjects();
+
 }
 void UI::ResizePostReset(IDirect3DDevice9* device, HRESULT res) {
-    if (SUCCEEDED(res) && UI::IsInitialized())
+    LOG_LOCAL_DEBUG(UILogger, "ResizePostReset is called!");
+    if (SUCCEEDED(res) && UI::IsInitialized()) {
+
         ImGui_ImplDX9_CreateDeviceObjects();
+            
+        DWORD style = GetWindowLong(s_hwnd, GWL_STYLE);
+        if ((style & WS_DLGFRAME) == 0) {
+            LOG_LOCAL_DEBUG(UILogger, "Fullscreen (no 0x00400000 bit)");
+            ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_ViewportsEnable;
+        }
+        else {
+            LOG_LOCAL_DEBUG(UILogger, "Not fullscreen (has 0x00400000 bit)");
+            ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        }
+        LOG_LOCAL_VARIABLE_HEX(UILogger, style);
+    }
 }
 void UI::RenderPostPresent(IDirect3DDevice9* device, HRESULT res) {
     if (UI::IsInitialized() && UI::IsVisible())
@@ -50,6 +66,8 @@ bool UI::Initialize(HWND hwnd, IDirect3DDevice9* device)
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    io.ConfigDpiScaleFonts |= ImGuiConfigFlags_DpiEnableScaleFonts;
+    io.ConfigDpiScaleFonts |= ImGuiConfigFlags_DpiEnableScaleViewports;
     io.IniFilename = NULL;
     //io.Fonts->AddFontDefault();
 
@@ -158,18 +176,8 @@ void UI::EndFrame()
 }
 
 LRESULT CALLBACK UI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{   
-    if (msg == WM_SIZE)
-    {
-        // При изменении размера окна инвалидируем устройство
-        // Это заставит приложение вызвать Reset()
-        if (UI::IsInitialized() && s_device != NULL)
-        {
-            // Можно добавить дополнительную логику здесь если нужно
-        }
-    }
-    
-    
+{     
+
     
     // Если пипетка активна, блокируем ВСЕ сообщения от мыши и клавиатуры
     if (!EyeDropper::getInstance().IsThreadFinished())
@@ -207,4 +215,41 @@ LRESULT CALLBACK UI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
 
     return CallWindowProc(s_originalWndProc, hWnd, msg, wParam, lParam);
+}
+
+
+bool UI::IsFullscreen()
+{
+    if (!s_hwnd)
+        return false;
+
+    // Проверяем стили окна
+    DWORD style = GetWindowLong(s_hwnd, GWL_STYLE);
+
+    // Если есть рамка (не полноэкранный)
+    if (style & WS_BORDER || style & WS_THICKFRAME || style & WS_CAPTION)
+        return false;
+
+    if (style & WS_MINIMIZE) return true;
+    // Дополнительная проверка через GetWindowPlacement
+    WINDOWPLACEMENT wp;
+    wp.length = sizeof(WINDOWPLACEMENT);
+    if (GetWindowPlacement(s_hwnd, &wp))
+    {
+        // Если окно развернуто и покрывает весь экран
+        if (wp.showCmd == SW_SHOWMAXIMIZED)
+        {
+            RECT windowRect;
+            GetWindowRect(s_hwnd, &windowRect);
+
+            RECT screenRect;
+            GetClientRect(GetDesktopWindow(), &screenRect);
+
+            // Если размеры окна совпадают с размерами экрана
+            if (EqualRect(&windowRect, &screenRect))
+                return true;
+        }
+    }
+
+    return false;
 }
