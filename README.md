@@ -16,4 +16,5 @@ We recommend placing the executable (EXE) outside the game's folder, as the edit
 - Place d3d9.dll in the game folder (so that the d3d9.dll is located next to Skullgirls.exe!)
 - Launch the game
 
-To hide or show editor's window press `INSERT` button.
+To hide or show the editor window, press the `INSERT` key.  
+In this version palettes work **online**.
