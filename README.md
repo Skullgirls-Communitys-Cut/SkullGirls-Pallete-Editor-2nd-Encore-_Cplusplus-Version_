@@ -15,4 +15,4 @@ The palette editor for Skullgirls 2nd Encore is a specialized tool for creating,
 - Launch the game
 
 
-We recommend placing the executable (EXE) outside the game's folder, as the editor currently conflicts with CoreMessaging.dll (SkullLoader).
+We recommend placing the executable (EXE) outside the game's folder, as the editor currently conflicts with CoreMessaging.dll ([SkullLoader](https://github.com/Skullgirls-Communitys-Cut/SkullLoader)).
