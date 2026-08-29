@@ -10,7 +10,7 @@ FARPROC origProc[15] = { 0 };
 bool DirectXWrapper::Init() {
     char system_Path[MAX_PATH] = { 0 };
 
-    // Получаем путь к SysWOW64 директории
+    // РџРѕР»СѓС‡Р°РµРј РїСѓС‚СЊ Рє SysWOW64 РґРёСЂРµРєС‚РѕСЂРёРё
     if (GetSystemWow64DirectoryA(system_Path, MAX_PATH) == 0) { //For 64-bit
         GetSystemDirectoryA(system_Path, MAX_PATH);
     }
@@ -18,7 +18,7 @@ bool DirectXWrapper::Init() {
     // path to the original dll
     strcat_s(system_Path, "\\d3d9.dll");
 
-    // Загружаем библиотеку
+    // Р—Р°РіСЂСѓР¶Р°РµРј Р±РёР±Р»РёРѕС‚РµРєСѓ
     HMODULE g_OriginalD3D9 = LoadLibraryA(system_Path);
     if (!g_OriginalD3D9) {
         return false;
@@ -44,7 +44,7 @@ bool DirectXWrapper::Init() {
 
 //Direct3DCreate9
 extern "C" IDirect3D9* WINAPI __ProxyFunc9(UINT SDKVersion) {
-    // Получаем оригинальную функцию
+    // РџРѕР»СѓС‡Р°РµРј РѕСЂРёРіРёРЅР°Р»СЊРЅСѓСЋ С„СѓРЅРєС†РёСЋ
     typedef IDirect3D9* (WINAPI* Direct3DCreate9Func)(UINT sdkver);
     Direct3DCreate9Func origDirect3DCreate9 = (Direct3DCreate9Func)origProc[9];
 
@@ -52,11 +52,11 @@ extern "C" IDirect3D9* WINAPI __ProxyFunc9(UINT SDKVersion) {
         return NULL;
     }
 
-    // Вызываем оригинальную функцию
+    // Р’С‹Р·С‹РІР°РµРј РѕСЂРёРіРёРЅР°Р»СЊРЅСѓСЋ С„СѓРЅРєС†РёСЋ
     IDirect3D9* res = origDirect3DCreate9(SDKVersion);
 
     if (res) {
-        // Создаём прокси
+        // РЎРѕР·РґР°С‘Рј РїСЂРѕРєСЃРё
         return new IDirect3D9Proxy(res);
     }
 

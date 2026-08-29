@@ -17,27 +17,27 @@ class GroupColorManager {
 private:
     std::unordered_map<std::string, std::vector<ColorGroup>> characterGroups;
 
-    // Приватные конструкторы для Singleton
+    // РџСЂРёРІР°С‚РЅС‹Рµ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ РґР»СЏ Singleton
     GroupColorManager() = default;
     GroupColorManager(const GroupColorManager&) = delete;
     GroupColorManager& operator=(const GroupColorManager&) = delete;
 
 public:
-    // Метод для получения единственного экземпляра
+    // РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РµРґРёРЅСЃС‚РІРµРЅРЅРѕРіРѕ СЌРєР·РµРјРїР»СЏСЂР°
     static GroupColorManager& GetInstance();
 
-    // Загрузка данных из файла
+    // Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р°
     bool LoadFromFile(const std::string& filePath);
 
-    // Получение групп по имени персонажа
+    // РџРѕР»СѓС‡РµРЅРёРµ РіСЂСѓРїРї РїРѕ РёРјРµРЅРё РїРµСЂСЃРѕРЅР°Р¶Р°
     const std::vector<ColorGroup>* GetGroupsForCharacter(const std::string& charName) const;
 
-    // Очистка данных
+    // РћС‡РёСЃС‚РєР° РґР°РЅРЅС‹С…
     void Clear();
 
-    // Проверка наличия данных
+    // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РґР°РЅРЅС‹С…
     bool HasData() const;
 
-    // Получение всех данных (для отладки или сериализации)
+    // РџРѕР»СѓС‡РµРЅРёРµ РІСЃРµС… РґР°РЅРЅС‹С… (РґР»СЏ РѕС‚Р»Р°РґРєРё РёР»Рё СЃРµСЂРёР°Р»РёР·Р°С†РёРё)
     const auto& GetAllGroups() const { return characterGroups; }
 };

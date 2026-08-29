@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-// Класс подписчика для виджета
+// РљР»Р°СЃСЃ РїРѕРґРїРёСЃС‡РёРєР° РґР»СЏ РІРёРґР¶РµС‚Р°
 class LoggerWidgetSubscriber : public ILogSubscriber {
 public:
     struct LogEntry {
@@ -23,7 +23,7 @@ public:
     std::mutex m_historyMutex;
     static constexpr size_t MAX_LOCAL_HISTORY = 5000;
 
-    // Получает цвет для уровня лога в ImGui
+    // РџРѕР»СѓС‡Р°РµС‚ С†РІРµС‚ РґР»СЏ СѓСЂРѕРІРЅСЏ Р»РѕРіР° РІ ImGui
 #ifdef IMGUI_VERSION
     static ImVec4 getLevelColorImGui(LogLevel level) {
         switch (level) {
@@ -87,25 +87,25 @@ private:
         bool showError = true;
         bool showCritical = true;
 
-        // Фильтр по имени логгера
+        // Р¤РёР»СЊС‚СЂ РїРѕ РёРјРµРЅРё Р»РѕРіРіРµСЂР°
         std::string nameFilter;
 
-        // Фильтр по сообщению
+        // Р¤РёР»СЊС‚СЂ РїРѕ СЃРѕРѕР±С‰РµРЅРёСЋ
         std::string messageFilter;
 
-        // Фильтр по потоку
+        // Р¤РёР»СЊС‚СЂ РїРѕ РїРѕС‚РѕРєСѓ
         std::string threadFilter;
 
-        // Сортировка
+        // РЎРѕСЂС‚РёСЂРѕРІРєР°
         bool newestFirst = false;
 
-        // Автопрокрутка
+        // РђРІС‚РѕРїСЂРѕРєСЂСѓС‚РєР°
         bool autoScroll = true;
 
-        // Показывать только выбранные логгеры
+        // РџРѕРєР°Р·С‹РІР°С‚СЊ С‚РѕР»СЊРєРѕ РІС‹Р±СЂР°РЅРЅС‹Рµ Р»РѕРіРіРµСЂС‹
         std::vector<std::string> selectedLoggers;
 
-        // Время отображения
+        // Р’СЂРµРјСЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
         bool showTime = true;
         bool showLoggerName = true;
         bool showLevel = true;
@@ -115,18 +115,18 @@ private:
     std::shared_ptr<LoggerWidgetSubscriber> m_subscriber;
     LogFilters m_filters;
 
-    // Состояние виджета
+    // РЎРѕСЃС‚РѕСЏРЅРёРµ РІРёРґР¶РµС‚Р°
     bool m_isOpen = false;
     bool m_shouldScrollToBottom = false;
     float m_windowWidth = 800.0f;
     float m_windowHeight = 600.0f;
 
-    // Кэшированные данные для быстрого поиска
+    // РљСЌС€РёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ РґР»СЏ Р±С‹СЃС‚СЂРѕРіРѕ РїРѕРёСЃРєР°
     std::vector<std::string> m_uniqueLoggers;
     std::vector<std::thread::id> m_uniqueThreads;
     bool m_cacheDirty = true;
 
-    // Обновляет кэшированные данные
+    // РћР±РЅРѕРІР»СЏРµС‚ РєСЌС€РёСЂРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
     void updateCache() {
         auto history = m_subscriber->getHistory();
 
@@ -134,13 +134,13 @@ private:
         m_uniqueThreads.clear();
 
         for (const auto& entry : history) {
-            // Собираем уникальные имена логгеров
+            // РЎРѕР±РёСЂР°РµРј СѓРЅРёРєР°Р»СЊРЅС‹Рµ РёРјРµРЅР° Р»РѕРіРіРµСЂРѕРІ
             if (std::find(m_uniqueLoggers.begin(), m_uniqueLoggers.end(),
                 entry.loggerName) == m_uniqueLoggers.end()) {
                 m_uniqueLoggers.push_back(entry.loggerName);
             }
 
-            // Собираем уникальные ID потоков
+            // РЎРѕР±РёСЂР°РµРј СѓРЅРёРєР°Р»СЊРЅС‹Рµ ID РїРѕС‚РѕРєРѕРІ
             if (std::find(m_uniqueThreads.begin(), m_uniqueThreads.end(),
                 entry.threadId) == m_uniqueThreads.end()) {
                 m_uniqueThreads.push_back(entry.threadId);
@@ -150,9 +150,9 @@ private:
         m_cacheDirty = false;
     }
 
-    // Применяет фильтры к записи
+    // РџСЂРёРјРµРЅСЏРµС‚ С„РёР»СЊС‚СЂС‹ Рє Р·Р°РїРёСЃРё
     bool applyFilters(const LoggerWidgetSubscriber::LogEntry& entry) const {
-        // Фильтр по уровню
+        // Р¤РёР»СЊС‚СЂ РїРѕ СѓСЂРѕРІРЅСЋ
         switch (entry.level) {
         case LogLevel::DEBUG_LOG:    if (!m_filters.showDebug) return false; break;
         case LogLevel::GENERAL_LOG:  if (!m_filters.showGeneral) return false; break;
@@ -162,19 +162,19 @@ private:
         case LogLevel::CRITICAL_LOG: if (!m_filters.showCritical) return false; break;
         }
 
-        // Фильтр по имени логгера
+        // Р¤РёР»СЊС‚СЂ РїРѕ РёРјРµРЅРё Р»РѕРіРіРµСЂР°
         if (!m_filters.nameFilter.empty() &&
             entry.loggerName.find(m_filters.nameFilter) == std::string::npos) {
             return false;
         }
 
-        // Фильтр по сообщению
+        // Р¤РёР»СЊС‚СЂ РїРѕ СЃРѕРѕР±С‰РµРЅРёСЋ
         if (!m_filters.messageFilter.empty() &&
             entry.message.find(m_filters.messageFilter) == std::string::npos) {
             return false;
         }
 
-        // Фильтр по потоку
+        // Р¤РёР»СЊС‚СЂ РїРѕ РїРѕС‚РѕРєСѓ
         if (!m_filters.threadFilter.empty()) {
             std::stringstream ss;
             ss << entry.threadId;
@@ -183,7 +183,7 @@ private:
             }
         }
 
-        // Фильтр по выбранным логгерам
+        // Р¤РёР»СЊС‚СЂ РїРѕ РІС‹Р±СЂР°РЅРЅС‹Рј Р»РѕРіРіРµСЂР°Рј
         if (!m_filters.selectedLoggers.empty() &&
             std::find(m_filters.selectedLoggers.begin(),
                 m_filters.selectedLoggers.end(),
@@ -196,10 +196,10 @@ private:
 
 public:
     LOGGERWidget() : m_subscriber(std::make_shared<LoggerWidgetSubscriber>()) {
-        // Подписываемся на логи из глобального логгера
+        // РџРѕРґРїРёСЃС‹РІР°РµРјСЃСЏ РЅР° Р»РѕРіРё РёР· РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ Р»РѕРіРіРµСЂР°
         LOGGER::subscribe(m_subscriber);
 
-        // Загружаем существующую историю
+        // Р—Р°РіСЂСѓР¶Р°РµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ РёСЃС‚РѕСЂРёСЋ
         auto history = LOGGER::getLogHistory();
         for (const auto& entry : history) {
             m_subscriber->onLogMessage(entry);
@@ -209,11 +209,11 @@ public:
     }
 
     ~LOGGERWidget() {
-        // Отписываемся от логов
+        // РћС‚РїРёСЃС‹РІР°РµРјСЃСЏ РѕС‚ Р»РѕРіРѕРІ
         LOGGER::unsubscribe(m_subscriber);
     }
 
-    // Основной метод отрисовки виджета
+    // РћСЃРЅРѕРІРЅРѕР№ РјРµС‚РѕРґ РѕС‚СЂРёСЃРѕРІРєРё РІРёРґР¶РµС‚Р°
     void draw(bool* p_open) {
         if (!*p_open) return;
 
@@ -230,7 +230,7 @@ public:
         m_windowHeight = height;
     }
 
-    // Методы для управления фильтрами
+    // РњРµС‚РѕРґС‹ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ С„РёР»СЊС‚СЂР°РјРё
     void setFilterLevel(LogLevel level, bool show) {
         switch (level) {
         case LogLevel::DEBUG_LOG:    m_filters.showDebug = show; break;
@@ -263,19 +263,19 @@ public:
         m_cacheDirty = true;
     }
 
-    // Получить текущие фильтры
+    // РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰РёРµ С„РёР»СЊС‚СЂС‹
     const LogFilters& getFilters() const { return m_filters; }
 
-    // Получить количество логов
+    // РџРѕР»СѓС‡РёС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ Р»РѕРіРѕРІ
     size_t getLogCount() const {
         return m_subscriber->getCount();
     }
 
 private:
-    // Отрисовка панели управления
+    // РћС‚СЂРёСЃРѕРІРєР° РїР°РЅРµР»Рё СѓРїСЂР°РІР»РµРЅРёСЏ
     void drawControlPanel() {
         if (ImGui::CollapsingHeader("Filters & Controls", ImGuiTreeNodeFlags_DefaultOpen)) {
-            // Фильтры по уровням
+            // Р¤РёР»СЊС‚СЂС‹ РїРѕ СѓСЂРѕРІРЅСЏРј
             ImGui::Text("Level filters:");
             ImGui::SameLine();
             ImGui::Checkbox("Debug", &m_filters.showDebug);
@@ -292,7 +292,7 @@ private:
 
             ImGui::Spacing();
 
-            // Фильтр по имени логгера
+            // Р¤РёР»СЊС‚СЂ РїРѕ РёРјРµРЅРё Р»РѕРіРіРµСЂР°
             static char nameFilter[256] = "";
             ImGui::Text("Logger name:");
             ImGui::SameLine();
@@ -301,7 +301,7 @@ private:
                 m_filters.nameFilter = nameFilter;
             }
 
-            // Фильтр по сообщению
+            // Р¤РёР»СЊС‚СЂ РїРѕ СЃРѕРѕР±С‰РµРЅРёСЋ
             static char msgFilter[256] = "";
             ImGui::SameLine();
             ImGui::Text("Message:");
@@ -313,7 +313,7 @@ private:
 
             ImGui::Spacing();
 
-            // Кнопки управления
+            // РљРЅРѕРїРєРё СѓРїСЂР°РІР»РµРЅРёСЏ
             if (ImGui::Button("Clear Logs")) {
                 clearLogs();
             }
@@ -330,7 +330,7 @@ private:
             ImGui::SameLine();
             ImGui::Text("Logs: %zu", getLogCount());
 
-            // Дополнительные опции
+            // Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РѕРїС†РёРё
             if (ImGui::TreeNode("Display Options")) {
                 ImGui::Checkbox("Show Time", &m_filters.showTime);
                 ImGui::SameLine();
@@ -342,7 +342,7 @@ private:
                 ImGui::TreePop();
             }
 
-            // Выбор логгеров (если есть уникальные)
+            // Р’С‹Р±РѕСЂ Р»РѕРіРіРµСЂРѕРІ (РµСЃР»Рё РµСЃС‚СЊ СѓРЅРёРєР°Р»СЊРЅС‹Рµ)
             if (m_cacheDirty) {
                 updateCache();
             }
@@ -371,7 +371,7 @@ private:
         }
     }
 
-    // Отрисовка панели с логами
+    // РћС‚СЂРёСЃРѕРІРєР° РїР°РЅРµР»Рё СЃ Р»РѕРіР°РјРё
     void drawLogPanel() {
         ImGui::BeginChild("LogPanel", ImVec2(0, 0), true,
             ImGuiWindowFlags_HorizontalScrollbar |
@@ -380,19 +380,19 @@ private:
         auto history = m_subscriber->getHistory();
         std::vector<LoggerWidgetSubscriber::LogEntry> filteredLogs;
 
-        // Применяем фильтры
+        // РџСЂРёРјРµРЅСЏРµРј С„РёР»СЊС‚СЂС‹
         for (const auto& entry : history) {
             if (applyFilters(entry)) {
                 filteredLogs.push_back(entry);
             }
         }
 
-        // Сортируем если нужно
+        // РЎРѕСЂС‚РёСЂСѓРµРј РµСЃР»Рё РЅСѓР¶РЅРѕ
         if (m_filters.newestFirst) {
             std::reverse(filteredLogs.begin(), filteredLogs.end());
         }
 
-        // Отображаем логи
+        // РћС‚РѕР±СЂР°Р¶Р°РµРј Р»РѕРіРё
         ImGuiListClipper clipper;
         clipper.Begin(static_cast<int>(filteredLogs.size()));
 
@@ -402,12 +402,12 @@ private:
 
                 ImGui::PushID(i);
 
-                // Цветной текст в зависимости от уровня
+                // Р¦РІРµС‚РЅРѕР№ С‚РµРєСЃС‚ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СѓСЂРѕРІРЅСЏ
 #ifdef IMGUI_VERSION
                 ImGui::PushStyleColor(ImGuiCol_Text, entry.color);
 #endif
 
-                // Форматируем сообщение
+                // Р¤РѕСЂРјР°С‚РёСЂСѓРµРј СЃРѕРѕР±С‰РµРЅРёРµ
                 std::stringstream formattedMsg;
                 if (m_filters.showTime) {
                     formattedMsg << "[" << entry.timeStr << "] ";
@@ -423,10 +423,10 @@ private:
                 }
                 formattedMsg << entry.message;
 
-                // Отображаем сообщение
+                // РћС‚РѕР±СЂР°Р¶Р°РµРј СЃРѕРѕР±С‰РµРЅРёРµ
                 ImGui::TextUnformatted(formattedMsg.str().c_str());
 
-                // Подсказка при наведении
+                // РџРѕРґСЃРєР°Р·РєР° РїСЂРё РЅР°РІРµРґРµРЅРёРё
                 if (ImGui::IsItemHovered()) {
                     ImGui::BeginTooltip();
                     ImGui::Text("Timestamp: %s", entry.timeStr.c_str());
@@ -445,13 +445,13 @@ private:
         }
         clipper.End();
 
-        // Автопрокрутка если нужно
+        // РђРІС‚РѕРїСЂРѕРєСЂСѓС‚РєР° РµСЃР»Рё РЅСѓР¶РЅРѕ
         if (m_shouldScrollToBottom && m_filters.autoScroll) {
             ImGui::SetScrollHereY(1.0f);
             m_shouldScrollToBottom = false;
         }
 
-        // Обновляем флаг прокрутки если мы внизу
+        // РћР±РЅРѕРІР»СЏРµРј С„Р»Р°Рі РїСЂРѕРєСЂСѓС‚РєРё РµСЃР»Рё РјС‹ РІРЅРёР·Сѓ
         if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY() - 1.0f) {
             m_shouldScrollToBottom = false;
         }

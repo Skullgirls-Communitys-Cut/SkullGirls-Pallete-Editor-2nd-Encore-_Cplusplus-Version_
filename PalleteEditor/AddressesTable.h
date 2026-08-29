@@ -1,7 +1,7 @@
 #pragma once
 class AddressTable {
 private:
-    // Приватные статические члены с префиксом s_
+    // РџСЂРёРІР°С‚РЅС‹Рµ СЃС‚Р°С‚РёС‡РµСЃРєРёРµ С‡Р»РµРЅС‹ СЃ РїСЂРµС„РёРєСЃРѕРј s_
     inline static int s_Base_Adress_For_Delete = 0x0;
     inline static int s_Base_Adress = 0x852178;
     inline static int s_Offset_GameStatus = 0x168;
@@ -20,7 +20,7 @@ private:
     inline static int s_NEW_Offset_SuperShadow = 0xC;
 
 public:
-    // Геттеры (возвращают константную ссылку для чтения)
+    // Р“РµС‚С‚РµСЂС‹ (РІРѕР·РІСЂР°С‰Р°СЋС‚ РєРѕРЅСЃС‚Р°РЅС‚РЅСѓСЋ СЃСЃС‹Р»РєСѓ РґР»СЏ С‡С‚РµРЅРёСЏ)
     static const int& Base_Adress_For_Delete() { return s_Base_Adress_For_Delete; }
     static const int& Base_Adress() { return s_Base_Adress; }
     static const int& Offset_GameStatus() { return s_Offset_GameStatus; }

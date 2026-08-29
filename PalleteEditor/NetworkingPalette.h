@@ -9,15 +9,15 @@ using NetworkPaletteData = std::pair<uint8_t, std::vector<uint8_t>>;
 
 class NetworkingPalette {
 private: 
-    // Конструкторы и операторы присваивания - приватные
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РѕРїРµСЂР°С‚РѕСЂС‹ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ - РїСЂРёРІР°С‚РЅС‹Рµ
     NetworkingPalette() {
         SendMyPalettes = true;
         LoadTheirPalettes = true;
     
-    };  // Приватный конструктор по умолчанию
-    ~NetworkingPalette() = default; // Приватный деструктор
+    };  // РџСЂРёРІР°С‚РЅС‹Р№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+    ~NetworkingPalette() = default; // РџСЂРёРІР°С‚РЅС‹Р№ РґРµСЃС‚СЂСѓРєС‚РѕСЂ
 
-    // Запрещаем копирование и присваивание
+    // Р—Р°РїСЂРµС‰Р°РµРј РєРѕРїРёСЂРѕРІР°РЅРёРµ Рё РїСЂРёСЃРІР°РёРІР°РЅРёРµ
     NetworkingPalette(const NetworkingPalette&) = delete;
     NetworkingPalette& operator=(const NetworkingPalette&) = delete;
     NetworkingPalette(NetworkingPalette&&) = delete;
@@ -75,3 +75,4 @@ public:
 
     void ApplyNetworkingPalette(NetworkPaletteData PaletteData);
 };
+

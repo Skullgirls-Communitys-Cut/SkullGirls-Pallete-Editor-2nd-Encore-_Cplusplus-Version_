@@ -52,60 +52,60 @@ __int32 ColorWheel::ImVec4ToARGB(const ImVec4& color) {
 
 bool ColorWheel::DrawSplitter(const std::string& id, float width, float height,
     float& valueToChange, float minValue, float maxValue) {
-    // Получаем текущую позицию сплиттера
+    // РџРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ СЃРїР»РёС‚С‚РµСЂР°
     ImVec2 splitterPos = ImGui::GetCursorScreenPos();
 
-    // Создаем невидимую кнопку для сплиттера
+    // РЎРѕР·РґР°РµРј РЅРµРІРёРґРёРјСѓСЋ РєРЅРѕРїРєСѓ РґР»СЏ СЃРїР»РёС‚С‚РµСЂР°
     ImGui::InvisibleButton(id.c_str(), ImVec2(width, height));
 
-    // Визуализация сплиттера
+    // Р’РёР·СѓР°Р»РёР·Р°С†РёСЏ СЃРїР»РёС‚С‚РµСЂР°
     ImDrawList* drawList = ImGui::GetWindowDrawList();
     ImU32 bgColor = IM_COL32(90, 90, 90, 180);
     ImU32 handleColor = IM_COL32(140, 140, 140, 200);
 
-    // Рисуем фон сплиттера
+    // Р РёСЃСѓРµРј С„РѕРЅ СЃРїР»РёС‚С‚РµСЂР°
     drawList->AddRectFilled(splitterPos,
         ImVec2(splitterPos.x + width, splitterPos.y + height),
         bgColor);
 
-    // Рисуем ручку сплиттера (вертикальная полоса)
+    // Р РёСЃСѓРµРј СЂСѓС‡РєСѓ СЃРїР»РёС‚С‚РµСЂР° (РІРµСЂС‚РёРєР°Р»СЊРЅР°СЏ РїРѕР»РѕСЃР°)
     drawList->AddRectFilled(
         ImVec2(splitterPos.x + 2, splitterPos.y + height * 0.25f),
         ImVec2(splitterPos.x + width - 2, splitterPos.y + height * 0.75f),
         handleColor
     );
 
-    // Обработка взаимодействия
+    // РћР±СЂР°Р±РѕС‚РєР° РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ
     bool hovered = ImGui::IsItemHovered();
     bool active = ImGui::IsItemActive();
     bool changed = false;
 
-    // Изменяем курсор при наведении
+    // РР·РјРµРЅСЏРµРј РєСѓСЂСЃРѕСЂ РїСЂРё РЅР°РІРµРґРµРЅРёРё
     if (hovered || active) {
         ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeEW);
     }
 
-    // Обработка перетаскивания
+    // РћР±СЂР°Р±РѕС‚РєР° РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёСЏ
     if (active && ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
-        // Получаем абсолютное положение мыши
+        // РџРѕР»СѓС‡Р°РµРј Р°Р±СЃРѕР»СЋС‚РЅРѕРµ РїРѕР»РѕР¶РµРЅРёРµ РјС‹С€Рё
         float mousePosX = ImGui::GetMousePos().x;
 
-        // Вычисляем новое значение на основе позиции мыши
-        // Привязываем к левому краю родительского окна
+        // Р’С‹С‡РёСЃР»СЏРµРј РЅРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РЅР° РѕСЃРЅРѕРІРµ РїРѕР·РёС†РёРё РјС‹С€Рё
+        // РџСЂРёРІСЏР·С‹РІР°РµРј Рє Р»РµРІРѕРјСѓ РєСЂР°СЋ СЂРѕРґРёС‚РµР»СЊСЃРєРѕРіРѕ РѕРєРЅР°
         ImVec2 windowPos = ImGui::GetWindowPos();
         float relativeMouseX = mousePosX - windowPos.x;
 
-        // Корректируем с учетом смещения сплиттера
-        // Значение должно быть ограничено minValue и maxValue
+        // РљРѕСЂСЂРµРєС‚РёСЂСѓРµРј СЃ СѓС‡РµС‚РѕРј СЃРјРµС‰РµРЅРёСЏ СЃРїР»РёС‚С‚РµСЂР°
+        // Р—РЅР°С‡РµРЅРёРµ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ РѕРіСЂР°РЅРёС‡РµРЅРѕ minValue Рё maxValue
         float newValue = std::clamp(relativeMouseX - width / 2.0f, minValue, maxValue);
 
-        // Обновляем значение только если оно изменилось
+        // РћР±РЅРѕРІР»СЏРµРј Р·РЅР°С‡РµРЅРёРµ С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕРЅРѕ РёР·РјРµРЅРёР»РѕСЃСЊ
         if (newValue != valueToChange) {
             valueToChange = newValue;
             changed = true;
         }
     }
-    // Альтернативный вариант: использование MouseDelta (если предыдущий не работает)
+    // РђР»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Р№ РІР°СЂРёР°РЅС‚: РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ MouseDelta (РµСЃР»Рё РїСЂРµРґС‹РґСѓС‰РёР№ РЅРµ СЂР°Р±РѕС‚Р°РµС‚)
     else if (active) {
         float dx = ImGui::GetIO().MouseDelta.x;
         if (dx != 0.0f) {
@@ -421,22 +421,22 @@ void ColorWheel::Draw(const ColorGroup& group, bool& open) {
     // Splitter (between editors and wheel)
     ImGui::SameLine();
 
-    // Рассчитываем позицию сплиттера в абсолютных координатах
-    // Это нужно для правильного расчета новой ширины при перетаскивании
+    // Р Р°СЃСЃС‡РёС‚С‹РІР°РµРј РїРѕР·РёС†РёСЋ СЃРїР»РёС‚С‚РµСЂР° РІ Р°Р±СЃРѕР»СЋС‚РЅС‹С… РєРѕРѕСЂРґРёРЅР°С‚Р°С…
+    // Р­С‚Рѕ РЅСѓР¶РЅРѕ РґР»СЏ РїСЂР°РІРёР»СЊРЅРѕРіРѕ СЂР°СЃС‡РµС‚Р° РЅРѕРІРѕР№ С€РёСЂРёРЅС‹ РїСЂРё РїРµСЂРµС‚Р°СЃРєРёРІР°РЅРёРё
     static float splitterPosX = 0;
 
-    // Вычисляем диапазон, в котором может двигаться сплиттер
+    // Р’С‹С‡РёСЃР»СЏРµРј РґРёР°РїР°Р·РѕРЅ, РІ РєРѕС‚РѕСЂРѕРј РјРѕР¶РµС‚ РґРІРёРіР°С‚СЊСЃСЏ СЃРїР»РёС‚С‚РµСЂ
     float minSplitterPos = minEditorsWidth;
     float maxSplitterPos = totalWidth - minWheelWidth - splitterWidth;
 
-    // Текущая позиция сплиттера (ширина редакторов)
+    // РўРµРєСѓС‰Р°СЏ РїРѕР·РёС†РёСЏ СЃРїР»РёС‚С‚РµСЂР° (С€РёСЂРёРЅР° СЂРµРґР°РєС‚РѕСЂРѕРІ)
     float currentSplitterPos = editorsWidth;
 
     // Draw splitter
     bool splitterChanged = DrawSplitter("splitter_" + wheelKey, splitterWidth, childHeight,
         currentSplitterPos, minSplitterPos, maxSplitterPos);
 
-    // Если сплиттер переместили, обновляем ширины
+    // Р•СЃР»Рё СЃРїР»РёС‚С‚РµСЂ РїРµСЂРµРјРµСЃС‚РёР»Рё, РѕР±РЅРѕРІР»СЏРµРј С€РёСЂРёРЅС‹
     if (splitterChanged) {
         editorsWidth = currentSplitterPos;
         wheelWidth = totalWidth - editorsWidth - splitterWidth;

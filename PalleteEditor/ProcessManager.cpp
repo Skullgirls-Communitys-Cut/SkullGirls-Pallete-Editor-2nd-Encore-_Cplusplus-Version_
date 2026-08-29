@@ -5,11 +5,11 @@
 
 #define SG_NAME L"SkullGirls.exe"
 
-// Инициализация статического указателя
+// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚Р°С‚РёС‡РµСЃРєРѕРіРѕ СѓРєР°Р·Р°С‚РµР»СЏ
 ProcessManager* ProcessManager::s_instance = nullptr;
 
 ProcessManager::ProcessManager() {
-    // Инициализация членов данных
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‡Р»РµРЅРѕРІ РґР°РЅРЅС‹С…
     s_ProcessId = 0;
     s_BaseAddress = 0;
     s_SG_Process = nullptr;
@@ -40,7 +40,7 @@ DWORD ProcessManager::GetModuleBaseAddress(DWORD dwProcessId, std::wstring Modul
 }
 
 bool ProcessManager::ReadProcess() {
-    // Теперь это нестатический метод, работает с членами экземпляра
+    // РўРµРїРµСЂСЊ СЌС‚Рѕ РЅРµСЃС‚Р°С‚РёС‡РµСЃРєРёР№ РјРµС‚РѕРґ, СЂР°Р±РѕС‚Р°РµС‚ СЃ С‡Р»РµРЅР°РјРё СЌРєР·РµРјРїР»СЏСЂР°
     s_ProcessId = GetCurrentProcessId();
     if (s_ProcessId == 0) {
         LOG_CRITICAL("We can't find a Process ID");

@@ -7,9 +7,9 @@
 #include <mutex>
 
 namespace MemoryWorker {
-    // =============== ÏĞÎÑÒĞÀÍÑÒÂÎ ÈÌÅÍ ÄËß ÂÍÓÒĞÅÍÍÅÉ ĞÅÀËÈÇÀÖÈÈ ===============
+    // =============== ĞŸĞ ĞĞ¡Ğ¢Ğ ĞĞĞ¡Ğ¢Ğ’Ğ Ğ˜ĞœĞ•Ğ Ğ”Ğ›Ğ¯ Ğ’ĞĞ£Ğ¢Ğ Ğ•ĞĞĞ•Ğ™ Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ ===============
     namespace Detail {
-        // Ñòğóêòóğà äëÿ êëş÷à êıøà
+        // Ğ¡Ñ‚Ñ€ÑƒĞºÑ‚ÑƒÑ€Ğ° Ğ´Ğ»Ñ ĞºĞ»ÑÑ‡Ğ° ĞºÑÑˆĞ°
         struct AddressCacheKey {
             HANDLE hProcess;
             uintptr_t baseAddress;
@@ -22,7 +22,7 @@ namespace MemoryWorker {
             }
         };
 
-        // Õıøåğ äëÿ êëş÷à êıøà
+        // Ğ¥ÑÑˆĞµÑ€ Ğ´Ğ»Ñ ĞºĞ»ÑÑ‡Ğ° ĞºÑÑˆĞ°
         struct AddressCacheHasher {
             size_t operator()(const AddressCacheKey& key) const {
                 size_t hash = std::hash<HANDLE>{}(key.hProcess);
@@ -34,11 +34,11 @@ namespace MemoryWorker {
             }
         };
 
-        // Ñòàòè÷åñêèå ïåğåìåííûå äëÿ êıøà (inline äëÿ C++17+)
+        // Ğ¡Ñ‚Ğ°Ñ‚Ğ¸Ñ‡ĞµÑĞºĞ¸Ğµ Ğ¿ĞµÑ€ĞµĞ¼ĞµĞ½Ğ½Ñ‹Ğµ Ğ´Ğ»Ñ ĞºÑÑˆĞ° (inline Ğ´Ğ»Ñ C++17+)
         inline std::unordered_map<AddressCacheKey, uintptr_t, AddressCacheHasher> addressCache;
         inline std::mutex cacheMutex;
 
-        // =============== ÎÁÚßÂËÅÍÈß ÂÑÏÎÌÎÃÀÒÅËÜÍÛÕ ÔÓÍÊÖÈÉ ===============
+        // =============== ĞĞ‘ĞªĞ¯Ğ’Ğ›Ğ•ĞĞ˜Ğ¯ Ğ’Ğ¡ĞŸĞĞœĞĞ“ĞĞ¢Ğ•Ğ›Ğ¬ĞĞ«Ğ¥ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ ===============
         inline bool CalculateFinalAddress(HANDLE hProcess, uintptr_t baseAddress,
             const std::vector<uintptr_t>& offsets, uintptr_t& finalAddress);
 
@@ -48,9 +48,9 @@ namespace MemoryWorker {
         inline void ClearAddressCache();
     }
 
-    // =============== ÎÁÚßÂËÅÍÈß ÎÑÍÎÂÍÛÕ ÔÓÍÊÖÈÉ ===============
+    // =============== ĞĞ‘ĞªĞ¯Ğ’Ğ›Ğ•ĞĞ˜Ğ¯ ĞĞ¡ĞĞĞ’ĞĞ«Ğ¥ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ ===============
 
-    // ×òåíèå
+    // Ğ§Ñ‚ĞµĞ½Ğ¸Ğµ
     template<typename T>
     bool ReadProcessMemoryWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, T* result);
@@ -71,7 +71,7 @@ namespace MemoryWorker {
     bool ReadProcessMemoryWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, std::vector<T>& result, size_t count);
 
-    // Çàïèñü
+    // Ğ—Ğ°Ğ¿Ğ¸ÑÑŒ
     template<typename T>
     bool WriteProcessMemoryWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, const T& value);
@@ -91,7 +91,7 @@ namespace MemoryWorker {
     bool WriteProcessMemoryWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, const std::vector<T>& data);
 
-    // Îïòèìèçàöèè ñ êıøèğîâàíèåì
+    // ĞĞ¿Ñ‚Ğ¸Ğ¼Ğ¸Ğ·Ğ°Ñ†Ğ¸Ğ¸ Ñ ĞºÑÑˆĞ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸ĞµĞ¼
     template<typename T>
     bool WriteProcessMemoryWithOffsetsCached(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, const T& value, bool useCache = true);
@@ -99,17 +99,17 @@ namespace MemoryWorker {
     inline bool WriteProcessMemoryWithOffsetsCached(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, const void* data, size_t size, bool useCache = true);
 
-    // Âñïîìîãàòåëüíûå ôóíêöèè
+    // Ğ’ÑĞ¿Ğ¾Ğ¼Ğ¾Ğ³Ğ°Ñ‚ĞµĞ»ÑŒĞ½Ñ‹Ğµ Ñ„ÑƒĞ½ĞºÑ†Ğ¸Ğ¸
     inline bool ReadStringWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, std::string& result, size_t maxLength = 256);
 
     inline bool WriteStringWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, const std::string& value);
 
-    // Óïğàâëåíèå êıøåì
+    // Ğ£Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ ĞºÑÑˆĞµĞ¼
     inline void ClearAddressCache();
 
-    // =============== ĞÅÀËÈÇÀÖÈÈ ÂÑÏÎÌÎÃÀÒÅËÜÍÛÕ ÔÓÍÊÖÈÉ ===============
+    // =============== Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ Ğ’Ğ¡ĞŸĞĞœĞĞ“ĞĞ¢Ğ•Ğ›Ğ¬ĞĞ«Ğ¥ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ ===============
 
     namespace Detail {
         inline bool CalculateFinalAddress(HANDLE hProcess, uintptr_t baseAddress,
@@ -120,7 +120,7 @@ namespace MemoryWorker {
             for (size_t i = 0; i < offsets.size(); ++i) {
                 currentAddress += offsets[i];
 
-                // Åñëè ıòî íå ïîñëåäíèé îôôñåò, ÷èòàåì ñëåäóşùèé óêàçàòåëü
+                // Ğ•ÑĞ»Ğ¸ ÑÑ‚Ğ¾ Ğ½Ğµ Ğ¿Ğ¾ÑĞ»ĞµĞ´Ğ½Ğ¸Ğ¹ Ğ¾Ñ„Ñ„ÑĞµÑ‚, Ñ‡Ğ¸Ñ‚Ğ°ĞµĞ¼ ÑĞ»ĞµĞ´ÑƒÑÑ‰Ğ¸Ğ¹ ÑƒĞºĞ°Ğ·Ğ°Ñ‚ĞµĞ»ÑŒ
                 if (i < offsets.size() - 1) {
                     uintptr_t nextAddress;
                     if (!ReadProcessMemory(hProcess,
@@ -170,9 +170,9 @@ namespace MemoryWorker {
         }
     }
 
-    // =============== ĞÅÀËÈÇÀÖÈÈ ÎÑÍÎÂÍÛÕ ÔÓÍÊÖÈÉ ===============
+    // =============== Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ ĞĞ¡ĞĞĞ’ĞĞ«Ğ¥ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ ===============
 
-    // ---------- ĞÅÀËÈÇÀÖÈÈ ÔÓÍÊÖÈÉ ×ÒÅÍÈß ----------
+    // ---------- Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ Ğ§Ğ¢Ğ•ĞĞ˜Ğ¯ ----------
 
     template<typename T>
     inline bool ReadProcessMemoryWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
@@ -255,7 +255,7 @@ namespace MemoryWorker {
             nullptr);
     }
 
-    // ---------- ĞÅÀËÈÇÀÖÈÈ ÔÓÍÊÖÈÉ ÇÀÏÈÑÈ ----------
+    // ---------- Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ Ğ—ĞĞŸĞ˜Ğ¡Ğ˜ ----------
 
     template<typename T>
     inline bool WriteProcessMemoryWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
@@ -336,7 +336,7 @@ namespace MemoryWorker {
             nullptr);
     }
 
-    // ---------- ĞÅÀËÈÇÀÖÈÈ ÔÓÍÊÖÈÉ Ñ ÊİØÈĞÎÂÀÍÈÅÌ ----------
+    // ---------- Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ Ğ¡ ĞšĞ­Ğ¨Ğ˜Ğ ĞĞ’ĞĞĞ˜Ğ•Ğœ ----------
 
     template<typename T>
     inline bool WriteProcessMemoryWithOffsetsCached(HANDLE hProcess, uintptr_t baseAddress,
@@ -369,7 +369,7 @@ namespace MemoryWorker {
             nullptr);
     }
 
-    // ---------- ĞÅÀËÈÇÀÖÈÈ ÂÑÏÎÌÎÃÀÒÅËÜÍÛÕ ÔÓÍÊÖÈÉ ----------
+    // ---------- Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ Ğ’Ğ¡ĞŸĞĞœĞĞ“ĞĞ¢Ğ•Ğ›Ğ¬ĞĞ«Ğ¥ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ ----------
 
     inline bool ReadStringWithOffsets(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, std::string& result, size_t maxLength) {
@@ -388,7 +388,7 @@ namespace MemoryWorker {
             return false;
         }
 
-        // Íàéòè íóëåâîé òåğìèíàòîğ
+        // ĞĞ°Ğ¹Ñ‚Ğ¸ Ğ½ÑƒĞ»ĞµĞ²Ğ¾Ğ¹ Ñ‚ĞµÑ€Ğ¼Ğ¸Ğ½Ğ°Ñ‚Ğ¾Ñ€
         size_t length = 0;
         while (length < maxLength && buffer[length] != '\0') {
             ++length;
@@ -406,7 +406,7 @@ namespace MemoryWorker {
             return false;
         }
 
-        // +1 äëÿ íóëåâîãî òåğìèíàòîğà
+        // +1 Ğ´Ğ»Ñ Ğ½ÑƒĞ»ĞµĞ²Ğ¾Ğ³Ğ¾ Ñ‚ĞµÑ€Ğ¼Ğ¸Ğ½Ğ°Ñ‚Ğ¾Ñ€Ğ°
         return WriteProcessMemory(hProcess,
             reinterpret_cast<LPVOID>(finalAddress),
             value.c_str(),
@@ -414,7 +414,7 @@ namespace MemoryWorker {
             nullptr);
     }
 
-    // ---------- ĞÅÀËÈÇÀÖÈÈ ÔÓÍÊÖÈÉ ÓÏĞÀÂËÅÍÈß ----------
+    // ---------- Ğ Ğ•ĞĞ›Ğ˜Ğ—ĞĞ¦Ğ˜Ğ˜ Ğ¤Ğ£ĞĞšĞ¦Ğ˜Ğ™ Ğ£ĞŸĞ ĞĞ’Ğ›Ğ•ĞĞ˜Ğ¯ ----------
 
     inline void ClearAddressCache() {
         Detail::ClearAddressCache();

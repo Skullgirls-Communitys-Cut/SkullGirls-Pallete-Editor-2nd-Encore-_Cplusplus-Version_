@@ -127,7 +127,7 @@ void OptionsProcessing() {
 			ProcessManager::instance().s_SG_Process,
 			ProcessManager::instance().s_BaseAddress,
 			{
-			static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplayCHAR())  // Приведение к нужному типу
+			static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplayCHAR())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
 			},
 			data,
 			2,
@@ -147,7 +147,7 @@ void OptionsProcessing() {
 			ProcessManager::instance().s_SG_Process,
 			ProcessManager::instance().s_BaseAddress,
 			{
-			static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplaySHADOWS())  // Приведение к нужному типу
+			static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplaySHADOWS())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
 			},
 			data,
 			2,
@@ -167,7 +167,7 @@ void OptionsProcessing() {
 			ProcessManager::instance().s_SG_Process,
 			ProcessManager::instance().s_BaseAddress,
 			{
-			static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_Display_SuperShadowforever())  // Приведение к нужному типу
+			static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_Display_SuperShadowforever())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
 			},
 			data,
 			6,
@@ -184,7 +184,7 @@ int MainLoop() {
 		ProcessManager::instance().s_BaseAddress, 
 		{
 		static_cast<uintptr_t>(AddressTable::Base_Adress()),
-		static_cast<uintptr_t>(AddressTable::Offset_GameStatus())  // Приведение к нужному типу
+		static_cast<uintptr_t>(AddressTable::Offset_GameStatus())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
 		},
 		&s_GameStatus);
 
@@ -197,7 +197,7 @@ int MainLoop() {
 
 		AutoPalette::init();
 	}
-	// Если мы НЕ в матче И читали персонажей (значит были в матче)
+	// Р•СЃР»Рё РјС‹ РќР• РІ РјР°С‚С‡Рµ Р С‡РёС‚Р°Р»Рё РїРµСЂСЃРѕРЅР°Р¶РµР№ (Р·РЅР°С‡РёС‚ Р±С‹Р»Рё РІ РјР°С‚С‡Рµ)
 	else if (s_GameStatus != GAME_STATUS_MATCH_STARTED && MainThread::Match_Readed) {
 		LOG_LOCAL_INFO(MainThreadLogger, "We are leave a match");
 
@@ -212,3 +212,4 @@ int MainLoop() {
 	return 0;
 
 }
+

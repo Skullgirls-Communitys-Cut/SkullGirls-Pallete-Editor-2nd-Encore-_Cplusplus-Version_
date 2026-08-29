@@ -13,10 +13,10 @@ auto AutoLoadLogger = LOGGER::createLocal("Auto Load Palettes", LogLevel::GENERA
 
 void AutoPalette::init() {
     LOG_LOCAL_INFO(AutoLoadLogger, "Init AutoPalette");
-    // Получаем доступ к именам персонажей через геттер
+    // РџРѕР»СѓС‡Р°РµРј РґРѕСЃС‚СѓРї Рє РёРјРµРЅР°Рј РїРµСЂСЃРѕРЅР°Р¶РµР№ С‡РµСЂРµР· РіРµС‚С‚РµСЂ
     const std::optional<std::string>* characterNames = PlayableCharactersManager::instance().GetCharacterNames();
 
-    // Для каждого слота персонажей
+    // Р”Р»СЏ РєР°Р¶РґРѕРіРѕ СЃР»РѕС‚Р° РїРµСЂСЃРѕРЅР°Р¶РµР№
 
     int slot;
     int max_slot;
@@ -32,18 +32,18 @@ void AutoPalette::init() {
     }
     for (; slot < max_slot; ++slot) {
         try {
-            // Проверяем, есть ли персонаж в этом слоте
+            // РџСЂРѕРІРµСЂСЏРµРј, РµСЃС‚СЊ Р»Рё РїРµСЂСЃРѕРЅР°Р¶ РІ СЌС‚РѕРј СЃР»РѕС‚Рµ
             if (!characterNames[slot].has_value()) {
-                continue; // Слот пуст
+                continue; // РЎР»РѕС‚ РїСѓСЃС‚
             }
 
             if (!PlayableCharactersManager::LoadCharacter(slot)) {
-                continue; // Пропускаем слот при ошибке загрузки персонажа
+                continue; // РџСЂРѕРїСѓСЃРєР°РµРј СЃР»РѕС‚ РїСЂРё РѕС€РёР±РєРµ Р·Р°РіСЂСѓР·РєРё РїРµСЂСЃРѕРЅР°Р¶Р°
             }
 
             auto& currentChar = PlayableCharactersManager::GetCurrentCharacter();
 
-            // Ищем подходящую авто-палитру для этого персонажа
+            // РС‰РµРј РїРѕРґС…РѕРґСЏС‰СѓСЋ Р°РІС‚Рѕ-РїР°Р»РёС‚СЂСѓ РґР»СЏ СЌС‚РѕРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°
             for (auto& autoPal : Auto_Pals) {
                 try {
                     if (autoPal.PalPath.empty()) {
@@ -51,16 +51,16 @@ void AutoPalette::init() {
                     }
                     if (autoPal.CharName != currentChar.Char_Name) continue;
 
-                    // Проверяем совпадение номера палитры
+                    // РџСЂРѕРІРµСЂСЏРµРј СЃРѕРІРїР°РґРµРЅРёРµ РЅРѕРјРµСЂР° РїР°Р»РёС‚СЂС‹
                     if (currentChar.Current_Palette_Num == autoPal.PalNum) {
                         PalleteFile::LoadFromFile(autoPal.PalPath);
                         NetworkingPalette::GetInstance().AddNewPaletteToCache(autoPal, slot);
                         LOG_LOCAL_INFO(AutoLoadLogger, "Load Auto Load Palette for ", currentChar.Char_Name, ": ", autoPal.PalNum);
-                        break; // Прерываем поиск для этого персонажа
+                        break; // РџСЂРµСЂС‹РІР°РµРј РїРѕРёСЃРє РґР»СЏ СЌС‚РѕРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°
                     }
                 }
                 catch (const std::exception& e) {
-                    // Логируем ошибку загрузки палитры и продолжаем
+                    // Р›РѕРіРёСЂСѓРµРј РѕС€РёР±РєСѓ Р·Р°РіСЂСѓР·РєРё РїР°Р»РёС‚СЂС‹ Рё РїСЂРѕРґРѕР»Р¶Р°РµРј
                     LOG_LOCAL_ERROR(AutoLoadLogger, "Error loading palette for character ",
                         currentChar.Char_Name, ": ", e.what());
                     continue;
@@ -68,7 +68,7 @@ void AutoPalette::init() {
             }
         }
         catch (const std::exception& e) {
-            // Логируем ошибку обработки слота и продолжаем
+            // Р›РѕРіРёСЂСѓРµРј РѕС€РёР±РєСѓ РѕР±СЂР°Р±РѕС‚РєРё СЃР»РѕС‚Р° Рё РїСЂРѕРґРѕР»Р¶Р°РµРј
             LOG_LOCAL_ERROR(AutoLoadLogger, "Error processing character slot ", slot, ": ", e.what());
             continue;
         }

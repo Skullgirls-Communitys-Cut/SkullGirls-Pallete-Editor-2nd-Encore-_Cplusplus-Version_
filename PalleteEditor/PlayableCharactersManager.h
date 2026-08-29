@@ -17,7 +17,7 @@ struct PlayableCharacter {
 
     char HueShift_Cos = 0;
     char HueShift_Sin = 0;
-    // Конструктор для явной инициализации
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ СЏРІРЅРѕР№ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
     PlayableCharacter() {
         strcpy_s(Char_Name, "Undefined");
         Max_Palette_Num = -1;
@@ -34,7 +34,7 @@ struct PlayableCharacter {
         HueShift_Sin = 0;
     }
 
-    // Проверяем, валиден ли персонаж
+    // РџСЂРѕРІРµСЂСЏРµРј, РІР°Р»РёРґРµРЅ Р»Рё РїРµСЂСЃРѕРЅР°Р¶
     bool IsValid() const {
         return strcmp(Char_Name, "Undefined") != 0 &&
             strlen(Char_Name) > 0 &&
@@ -43,7 +43,7 @@ struct PlayableCharacter {
             Num_Of_Color >= 0;
     }
 
-    // Сбрасываем значения по умолчанию
+    // РЎР±СЂР°СЃС‹РІР°РµРј Р·РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     void Reset() {
         strcpy_s(Char_Name, "Undefined");
         Max_Palette_Num = -1;
@@ -65,7 +65,7 @@ enum ColorOptionFlag {
     FLAG_LINE_COLOR = 0,
     FLAG_SUPER_SHADOW_1 = 1,
     FLAG_SUPER_SHADOW_2 = 2,
-    // В будущем можно добавить:
+    // Р’ Р±СѓРґСѓС‰РµРј РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ:
     // FLAG_SKIN_COLOR = 3,
     // FLAG_HAIR_COLOR = 4,
     // FLAG_EYE_COLOR = 5
@@ -78,10 +78,10 @@ private:
 
     static PlayableCharactersManager* s_instance;
 
-    // Храним только имена для UI (чтобы знать какие слоты заняты)
+    // РҐСЂР°РЅРёРј С‚РѕР»СЊРєРѕ РёРјРµРЅР° РґР»СЏ UI (С‡С‚РѕР±С‹ Р·РЅР°С‚СЊ РєР°РєРёРµ СЃР»РѕС‚С‹ Р·Р°РЅСЏС‚С‹)
     std::optional<std::string> Character_Names[MAX_PLAYABLE_CHARACTERS];
 
-    // Текущий персонаж - отдельный объект
+    // РўРµРєСѓС‰РёР№ РїРµСЂСЃРѕРЅР°Р¶ - РѕС‚РґРµР»СЊРЅС‹Р№ РѕР±СЉРµРєС‚
     PlayableCharacter Current_Character;
 
     int Current_Character_idx;
@@ -92,13 +92,13 @@ public:
     PlayableCharactersManager(PlayableCharactersManager&&) = delete;
     PlayableCharactersManager& operator=(PlayableCharactersManager&&) = delete;
 
-    // Обновляем только имена в слотах (для UI)
+    // РћР±РЅРѕРІР»СЏРµРј С‚РѕР»СЊРєРѕ РёРјРµРЅР° РІ СЃР»РѕС‚Р°С… (РґР»СЏ UI)
     static bool RefreshCharacterSlots();
 
-    // Очищаем данные
+    // РћС‡РёС‰Р°РµРј РґР°РЅРЅС‹Рµ
     static void ClearCharacterData();
 
-    // Загружаем конкретного персонажа по индексу
+    // Р—Р°РіСЂСѓР¶Р°РµРј РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р° РїРѕ РёРЅРґРµРєСЃСѓ
     static bool LoadCharacter(int index = instance().Current_Character_idx);
 
     static PlayableCharactersManager& instance() {
@@ -112,10 +112,10 @@ public:
         return s_instance;
     }
 
-    // Получаем имена персонажей (для UI)
+    // РџРѕР»СѓС‡Р°РµРј РёРјРµРЅР° РїРµСЂСЃРѕРЅР°Р¶РµР№ (РґР»СЏ UI)
     const std::optional<std::string>* GetCharacterNames() const { return Character_Names; }
 
-    // Получаем текущего персонажа
+    // РџРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰РµРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°
     static PlayableCharacter& GetCurrentCharacter() { return instance().Current_Character; }
 
     static int& GetCurrentCharacterIndex() { return instance().Current_Character_idx; }

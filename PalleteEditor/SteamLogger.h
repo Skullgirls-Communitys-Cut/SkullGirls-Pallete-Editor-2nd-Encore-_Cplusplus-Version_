@@ -113,7 +113,7 @@ public:
         return instance;
     }
 
-    // Методы для работы с лобби
+    // РњРµС‚РѕРґС‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р»РѕР±Р±Рё
     const LobbyInfo& GetCurrentLobbyInfo() const { return m_LobbyInfo; }
 
     CSteamID GetLocalSteamID() const {
@@ -126,7 +126,7 @@ public:
         return name ? name : "Unknown";
     }
 
-    // Методы для работы с чатом
+    // РњРµС‚РѕРґС‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С‡Р°С‚РѕРј
     const std::vector<ChatMessage>& GetChatHistory() const { return m_chatHistory; }
     void ClearChatHistory() { m_chatHistory.clear(); }
     bool SendChatMessage(const std::string& message);

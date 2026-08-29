@@ -44,7 +44,7 @@ void NetworkingPalette::OnLobbyChatUpdate(LobbyChatUpdate_t* pCallback) {
             m_MatchInfo.Clear();
 
 
-            // Логируем конкретную причину, если нужно
+            // Р›РѕРіРёСЂСѓРµРј РєРѕРЅРєСЂРµС‚РЅСѓСЋ РїСЂРёС‡РёРЅСѓ, РµСЃР»Рё РЅСѓР¶РЅРѕ
             if (state & k_EChatMemberStateChangeLeft) {
                 LOG_LOCAL_INFO(NetworkingPaletteLogger, "Left lobby voluntarily");
             }
@@ -83,11 +83,11 @@ void NetworkingPalette::OnLobbyChatMessage(LobbyChatMsg_t* pCallback) {
         uint64_t steamID64P2 = 0;
         uint32_t matchIdRng0 = 0;
 
-        // Извлекаем SteamID1 (little-endian)
+        // РР·РІР»РµРєР°РµРј SteamID1 (little-endian)
         memcpy(&steamID64P1, Message + 4, 8);
-        // Извлекаем SteamID2 (little-endian)
+        // РР·РІР»РµРєР°РµРј SteamID2 (little-endian)
         memcpy(&steamID64P2, Message + 12, 8);
-        // Извлекаем MatchID/RNG0 (little-endian)
+        // РР·РІР»РµРєР°РµРј MatchID/RNG0 (little-endian)
         memcpy(&matchIdRng0, Message + 20, 4);
 
         CSteamID steamIDP1(steamID64P1);
@@ -123,11 +123,11 @@ void NetworkingPalette::OnLobbyChatMessage(LobbyChatMsg_t* pCallback) {
         uint64_t steamID64P2 = 0;
         uint32_t matchIdRng0 = 0;
 
-        // Извлекаем steamIDSpec (little-endian)
+        // РР·РІР»РµРєР°РµРј steamIDSpec (little-endian)
         memcpy(&steamID64Spec, Message + 4, 8);
-        // Извлекаем steamID1 (little-endian)
+        // РР·РІР»РµРєР°РµРј steamID1 (little-endian)
         memcpy(&steamID64P1, Message + 12, 8);
-        // Извлекаем steamID2 (little-endian)
+        // РР·РІР»РµРєР°РµРј steamID2 (little-endian)
         memcpy(&steamID64P2, Message + 20, 8);
 
         //Be careful! We skip 4 bytes from message, becouse it's SpecID or something - we don't need that
@@ -267,7 +267,7 @@ void NetworkingPalette::AddNewPaletteToCache(Auto_Pal AutoPalette, uint8_t Slot)
         return;
     }
 
-    // Получаем размер файла
+    // РџРѕР»СѓС‡Р°РµРј СЂР°Р·РјРµСЂ С„Р°Р№Р»Р°
     auto size = std::filesystem::file_size(AutoPalette.PalPath);
     std::vector<uint8_t> buffer(size);
 
@@ -420,7 +420,7 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
 
     size_t offset = 0;
 
-    // Чтение имени персонажа (16 байт)
+    // Р§С‚РµРЅРёРµ РёРјРµРЅРё РїРµСЂСЃРѕРЅР°Р¶Р° (16 Р±Р°Р№С‚)
     if (offset + 16 > Palette.size()) {
         LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete palette data!");
         return;
@@ -428,13 +428,13 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
     memcpy(temp_Character.Char_Name, Palette.data() + offset, 16);
     offset += 16;
 
-    // Проверка имени персонажа
+    // РџСЂРѕРІРµСЂРєР° РёРјРµРЅРё РїРµСЂСЃРѕРЅР°Р¶Р°
     if (strcmp(temp_Character.Char_Name, currentChar.Char_Name)) {
         LOG_LOCAL_WARN(NetworkingPaletteLogger, "This palette is of another character!");
         return;
     }
 
-    // Чтение количества цветов
+    // Р§С‚РµРЅРёРµ РєРѕР»РёС‡РµСЃС‚РІР° С†РІРµС‚РѕРІ
     if (offset + sizeof(temp_Character.Num_Of_Color) > Palette.size()) {
         LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete palette data!");
         return;
@@ -442,7 +442,7 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
     memcpy(&temp_Character.Num_Of_Color, Palette.data() + offset, sizeof(temp_Character.Num_Of_Color));
     offset += sizeof(temp_Character.Num_Of_Color);
 
-    // Чтение HueShift_Cos (1 байт)
+    // Р§С‚РµРЅРёРµ HueShift_Cos (1 Р±Р°Р№С‚)
     if (offset + 1 > Palette.size()) {
         LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete palette data!");
         return;
@@ -450,7 +450,7 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
     memcpy(&temp_Character.HueShift_Cos, Palette.data() + offset, 1);
     offset += 1;
 
-    // Чтение HueShift_Sin (1 байт)
+    // Р§С‚РµРЅРёРµ HueShift_Sin (1 Р±Р°Р№С‚)
     if (offset + 1 > Palette.size()) {
         LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete palette data!");
         return;
@@ -458,7 +458,7 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
     memcpy(&temp_Character.HueShift_Sin, Palette.data() + offset, 1);
     offset += 1;
 
-    // Чтение цветов (начиная со второго)
+    // Р§С‚РµРЅРёРµ С†РІРµС‚РѕРІ (РЅР°С‡РёРЅР°СЏ СЃРѕ РІС‚РѕСЂРѕРіРѕ)
     for (int i = 1; i < temp_Character.Num_Of_Color; i++) {
         if (offset + sizeof(temp_Character.Character_Colors[i]) > Palette.size()) {
             LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete palette data!");
@@ -468,9 +468,9 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
         offset += sizeof(temp_Character.Character_Colors[i]);
     }
 
-    // Если есть дополнительные данные (опциональные цвета)
+    // Р•СЃР»Рё РµСЃС‚СЊ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ (РѕРїС†РёРѕРЅР°Р»СЊРЅС‹Рµ С†РІРµС‚Р°)
     if (offset < Palette.size()) {
-        // Чтение LineColor
+        // Р§С‚РµРЅРёРµ LineColor
         if (offset + sizeof(temp_Character.LineColor) > Palette.size()) {
             LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete optional color data!");
             return;
@@ -478,7 +478,7 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
         memcpy(&temp_Character.LineColor, Palette.data() + offset, sizeof(temp_Character.LineColor));
         offset += sizeof(temp_Character.LineColor);
 
-        // Чтение SuperShadowColor1
+        // Р§С‚РµРЅРёРµ SuperShadowColor1
         if (offset + sizeof(temp_Character.SuperShadowColor1) > Palette.size()) {
             LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete optional color data!");
             return;
@@ -486,7 +486,7 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
         memcpy(&temp_Character.SuperShadowColor1, Palette.data() + offset, sizeof(temp_Character.SuperShadowColor1));
         offset += sizeof(temp_Character.SuperShadowColor1);
 
-        // Чтение SuperShadowColor2
+        // Р§С‚РµРЅРёРµ SuperShadowColor2
         if (offset + sizeof(temp_Character.SuperShadowColor2) > Palette.size()) {
             LOG_LOCAL_WARN(NetworkingPaletteLogger, "Incomplete optional color data!");
             return;
@@ -509,3 +509,4 @@ void NetworkingPalette::ApplyNetworkingPalette(NetworkPaletteData PaletteData)
 
     LOG_LOCAL_INFO(NetworkingPaletteLogger, "Applied Network Palette data!");
 }
+

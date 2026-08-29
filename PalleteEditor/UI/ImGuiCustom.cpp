@@ -214,7 +214,7 @@ static bool SliderScalarGradientHue(const char* label, ImGuiDataType data_type, 
     const ImU32 frame_col = GetColorU32(g.ActiveId == id ? ImGuiCol_FrameBgActive : hovered ? ImGuiCol_FrameBgHovered : ImGuiCol_FrameBg);
     RenderNavHighlight(frame_bb, id);
 
-    // ŒÚËÒÓ‚Í‡ ‡‰ÛÊÌÓ„Ó „‡‰ËÂÌÚ‡ ‰Îˇ Hue
+    // –û—Ç—Ä–∏—Å–æ–≤–∫–∞ —Ä–∞–¥—É–∂–Ω–æ–≥–æ –≥—Ä–∞–¥–∏–µ–Ω—Ç–∞ –¥–ª—è Hue
     const ImU32 hue_colors[] = {
         IM_COL32(255, 0, 0, 255),     // Red
         IM_COL32(255, 255, 0, 255),   // Yellow
@@ -222,10 +222,10 @@ static bool SliderScalarGradientHue(const char* label, ImGuiDataType data_type, 
         IM_COL32(0, 255, 255, 255),   // Cyan
         IM_COL32(0, 0, 255, 255),     // Blue
         IM_COL32(255, 0, 255, 255),   // Magenta
-        IM_COL32(255, 0, 0, 255)      // Red (Á‡Ï˚Í‡ÂÏ)
+        IM_COL32(255, 0, 0, 255)      // Red (–∑–∞–º—ã–∫–∞–µ–º)
     };
 
-    // –‡Á·Ë‚‡ÂÏ ÔˇÏÓÛ„ÓÎ¸ÌËÍ Ì‡ 6 ÒÂ„ÏÂÌÚÓ‚ ‰Îˇ ‡‰Û„Ë
+    // –†–∞–∑–±–∏–≤–∞–µ–º –ø—Ä—è–º–æ—É–≥–æ–ª—å–Ω–∏–∫ –Ω–∞ 6 —Å–µ–≥–º–µ–Ω—Ç–æ–≤ –¥–ª—è —Ä–∞–¥—É–≥–∏
     const int num_segments = 6;
     const float segment_width = frame_bb.GetWidth() / num_segments;
 
@@ -234,20 +234,20 @@ static bool SliderScalarGradientHue(const char* label, ImGuiDataType data_type, 
         ImVec2 segment_min = ImVec2(frame_bb.Min.x + i * segment_width, frame_bb.Min.y);
         ImVec2 segment_max = ImVec2(segment_min.x + segment_width, frame_bb.Max.y);
 
-        // »ÌÚÂÔÓÎËÛÂÏ ˆ‚ÂÚ ÏÂÊ‰Û ‰‚ÛÏˇ ÒÓÒÂ‰ÌËÏË ˆ‚ÂÚ‡ÏË ‡‰Û„Ë
+        // –ò–Ω—Ç–µ—Ä–ø–æ–ª–∏—Ä—É–µ–º —Ü–≤–µ—Ç –º–µ–∂–¥—É –¥–≤—É–º—è —Å–æ—Å–µ–¥–Ω–∏–º–∏ —Ü–≤–µ—Ç–∞–º–∏ —Ä–∞–¥—É–≥–∏
         window->DrawList->AddRectFilledMultiColor(
             segment_min, segment_max,
             hue_colors[i], hue_colors[i + 1], hue_colors[i + 1], hue_colors[i]
         );
     }
 
-    // —Î‡È‰Â ÔÓ‚Â‰ÂÌËÂ
+    // –°–ª–∞–π–¥–µ—Ä –ø–æ–≤–µ–¥–µ–Ω–∏–µ
     ImRect grab_bb;
     const bool value_changed = SliderBehavior(frame_bb, id, data_type, p_data, p_min, p_max, format, flags, &grab_bb);
     if (value_changed)
         MarkItemEdited(id);
 
-    // –ÂÌ‰ÂËÏ ÒÚÂÎÍË ‰Îˇ ÒÎ‡È‰Â‡ Hue („ÓËÁÓÌÚ‡Î¸Ì˚Â)
+    // –†–µ–Ω–¥–µ—Ä–∏–º —Å—Ç—Ä–µ–ª–∫–∏ –¥–ª—è —Å–ª–∞–π–¥–µ—Ä–∞ Hue (–≥–æ—Ä–∏–∑–æ–Ω—Ç–∞–ª—å–Ω—ã–µ)
     float bars_triangles_half_sz = IM_FLOOR(frame_bb.GetHeight() * 0.20f);
     RenderArrowsForHorizontalBar(window->DrawList, ImVec2(grab_bb.GetCenter().x, frame_bb.Min.y), ImVec2(bars_triangles_half_sz, bars_triangles_half_sz + 1), frame_bb.GetHeight(), style.Alpha);
 
@@ -442,27 +442,27 @@ bool ImGuiCustom::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlag
                 }
                 else
                 {
-                    if (n == 0) // Hue - ËÒÔÓÎ¸ÁÛÂÏ ÒÔÂˆË‡Î¸Ì˚È ‡‰ÛÊÌ˚È ÒÎ‡È‰Â
+                    if (n == 0) // Hue - –∏—Å–ø–æ–ª—å–∑—É–µ–º —Å–ø–µ—Ü–∏–∞–ª—å–Ω—ã–π —Ä–∞–¥—É–∂–Ω—ã–π —Å–ª–∞–π–¥–µ—Ä
                     {
                         int zero = 0;
-                        int one = 255; // Hue ÓÚ 0 ‰Ó 360 „‡‰ÛÒÓ‚
+                        int one = 255; // Hue –æ—Ç 0 –¥–æ 360 –≥—Ä–∞–¥—É—Å–æ–≤
                         value_changed |= SliderScalarGradientHue(ids[n], ImGuiDataType_S32, &i[n], &zero, &one, fmt_table_int[2][n]);
                     }
                     else if (n == 1) // Saturation
                     {
                         int zero = 0;
                         int one = 255;
-                        // ¬˚˜ËÒÎˇÂÏ ˆ‚ÂÚ‡ ‰Îˇ „‡‰ËÂÌÚ‡ Ì‡Ò˚˘ÂÌÌÓÒÚË
-                        // œË Ì‡Ò˚˘ÂÌÌÓÒÚË 0 - ÒÂ˚È ˆ‚ÂÚ (ÚÓÎ¸ÍÓ ÁÌ‡˜ÂÌËÂ)
-                        // œË Ì‡Ò˚˘ÂÌÌÓÒÚË 1 - ÔÓÎÌ˚È ˆ‚ÂÚ
+                        // –í—ã—á–∏—Å–ª—è–µ–º —Ü–≤–µ—Ç–∞ –¥–ª—è –≥—Ä–∞–¥–∏–µ–Ω—Ç–∞ –Ω–∞—Å—ã—â–µ–Ω–Ω–æ—Å—Ç–∏
+                        // –ü—Ä–∏ –Ω–∞—Å—ã—â–µ–Ω–Ω–æ—Å—Ç–∏ 0 - —Å–µ—Ä—ã–π —Ü–≤–µ—Ç (—Ç–æ–ª—å–∫–æ –∑–Ω–∞—á–µ–Ω–∏–µ)
+                        // –ü—Ä–∏ –Ω–∞—Å—ã—â–µ–Ω–Ω–æ—Å—Ç–∏ 1 - –ø–æ–ª–Ω—ã–π —Ü–≤–µ—Ç
                         float hue = i[0] / 255.0f;
                         float value = i[2] / 255.0f;
 
-                        // ÷‚ÂÚ ÔË Ì‡Ò˚˘ÂÌÌÓÒÚË 0
+                        // –¶–≤–µ—Ç –ø—Ä–∏ –Ω–∞—Å—ã—â–µ–Ω–Ω–æ—Å—Ç–∏ 0
                         float r0, g0, b0;
                         ColorConvertHSVtoRGB(hue, 0.0f, value, r0, g0, b0);
 
-                        // ÷‚ÂÚ ÔË Ì‡Ò˚˘ÂÌÌÓÒÚË 1
+                        // –¶–≤–µ—Ç –ø—Ä–∏ –Ω–∞—Å—ã—â–µ–Ω–Ω–æ—Å—Ç–∏ 1
                         float r1, g1, b1;
                         ColorConvertHSVtoRGB(hue, 1.0f, value, r1, g1, b1);
 
@@ -471,20 +471,20 @@ bool ImGuiCustom::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlag
 
                         value_changed |= SliderScalarGradient(ids[n], ImGuiDataType_S32, &i[n], &zero, &one, color_start, color_end, fmt_table_int[2][n]);
                     }
-                    else if (n == 2) // Value (ﬂÍÓÒÚ¸)
+                    else if (n == 2) // Value (–Ø—Ä–∫–æ—Å—Ç—å)
                     {
                         int zero = 0;
                         int one = 255;
-                        // ¬˚˜ËÒÎˇÂÏ ˆ‚ÂÚ‡ ‰Îˇ „‡‰ËÂÌÚ‡ ˇÍÓÒÚË
-                        // œË ÁÌ‡˜ÂÌËË 0 - ˜ÂÌ˚È
-                        // œË ÁÌ‡˜ÂÌËË 1 - ÔÓÎÌ˚È ˆ‚ÂÚ
+                        // –í—ã—á–∏—Å–ª—è–µ–º —Ü–≤–µ—Ç–∞ –¥–ª—è –≥—Ä–∞–¥–∏–µ–Ω—Ç–∞ —è—Ä–∫–æ—Å—Ç–∏
+                        // –ü—Ä–∏ –∑–Ω–∞—á–µ–Ω–∏–∏ 0 - —á–µ—Ä–Ω—ã–π
+                        // –ü—Ä–∏ –∑–Ω–∞—á–µ–Ω–∏–∏ 1 - –ø–æ–ª–Ω—ã–π —Ü–≤–µ—Ç
                         float hue = i[0] / 255.0f;
                         float saturation = i[1] / 255.0f;
 
-                        // ÷‚ÂÚ ÔË ÁÌ‡˜ÂÌËË 0 (˜ÂÌ˚È)
+                        // –¶–≤–µ—Ç –ø—Ä–∏ –∑–Ω–∞—á–µ–Ω–∏–∏ 0 (—á–µ—Ä–Ω—ã–π)
                         ImU32 color_start = GetColorU32(ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-                        // ÷‚ÂÚ ÔË ÁÌ‡˜ÂÌËË 1
+                        // –¶–≤–µ—Ç –ø—Ä–∏ –∑–Ω–∞—á–µ–Ω–∏–∏ 1
                         float r, g, b;
                         ColorConvertHSVtoRGB(hue, saturation, 1.0f, r, g, b);
                         ImU32 color_end = GetColorU32(ImVec4(r, g, b, 1.0f));
@@ -495,8 +495,8 @@ bool ImGuiCustom::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlag
                     {
                         int zero = 0;
                         int one = 255;
-                        // ƒÎˇ ‡Î¸Ù‡-Í‡Ì‡Î‡ ËÒÔÓÎ¸ÁÛÂÏ „‡‰ËÂÌÚ ÓÚ ÔÓÁ‡˜ÌÓ„Ó Í ÌÂÔÓÁ‡˜ÌÓÏÛ
-                        // ¡‡ÁÓ‚˚È ˆ‚ÂÚ ·ÂÂÏ ËÁ ÚÂÍÛ˘Ëı HSV ÁÌ‡˜ÂÌËÈ
+                        // –î–ª—è –∞–ª—å—Ñ–∞-–∫–∞–Ω–∞–ª–∞ –∏—Å–ø–æ–ª—å–∑—É–µ–º –≥—Ä–∞–¥–∏–µ–Ω—Ç –æ—Ç –ø—Ä–æ–∑—Ä–∞—á–Ω–æ–≥–æ –∫ –Ω–µ–ø—Ä–æ–∑—Ä–∞—á–Ω–æ–º—É
+                        // –ë–∞–∑–æ–≤—ã–π —Ü–≤–µ—Ç –±–µ—Ä–µ–º –∏–∑ —Ç–µ–∫—É—â–∏—Ö HSV –∑–Ω–∞—á–µ–Ω–∏–π
                         float hue = i[0] / 255.0f;
                         float saturation = i[1] / 255.0f;
                         float value = i[2] / 255.0f;
@@ -504,8 +504,8 @@ bool ImGuiCustom::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlag
                         float r, g, b;
                         ColorConvertHSVtoRGB(hue, saturation, value, r, g, b);
 
-                        ImU32 color_start = GetColorU32(ImVec4(r, g, b, 0.0f)); // œÓÁ‡˜Ì˚È
-                        ImU32 color_end = GetColorU32(ImVec4(r, g, b, 1.0f));   // ÕÂÔÓÁ‡˜Ì˚È
+                        ImU32 color_start = GetColorU32(ImVec4(r, g, b, 0.0f)); // –ü—Ä–æ–∑—Ä–∞—á–Ω—ã–π
+                        ImU32 color_end = GetColorU32(ImVec4(r, g, b, 1.0f));   // –ù–µ–ø—Ä–æ–∑—Ä–∞—á–Ω—ã–π
 
                         value_changed |= SliderScalarGradient(ids[n], ImGuiDataType_S32, &i[n], &zero, &one, color_start, color_end, fmt_table_int[2][n]);
                     }
@@ -729,7 +729,7 @@ bool ImGuiCustom::ColorPicker4(const char* label, float col[4], ImGuiColorEditFl
     float sliders_height = (11 * GetFrameHeight()) + ((components)*style.ItemInnerSpacing.y);
     float bars_width = square_sz; // Arbitrary smallish width of Hue/Alpha picking bars
     float sv_picker_size = ImMax(bars_width * 1, width - (alpha_bar ? 2 : 1) * (bars_width + style.ItemInnerSpacing.x)); // Saturation/Value picking box
-    if (sv_picker_size > width * 0.5f) // Œ„‡ÌË˜ËÚ¸ Í‚‡‰‡Ú 50% ¯ËËÌ˚
+    if (sv_picker_size > width * 0.5f) // –û–≥—Ä–∞–Ω–∏—á–∏—Ç—å –∫–≤–∞–¥—Ä–∞—Ç 50% —à–∏—Ä–∏–Ω—ã
         sv_picker_size = width * 0.5f;
     sv_picker_size = ImMax(sv_picker_size, sliders_height);
 
@@ -1063,5 +1063,6 @@ bool ImGuiCustom::ColorPicker4(const char* label, float col[4], ImGuiColorEditFl
 
     return value_changed;
 }
+
 
 

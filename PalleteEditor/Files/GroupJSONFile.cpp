@@ -24,12 +24,12 @@ bool GroupColorManager::LoadFromFile(const std::string& filePath) {
         ordered_json j;
         file >> j;
 
-        // Используем swap для очистки с освобождением памяти
+        // РСЃРїРѕР»СЊР·СѓРµРј swap РґР»СЏ РѕС‡РёСЃС‚РєРё СЃ РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµРј РїР°РјСЏС‚Рё
         std::unordered_map<std::string, std::vector<ColorGroup>> newGroups;
 
         for (auto& [charName, groups] : j.items()) {
             std::vector<ColorGroup> charGroups;
-            charGroups.reserve(groups.size()); // Резервируем память заранее
+            charGroups.reserve(groups.size()); // Р РµР·РµСЂРІРёСЂСѓРµРј РїР°РјСЏС‚СЊ Р·Р°СЂР°РЅРµРµ
 
             int currentIndex = 1;
             for (auto& [groupName, count] : groups.items()) {
@@ -41,11 +41,11 @@ bool GroupColorManager::LoadFromFile(const std::string& filePath) {
                 currentIndex += count.get<int>();
             }
 
-            // Используем emplace для перемещения данных
+            // РСЃРїРѕР»СЊР·СѓРµРј emplace РґР»СЏ РїРµСЂРµРјРµС‰РµРЅРёСЏ РґР°РЅРЅС‹С…
             newGroups.emplace(charName, std::move(charGroups));
         }
 
-        // Атомарная замена данных
+        // РђС‚РѕРјР°СЂРЅР°СЏ Р·Р°РјРµРЅР° РґР°РЅРЅС‹С…
         characterGroups.swap(newGroups);
         return true;
 

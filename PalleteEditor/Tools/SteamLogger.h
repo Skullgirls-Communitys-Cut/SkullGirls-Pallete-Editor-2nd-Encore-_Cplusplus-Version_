@@ -105,7 +105,7 @@ public:
 
     bool Init();
 
-    // Методы для работы с лобби
+    // РњРµС‚РѕРґС‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р»РѕР±Р±Рё
     const LobbyInfo& GetCurrentLobbyInfo() const { return m_LobbyInfo; }
     CSteamID GetLocalSteamID() const { return g_pSteamUser ? g_pSteamUser->GetSteamID() : k_steamIDNil; }
     std::string GetPlayerName(CSteamID steamID) {
@@ -113,12 +113,12 @@ public:
         return g_pSteamFriends->GetFriendPersonaName(steamID);
     }
 
-    // Методы для работы с чатом
+    // РњРµС‚РѕРґС‹ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С‡Р°С‚РѕРј
     const std::vector<ChatMessage>& GetChatHistory() const { return m_chatHistory; }
     void ClearChatHistory() { m_chatHistory.clear(); }
     bool SendChatMessage(const std::string& message);
 
-    // Колбэки
+    // РљРѕР»Р±СЌРєРё
     void OnLobbyEnter(LobbyEnter_t* pCallback);
     void OnLobbyDataUpdate(LobbyDataUpdate_t* pCallback);
     void OnLobbyChatMessage(LobbyChatMsg_t* pCallback);

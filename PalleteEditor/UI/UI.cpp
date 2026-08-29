@@ -134,7 +134,7 @@ void UI::Render()
     if (!s_initialized || !s_visible)
         return;
 
-    // Ïðîâåðÿåì, âàëèäíî ëè óñòðîéñòâî
+    // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼, Ð²Ð°Ð»Ð¸Ð´Ð½Ð¾ Ð»Ð¸ ÑƒÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð¾
     if (s_device && SUCCEEDED(s_device->TestCooperativeLevel()))
     {
         BeginFrame();
@@ -179,10 +179,10 @@ LRESULT CALLBACK UI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {     
 
     
-    // Åñëè ïèïåòêà àêòèâíà, áëîêèðóåì ÂÑÅ ñîîáùåíèÿ îò ìûøè è êëàâèàòóðû
+    // Ð•ÑÐ»Ð¸ Ð¿Ð¸Ð¿ÐµÑ‚ÐºÐ° Ð°ÐºÑ‚Ð¸Ð²Ð½Ð°, Ð±Ð»Ð¾ÐºÐ¸Ñ€ÑƒÐµÐ¼ Ð’Ð¡Ð• ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð¾Ñ‚ Ð¼Ñ‹ÑˆÐ¸ Ð¸ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ñ‹
     if (!EyeDropper::getInstance().IsThreadFinished())
     {
-        // Áëîêèðóåì âñå ñîîáùåíèÿ ìûøè è êëàâèàòóðû
+        // Ð‘Ð»Ð¾ÐºÐ¸Ñ€ÑƒÐµÐ¼ Ð²ÑÐµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð¼Ñ‹ÑˆÐ¸ Ð¸ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ñ‹
         if ((msg >= WM_LBUTTONDOWN && msg <= WM_MOUSELAST) ||
             (msg >= WM_KEYFIRST && msg <= WM_KEYLAST))
         {
@@ -190,25 +190,25 @@ LRESULT CALLBACK UI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return true;
         }
 
-        // Äëÿ äðóãèõ ñîîáùåíèé ïðîäîëæàåì îáû÷íóþ îáðàáîòêó
-        // (íàïðèìåð, WM_PAINT, WM_SIZE è ò.ä.)
+        // Ð”Ð»Ñ Ð´Ñ€ÑƒÐ³Ð¸Ñ… ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ð¹ Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶Ð°ÐµÐ¼ Ð¾Ð±Ñ‹Ñ‡Ð½ÑƒÑŽ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÑƒ
+        // (Ð½Ð°Ð¿Ñ€Ð¸Ð¼ÐµÑ€, WM_PAINT, WM_SIZE Ð¸ Ñ‚.Ð´.)
     }
 
-    // Âñåãäà ïåðåäàåì ñîîáùåíèÿ â ImGui äëÿ îáðàáîòêè
+    // Ð’ÑÐµÐ³Ð´Ð° Ð¿ÐµÑ€ÐµÐ´Ð°ÐµÐ¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð² ImGui Ð´Ð»Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸
     ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
 
 
 
-    // Ïîëó÷àåì ñîñòîÿíèå ImGui
+    // ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ ImGui
     ImGuiIO& io = ImGui::GetIO();
 
-    // Áëîêèðóåì ñîîáùåíèÿ ìûøè, åñëè ImGui õî÷åò èõ îáðàáîòàòü
+    // Ð‘Ð»Ð¾ÐºÐ¸Ñ€ÑƒÐµÐ¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð¼Ñ‹ÑˆÐ¸, ÐµÑÐ»Ð¸ ImGui Ñ…Ð¾Ñ‡ÐµÑ‚ Ð¸Ñ… Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ
     if (((msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST) && io.WantCaptureMouse) && s_visible)
     {
         return true;
     }
 
-    // Áëîêèðóåì ñîîáùåíèÿ êëàâèàòóðû, åñëè ImGui õî÷åò èõ îáðàáîòàòü
+    // Ð‘Ð»Ð¾ÐºÐ¸Ñ€ÑƒÐµÐ¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ ÐºÐ»Ð°Ð²Ð¸Ð°Ñ‚ÑƒÑ€Ñ‹, ÐµÑÐ»Ð¸ ImGui Ñ…Ð¾Ñ‡ÐµÑ‚ Ð¸Ñ… Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ
     if (((msg >= WM_KEYFIRST && msg <= WM_KEYLAST) && io.WantCaptureKeyboard) && s_visible)
     {
         return true;
@@ -223,20 +223,20 @@ bool UI::IsFullscreen()
     if (!s_hwnd)
         return false;
 
-    // Ïðîâåðÿåì ñòèëè îêíà
+    // ÐŸÑ€Ð¾Ð²ÐµÑ€ÑÐµÐ¼ ÑÑ‚Ð¸Ð»Ð¸ Ð¾ÐºÐ½Ð°
     DWORD style = GetWindowLong(s_hwnd, GWL_STYLE);
 
-    // Åñëè åñòü ðàìêà (íå ïîëíîýêðàííûé)
+    // Ð•ÑÐ»Ð¸ ÐµÑÑ‚ÑŒ Ñ€Ð°Ð¼ÐºÐ° (Ð½Ðµ Ð¿Ð¾Ð»Ð½Ð¾ÑÐºÑ€Ð°Ð½Ð½Ñ‹Ð¹)
     if (style & WS_BORDER || style & WS_THICKFRAME || style & WS_CAPTION)
         return false;
 
     if (style & WS_MINIMIZE) return true;
-    // Äîïîëíèòåëüíàÿ ïðîâåðêà ÷åðåç GetWindowPlacement
+    // Ð”Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ñ‡ÐµÑ€ÐµÐ· GetWindowPlacement
     WINDOWPLACEMENT wp;
     wp.length = sizeof(WINDOWPLACEMENT);
     if (GetWindowPlacement(s_hwnd, &wp))
     {
-        // Åñëè îêíî ðàçâåðíóòî è ïîêðûâàåò âåñü ýêðàí
+        // Ð•ÑÐ»Ð¸ Ð¾ÐºÐ½Ð¾ Ñ€Ð°Ð·Ð²ÐµÑ€Ð½ÑƒÑ‚Ð¾ Ð¸ Ð¿Ð¾ÐºÑ€Ñ‹Ð²Ð°ÐµÑ‚ Ð²ÐµÑÑŒ ÑÐºÑ€Ð°Ð½
         if (wp.showCmd == SW_SHOWMAXIMIZED)
         {
             RECT windowRect;
@@ -245,7 +245,7 @@ bool UI::IsFullscreen()
             RECT screenRect;
             GetClientRect(GetDesktopWindow(), &screenRect);
 
-            // Åñëè ðàçìåðû îêíà ñîâïàäàþò ñ ðàçìåðàìè ýêðàíà
+            // Ð•ÑÐ»Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€Ñ‹ Ð¾ÐºÐ½Ð° ÑÐ¾Ð²Ð¿Ð°Ð´Ð°ÑŽÑ‚ Ñ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð°Ð¼Ð¸ ÑÐºÑ€Ð°Ð½Ð°
             if (EqualRect(&windowRect, &screenRect))
                 return true;
         }

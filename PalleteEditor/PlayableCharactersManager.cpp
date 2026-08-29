@@ -163,7 +163,7 @@ bool PlayableCharactersManager::LoadCharacter(int index) {
             procMgr.s_BaseAddress,
             {
                     static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                    static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // Приведение к нужному типу
+                    static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                     static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
                     static_cast<uintptr_t>(AddressTable::Offset_ColorCodeOffset()),
                     static_cast<uintptr_t>(4 * character.Current_Palette_Num),
@@ -176,7 +176,7 @@ bool PlayableCharactersManager::LoadCharacter(int index) {
         if (!readSuccess) {
             LOG_LOCAL_ERROR(CharManagerLogger, "Can't read color ", i,
                 " from palette ", character.Current_Palette_Num);
-            colorValue = IM_COL32_WHITE; // Белый цвет как fallback
+            colorValue = IM_COL32_WHITE; // Р‘РµР»С‹Р№ С†РІРµС‚ РєР°Рє fallback
         }
         character.Character_Colors.push_back(colorValue);
     }
@@ -187,7 +187,7 @@ bool PlayableCharactersManager::LoadCharacter(int index) {
         procMgr.s_BaseAddress,
         {
             static_cast<uintptr_t>(AddressTable::Base_Adress()),
-            static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
             static_cast<uintptr_t>(AddressTable::NEW_Offset_LineColor()),
             static_cast<uintptr_t>(4 * character.Current_Palette_Num),
@@ -206,7 +206,7 @@ bool PlayableCharactersManager::LoadCharacter(int index) {
         procMgr.s_BaseAddress,
         {
             static_cast<uintptr_t>(AddressTable::Base_Adress()),
-            static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
             static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
             static_cast<uintptr_t>(4 * character.Current_Palette_Num),
@@ -228,7 +228,7 @@ bool PlayableCharactersManager::LoadCharacter(int index) {
         procMgr.s_BaseAddress,
         {
             static_cast<uintptr_t>(AddressTable::Base_Adress()),
-            static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::Offset_Character() + index * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
             static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
             static_cast<uintptr_t>(4 * character.Current_Palette_Num),
@@ -260,15 +260,15 @@ bool PlayableCharactersManager::ChangePaletteNumber(int newPaletteIndex) {
         return false;
     }
 
-    auto& currentChar = instance().Current_Character; // Используем ссылку!
+    auto& currentChar = instance().Current_Character; // РСЃРїРѕР»СЊР·СѓРµРј СЃСЃС‹Р»РєСѓ!
 
-    // Проверяем валидность нового индекса
+    // РџСЂРѕРІРµСЂСЏРµРј РІР°Р»РёРґРЅРѕСЃС‚СЊ РЅРѕРІРѕРіРѕ РёРЅРґРµРєСЃР°
     if (newPaletteIndex < 0 || newPaletteIndex >= currentChar.Max_Palette_Num) {
         LOG_LOCAL_ERROR(CharManagerLogger, "Invalid palette index: ", newPaletteIndex);
         return false;
     }
 
-    // Проверяем, не пытаемся ли установить то же значение
+    // РџСЂРѕРІРµСЂСЏРµРј, РЅРµ РїС‹С‚Р°РµРјСЃСЏ Р»Рё СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С‚Рѕ Р¶Рµ Р·РЅР°С‡РµРЅРёРµ
     if (newPaletteIndex == currentChar.Current_Palette_Num) {
         LOG_LOCAL_DEBUG(CharManagerLogger, "Palette already set to ", newPaletteIndex);
         return true;
@@ -276,13 +276,13 @@ bool PlayableCharactersManager::ChangePaletteNumber(int newPaletteIndex) {
 
     ProcessManager& procMgr = ProcessManager::instance();
 
-    // Записываем в память игры
+    // Р—Р°РїРёСЃС‹РІР°РµРј РІ РїР°РјСЏС‚СЊ РёРіСЂС‹
     bool writeSuccess = MemoryWorker::WriteProcessMemoryWithOffsets(
         procMgr.s_SG_Process,
         procMgr.s_BaseAddress,
         {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + currentCharIndex * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + currentCharIndex * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_CurrentPalette()),
         },
         newPaletteIndex
@@ -293,7 +293,7 @@ bool PlayableCharactersManager::ChangePaletteNumber(int newPaletteIndex) {
         return false;
     }
 
-    // Обновляем локальную копию ТОЛЬКО после успешной записи
+    // РћР±РЅРѕРІР»СЏРµРј Р»РѕРєР°Р»СЊРЅСѓСЋ РєРѕРїРёСЋ РўРћР›Р¬РљРћ РїРѕСЃР»Рµ СѓСЃРїРµС€РЅРѕР№ Р·Р°РїРёСЃРё
     LoadCharacter();
 
     LOG_LOCAL_INFO(CharManagerLogger, "Changed palette to ", newPaletteIndex,
@@ -314,7 +314,7 @@ bool PlayableCharactersManager::ChangeOptionPaletteColor(ImU32& BGRAcolorValue, 
             procMgr.s_BaseAddress,
             {
             static_cast<uintptr_t>(AddressTable::Base_Adress()),
-            static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
             static_cast<uintptr_t>(AddressTable::NEW_Offset_LineColor()),
             static_cast<uintptr_t>(4 * GetCurrentCharacter().Current_Palette_Num),
@@ -338,7 +338,7 @@ bool PlayableCharactersManager::ChangeOptionPaletteColor(ImU32& BGRAcolorValue, 
             procMgr.s_BaseAddress,
             {
             static_cast<uintptr_t>(AddressTable::Base_Adress()),
-            static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
             static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
             static_cast<uintptr_t>(4 * GetCurrentCharacter().Current_Palette_Num),
@@ -363,7 +363,7 @@ bool PlayableCharactersManager::ChangeOptionPaletteColor(ImU32& BGRAcolorValue, 
             procMgr.s_BaseAddress,
             {
             static_cast<uintptr_t>(AddressTable::Base_Adress()),
-            static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
             static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
             static_cast<uintptr_t>(4 * GetCurrentCharacter().Current_Palette_Num),
@@ -395,7 +395,7 @@ bool PlayableCharactersManager::ChangePaletteColor(int Color_ID, ImU32& BGRAcolo
         procMgr.s_BaseAddress,
         {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + GetCurrentCharacterIndex() * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::Offset_ColorCodeOffset()),
         static_cast<uintptr_t>(4 * GetCurrentCharacter().Current_Palette_Num),

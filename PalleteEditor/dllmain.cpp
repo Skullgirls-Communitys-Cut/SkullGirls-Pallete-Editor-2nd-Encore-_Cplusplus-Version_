@@ -39,7 +39,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
             NULL
         );
         if (hMainThread) {
-            // Продолжаем выполнение после полной загрузки DLL
+            // РџСЂРѕРґРѕР»Р¶Р°РµРј РІС‹РїРѕР»РЅРµРЅРёРµ РїРѕСЃР»Рµ РїРѕР»РЅРѕР№ Р·Р°РіСЂСѓР·РєРё DLL
             ResumeThread(hMainThread);
         }
         return TRUE;
@@ -51,7 +51,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
         bMainStopThread = true;
 
-        // Ждем завершения UI потока
+        // Р–РґРµРј Р·Р°РІРµСЂС€РµРЅРёСЏ UI РїРѕС‚РѕРєР°
         if (bMainStopThread) {
             WaitForSingleObject(hMainThread, 5000);
             CloseHandle(hMainThread);
@@ -65,17 +65,18 @@ bool IsSGLoadThisDLL() {
     wchar_t exePath[MAX_PATH];
     GetModuleFileName(NULL, exePath, MAX_PATH);
 
-    // Извлекаем только имя файла из полного пути
+    // РР·РІР»РµРєР°РµРј С‚РѕР»СЊРєРѕ РёРјСЏ С„Р°Р№Р»Р° РёР· РїРѕР»РЅРѕРіРѕ РїСѓС‚Рё
     std::wstring fullPath(exePath);
     size_t lastSlash = fullPath.find_last_of(L"\\/");
     std::wstring exeName = (lastSlash == std::wstring::npos) ?
         fullPath : fullPath.substr(lastSlash + 1);
 
     std::wstring GameName = SG_NAME;
-    // Приводим к нижнему регистру
+    // РџСЂРёРІРѕРґРёРј Рє РЅРёР¶РЅРµРјСѓ СЂРµРіРёСЃС‚СЂСѓ
     for (auto& c : exeName) c = towlower(c);
     for (auto& c : GameName) c = towlower(c);
 
     return exeName.find(GameName) != std::wstring::npos;
 }
+
 
