@@ -1,12 +1,12 @@
 #pragma once
-#include <json.hpp> // Используйте библиотеку nlohmann/json
+#include <json.hpp> // РСЃРїРѕР»СЊР·СѓР№С‚Рµ Р±РёР±Р»РёРѕС‚РµРєСѓ nlohmann/json
 using ordered_json = nlohmann::ordered_json;
 
-// Структура для хранения группировки цветов
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РіСЂСѓРїРїРёСЂРѕРІРєРё С†РІРµС‚РѕРІ
 struct ColorGroup {
     std::string groupName;
-    int startIndex; // Начальный индекс в палитре
-    int count;      // Количество цветов в группе
+    int startIndex; // РќР°С‡Р°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ РІ РїР°Р»РёС‚СЂРµ
+    int count;      // РљРѕР»РёС‡РµСЃС‚РІРѕ С†РІРµС‚РѕРІ РІ РіСЂСѓРїРїРµ
 };
 
 class GroupColorGroup {
@@ -15,4 +15,5 @@ public:
     static bool LoadFromFile();
 };
 
-// Для каждого персонажа
+// Р”Р»СЏ РєР°Р¶РґРѕРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р°
+

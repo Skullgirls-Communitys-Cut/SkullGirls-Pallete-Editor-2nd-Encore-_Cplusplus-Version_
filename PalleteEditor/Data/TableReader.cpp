@@ -5,12 +5,12 @@
 bool AddressTable::LoadFromFile() {
     const char* filterPatterns[1] = { "*.tbl" };
     const char* filePath = tinyfd_openFileDialog(
-        "Load Table",        // заголовок
-        "",                     // начальная директория
-        1,                      // количество фильтров
-        filterPatterns,         // фильтры
-        NULL,                   // описание фильтров
-        0                       // множественный выбор (0 - нет, 1 - да)
+        "Load Table",        // Р·Р°РіРѕР»РѕРІРѕРє
+        "",                     // РЅР°С‡Р°Р»СЊРЅР°СЏ РґРёСЂРµРєС‚РѕСЂРёСЏ
+        1,                      // РєРѕР»РёС‡РµСЃС‚РІРѕ С„РёР»СЊС‚СЂРѕРІ
+        filterPatterns,         // С„РёР»СЊС‚СЂС‹
+        NULL,                   // РѕРїРёСЃР°РЅРёРµ С„РёР»СЊС‚СЂРѕРІ
+        0                       // РјРЅРѕР¶РµСЃС‚РІРµРЅРЅС‹Р№ РІС‹Р±РѕСЂ (0 - РЅРµС‚, 1 - РґР°)
     );
     
     if (filePath == NULL) {
@@ -45,7 +45,7 @@ bool AddressTable::LoadFromFile() {
 }
 
 void AddressTable::ResetToDefaults() {
-    // Восстановление значений по умолчанию
+    // Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ Р·РЅР°С‡РµРЅРёР№ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
     s_Base_Adress_For_Delete = 0x0;
     s_Base_Adress = 0x852178;
     s_Offset_GameStatus = 0x168;

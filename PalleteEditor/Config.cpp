@@ -30,10 +30,10 @@ void config::init() {
         std::string Table = get_string("Table");
 
         if (CharPartPath != "") {
-            std::ifstream charFile(CharPartPath); // Переименовал для ясности
+            std::ifstream charFile(CharPartPath); // РџРµСЂРµРёРјРµРЅРѕРІР°Р» РґР»СЏ СЏСЃРЅРѕСЃС‚Рё
             if (!charFile.is_open()) {
-                // Файл не открылся - пропускаем обработку
-                // Можно добавить сообщение об ошибке
+                // Р¤Р°Р№Р» РЅРµ РѕС‚РєСЂС‹Р»СЃСЏ - РїСЂРѕРїСѓСЃРєР°РµРј РѕР±СЂР°Р±РѕС‚РєСѓ
+                // РњРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ
                 std::cerr << "Cannot open CharPart file: " << CharPartPath << std::endl;
             }
             else {
@@ -71,7 +71,7 @@ void config::init() {
     loaded = true;
 }
 
-// Публичные функции
+// РџСѓР±Р»РёС‡РЅС‹Рµ С„СѓРЅРєС†РёРё
 std::string config::get_string(const std::string& key, const std::string& default_val) {
     try {
         return data.value(key, default_val);

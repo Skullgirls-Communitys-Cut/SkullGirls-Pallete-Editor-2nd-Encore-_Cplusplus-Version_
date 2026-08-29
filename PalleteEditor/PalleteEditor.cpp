@@ -47,7 +47,7 @@ void PalEdit::Init() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_GameStatus())  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_GameStatus())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         },
         &s_GameStatus);
 
@@ -74,7 +74,7 @@ void PalEdit::Init() {
             s_SG_Process,
             s_BaseAddress, {
             static_cast<uintptr_t>(AddressTable::Base_Adress()),
-            static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             static_cast<uintptr_t>(AddressTable::Offset_Name()) },
             &Name
             );
@@ -86,7 +86,7 @@ void PalEdit::Init() {
                 s_SG_Process,
                 s_BaseAddress, {
                 static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // Приведение к нужному типу
+                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                 static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
                 static_cast<uintptr_t>(AddressTable::Offset_PaletteTotalOffset()),
                 },
@@ -96,7 +96,7 @@ void PalEdit::Init() {
                 s_SG_Process,
                 s_BaseAddress, {
                 static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // Приведение к нужному типу
+                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                 static_cast<uintptr_t>(AddressTable::Offset_CurrentPalette()),
                 },
                 &Ch.Current_Pallete_Num
@@ -105,7 +105,7 @@ void PalEdit::Init() {
                 s_SG_Process,
                 s_BaseAddress, {
                 static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // Приведение к нужному типу
+                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                 static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
                 static_cast<uintptr_t>(AddressTable::Offset_NumberOfColor()),
                 },
@@ -115,7 +115,7 @@ void PalEdit::Init() {
                 s_SG_Process,
                 s_BaseAddress, {
                 static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // Приведение к нужному типу
+                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                 static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
                 static_cast<uintptr_t>(AddressTable::NEW_Offset_LineColor()),
                 static_cast<uintptr_t>(4 * Ch.Current_Pallete_Num),
@@ -127,7 +127,7 @@ void PalEdit::Init() {
                 s_SG_Process,
                 s_BaseAddress, {
                 static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // Приведение к нужному типу
+                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                 static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
                 static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
                 static_cast<uintptr_t>(4 * Ch.Current_Pallete_Num),
@@ -139,7 +139,7 @@ void PalEdit::Init() {
                 s_SG_Process,
                 s_BaseAddress, {
                 static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // Приведение к нужному типу
+                static_cast<uintptr_t>(AddressTable::Offset_Character() + n * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                 static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
                 static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
                 static_cast<uintptr_t>(4 * Ch.Current_Pallete_Num),
@@ -162,7 +162,7 @@ void PalEdit::Read_Character() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::NEW_Offset_LineColor()),
         static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -174,7 +174,7 @@ void PalEdit::Read_Character() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
         static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -186,7 +186,7 @@ void PalEdit::Read_Character() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
         static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -202,7 +202,7 @@ void PalEdit::Read_Character() {
                 s_SG_Process,
                 s_BaseAddress, {
                 static_cast<uintptr_t>(AddressTable::Base_Adress()),
-                static_cast<uintptr_t>(AddressTable::Offset_Character() + Character_Vector[VectorID].ID * 4),  // Приведение к нужному типу
+                static_cast<uintptr_t>(AddressTable::Offset_Character() + Character_Vector[VectorID].ID * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
                 static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
                 static_cast<uintptr_t>(AddressTable::Offset_ColorCodeOffset()),
                 static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -222,7 +222,7 @@ void PalEdit::ChangePallete() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_CurrentPalette()),
         },
         New_Pal
@@ -235,7 +235,7 @@ void PalEdit::ChangeColor(int Color_ID, __int32 colorValue) {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::Offset_ColorCodeOffset()),
         static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -260,7 +260,7 @@ void PalEdit::NODisplayChar() {
         Memory::WriteProcessMemoryWithOffsets(
             s_SG_Process,
             s_BaseAddress, {
-            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplayCHAR())  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplayCHAR())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             },
             NOPE);
 
@@ -269,7 +269,7 @@ void PalEdit::NODisplayChar() {
         Memory::WriteProcessMemoryWithOffsets(
             s_SG_Process,
             s_BaseAddress, {
-            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplayCHAR())  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplayCHAR())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             },
             MEM);
     }
@@ -283,7 +283,7 @@ void PalEdit::NODisplayShadow() {
         Memory::WriteProcessMemoryWithOffsets(
             s_SG_Process,
             s_BaseAddress, {
-            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplaySHADOWS())  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplaySHADOWS())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             },
             NOPE);
 
@@ -292,7 +292,7 @@ void PalEdit::NODisplayShadow() {
         Memory::WriteProcessMemoryWithOffsets(
             s_SG_Process,
             s_BaseAddress, {
-            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplaySHADOWS())  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_DonotdisplaySHADOWS())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             },
             MEM);
     }
@@ -306,7 +306,7 @@ void PalEdit::DisplaySuperShadow() {
         Memory::WriteProcessMemoryWithOffsets(
             s_SG_Process,
             s_BaseAddress, {
-            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_Display_SuperShadowforever())  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_Display_SuperShadowforever())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             },
             NOPE);
 
@@ -315,7 +315,7 @@ void PalEdit::DisplaySuperShadow() {
         Memory::WriteProcessMemoryWithOffsets(
             s_SG_Process,
             s_BaseAddress, {
-            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_Display_SuperShadowforever())  // Приведение к нужному типу
+            static_cast<uintptr_t>(AddressTable::NEW_Base_Adress_Display_SuperShadowforever())  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
             },
             MEM);
     }
@@ -327,7 +327,7 @@ void PalEdit::ChangeLineColor() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::NEW_Offset_LineColor()),
         static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -341,7 +341,7 @@ void PalEdit::ChangeSuperShadow1() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
         static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -356,7 +356,7 @@ void PalEdit::ChangeSuperShadow2() {
         s_SG_Process,
         s_BaseAddress, {
         static_cast<uintptr_t>(AddressTable::Base_Adress()),
-        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // Приведение к нужному типу
+        static_cast<uintptr_t>(AddressTable::Offset_Character() + current_character_idx * 4),  // РџСЂРёРІРµРґРµРЅРёРµ Рє РЅСѓР¶РЅРѕРјСѓ С‚РёРїСѓ
         static_cast<uintptr_t>(AddressTable::Offset_PaletteData()),
         static_cast<uintptr_t>(AddressTable::NEW_Offset_SuperShadow()),
         static_cast<uintptr_t>(4 * Character_Vector[VectorID].Current_Pallete_Num),
@@ -377,5 +377,6 @@ void PalEdit::UpdateAllCharacters() {
     }
     current_character_idx = -1;
 }
+
 
 

@@ -10,11 +10,11 @@ namespace Memory{
         const std::vector<uintptr_t>& offsets, T* result) {
         uintptr_t currentAddress = baseAddress;
 
-        // Проходим по всем оффсетам кроме последнего
+        // РџСЂРѕС…РѕРґРёРј РїРѕ РІСЃРµРј РѕС„С„СЃРµС‚Р°Рј РєСЂРѕРјРµ РїРѕСЃР»РµРґРЅРµРіРѕ
         for (size_t i = 0; i < offsets.size(); ++i) {
             currentAddress += offsets[i];
 
-            // Если это не последний оффсет, читаем следующий указатель
+            // Р•СЃР»Рё СЌС‚Рѕ РЅРµ РїРѕСЃР»РµРґРЅРёР№ РѕС„С„СЃРµС‚, С‡РёС‚Р°РµРј СЃР»РµРґСѓСЋС‰РёР№ СѓРєР°Р·Р°С‚РµР»СЊ
             if (i < offsets.size() - 1) {
                 uintptr_t nextAddress;
                 if (!ReadProcessMemory(hProcess,
@@ -28,7 +28,7 @@ namespace Memory{
             }
         }
 
-        // Читаем финальное значение по вычисленному адресу
+        // Р§РёС‚Р°РµРј С„РёРЅР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ РїРѕ РІС‹С‡РёСЃР»РµРЅРЅРѕРјСѓ Р°РґСЂРµСЃСѓ
         std::cout << currentAddress;
         return ReadProcessMemory(hProcess,
             reinterpret_cast<LPCVOID>(currentAddress),
@@ -37,18 +37,18 @@ namespace Memory{
             nullptr);
     }
 
-    // Специализация для чтения строк (ANSI)
+    // РЎРїРµС†РёР°Р»РёР·Р°С†РёСЏ РґР»СЏ С‡С‚РµРЅРёСЏ СЃС‚СЂРѕРє (ANSI)
     template<>
     inline  bool ReadProcessMemoryWithOffsets<std::string>(HANDLE hProcess, uintptr_t baseAddress,
         const std::vector<uintptr_t>& offsets, std::string* result) {
         uintptr_t currentAddress = baseAddress;
-        const size_t MAX_STRING_LENGTH = 4096; // Максимальная длина строки
+        const size_t MAX_STRING_LENGTH = 4096; // РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґР»РёРЅР° СЃС‚СЂРѕРєРё
 
-        // Проходим по всем оффсетам кроме последнего
+        // РџСЂРѕС…РѕРґРёРј РїРѕ РІСЃРµРј РѕС„С„СЃРµС‚Р°Рј РєСЂРѕРјРµ РїРѕСЃР»РµРґРЅРµРіРѕ
         for (size_t i = 0; i < offsets.size(); ++i) {
             currentAddress += offsets[i];
 
-            // Если это не последний оффсет, читаем следующий указатель
+            // Р•СЃР»Рё СЌС‚Рѕ РЅРµ РїРѕСЃР»РµРґРЅРёР№ РѕС„С„СЃРµС‚, С‡РёС‚Р°РµРј СЃР»РµРґСѓСЋС‰РёР№ СѓРєР°Р·Р°С‚РµР»СЊ
             if (i < offsets.size() - 1) {
                 uintptr_t nextAddress;
                 if (!ReadProcessMemory(hProcess,
@@ -62,7 +62,7 @@ namespace Memory{
             }
         }
 
-        // Читаем строку посимвольно пока не встретим нулевой терминатор
+        // Р§РёС‚Р°РµРј СЃС‚СЂРѕРєСѓ РїРѕСЃРёРјРІРѕР»СЊРЅРѕ РїРѕРєР° РЅРµ РІСЃС‚СЂРµС‚РёРј РЅСѓР»РµРІРѕР№ С‚РµСЂРјРёРЅР°С‚РѕСЂ
         char buffer[MAX_STRING_LENGTH];
         SIZE_T bytesRead;
 
@@ -85,7 +85,7 @@ namespace Memory{
             buffer[i] = currentChar;
         }
 
-        // Если не нашли нулевой терминатор в пределах MAX_STRING_LENGTH
+        // Р•СЃР»Рё РЅРµ РЅР°С€Р»Рё РЅСѓР»РµРІРѕР№ С‚РµСЂРјРёРЅР°С‚РѕСЂ РІ РїСЂРµРґРµР»Р°С… MAX_STRING_LENGTH
         buffer[MAX_STRING_LENGTH - 1] = '\0';
         *result = std::string(buffer);
         return true;
@@ -97,11 +97,11 @@ namespace Memory{
         const std::vector<uintptr_t>& offsets, const T& value) {
         uintptr_t currentAddress = baseAddress;
 
-        // Проходим по всем оффсетам кроме последнего
+        // РџСЂРѕС…РѕРґРёРј РїРѕ РІСЃРµРј РѕС„С„СЃРµС‚Р°Рј РєСЂРѕРјРµ РїРѕСЃР»РµРґРЅРµРіРѕ
         for (size_t i = 0; i < offsets.size(); ++i) {
             currentAddress += offsets[i];
 
-            // Если это не последний оффсет, читаем следующий указатель
+            // Р•СЃР»Рё СЌС‚Рѕ РЅРµ РїРѕСЃР»РµРґРЅРёР№ РѕС„С„СЃРµС‚, С‡РёС‚Р°РµРј СЃР»РµРґСѓСЋС‰РёР№ СѓРєР°Р·Р°С‚РµР»СЊ
             if (i < offsets.size() - 1) {
                 uintptr_t nextAddress;
                 if (!ReadProcessMemory(hProcess,
@@ -115,7 +115,7 @@ namespace Memory{
             }
         }
 
-        // Записываем значение по вычисленному адресу
+        // Р—Р°РїРёСЃС‹РІР°РµРј Р·РЅР°С‡РµРЅРёРµ РїРѕ РІС‹С‡РёСЃР»РµРЅРЅРѕРјСѓ Р°РґСЂРµСЃСѓ
         return WriteProcessMemory(hProcess,
             reinterpret_cast<LPVOID>(currentAddress),
             &value,

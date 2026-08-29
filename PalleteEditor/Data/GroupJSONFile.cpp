@@ -9,12 +9,12 @@ using ordered_json = nlohmann::ordered_json;
 bool GroupColorGroup::LoadFromFile() {
     const char* filterPatterns[1] = { "*.json" };
     const char* filePath = tinyfd_openFileDialog(
-        "Load JSON (Character parts)",        // заголовок
-        "",                     // начальная директория
-        1,                      // количество фильтров
-        filterPatterns,         // фильтры
-        NULL,                   // описание фильтров
-        0                       // множественный выбор (0 - нет, 1 - да)
+        "Load JSON (Character parts)",        // Р·Р°РіРѕР»РѕРІРѕРє
+        "",                     // РЅР°С‡Р°Р»СЊРЅР°СЏ РґРёСЂРµРєС‚РѕСЂРёСЏ
+        1,                      // РєРѕР»РёС‡РµСЃС‚РІРѕ С„РёР»СЊС‚СЂРѕРІ
+        filterPatterns,         // С„РёР»СЊС‚СЂС‹
+        NULL,                   // РѕРїРёСЃР°РЅРёРµ С„РёР»СЊС‚СЂРѕРІ
+        0                       // РјРЅРѕР¶РµСЃС‚РІРµРЅРЅС‹Р№ РІС‹Р±РѕСЂ (0 - РЅРµС‚, 1 - РґР°)
     );
     if (filePath == NULL) {
         std::cout << "No file choosen" << std::endl;

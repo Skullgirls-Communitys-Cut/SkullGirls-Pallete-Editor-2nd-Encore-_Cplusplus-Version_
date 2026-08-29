@@ -8,11 +8,11 @@ namespace Memory {
         DWORD pid = 0;
         HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
         if (hSnapshot == INVALID_HANDLE_VALUE) {
-            return pid; // Возвращаем пустой вектор в случае ошибки
+            return pid; // Р’РѕР·РІСЂР°С‰Р°РµРј РїСѓСЃС‚РѕР№ РІРµРєС‚РѕСЂ РІ СЃР»СѓС‡Р°Рµ РѕС€РёР±РєРё
         }
 
         PROCESSENTRY32 pe;
-        pe.dwSize = sizeof(pe); // Важно: инициализировать размер структуры
+        pe.dwSize = sizeof(pe); // Р’Р°Р¶РЅРѕ: РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ СЂР°Р·РјРµСЂ СЃС‚СЂСѓРєС‚СѓСЂС‹
 
         if (!Process32First(hSnapshot, &pe)) {
             CloseHandle(hSnapshot);
@@ -20,7 +20,7 @@ namespace Memory {
         }
 
         do {
-            // Сравниваем имя процесса с искомым
+            // РЎСЂР°РІРЅРёРІР°РµРј РёРјСЏ РїСЂРѕС†РµСЃСЃР° СЃ РёСЃРєРѕРјС‹Рј
             if (Utills::to_lower(pe.szExeFile) == Utills::to_lower(targetProcessName)) {
                 pid = pe.th32ProcessID;
                 break;
@@ -28,13 +28,13 @@ namespace Memory {
         } while (Process32Next(hSnapshot, &pe));
 
         CloseHandle(hSnapshot);
-        return pid; // Возвращает все найденные PID (может быть несколько)
+        return pid; // Р’РѕР·РІСЂР°С‰Р°РµС‚ РІСЃРµ РЅР°Р№РґРµРЅРЅС‹Рµ PID (РјРѕР¶РµС‚ Р±С‹С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ)
     }
 
     DWORD GetModuleBaseAddress(DWORD dwProcessId, std::wstring ModuleName) {
         HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwProcessId);
         if (hSnapshot == INVALID_HANDLE_VALUE) {
-            return 0; // Не удалось создать снимок процессов
+            return 0; // РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕР·РґР°С‚СЊ СЃРЅРёРјРѕРє РїСЂРѕС†РµСЃСЃРѕРІ
         }
 
         MODULEENTRY32 ModuleEntry32 = { 0 };
@@ -51,7 +51,7 @@ namespace Memory {
         }
 
         CloseHandle(hSnapshot);
-        return dwModuleBaseAddress; // Вернет 0, если модуль не найден
+        return dwModuleBaseAddress; // Р’РµСЂРЅРµС‚ 0, РµСЃР»Рё РјРѕРґСѓР»СЊ РЅРµ РЅР°Р№РґРµРЅ
     }
 
 }

@@ -6,12 +6,12 @@
 bool PalleteFile::LoadFromFile(Character& s_Char) {
     const char* filterPatterns[1] = { "*.pal" };
     const char* filePath = tinyfd_openFileDialog(
-        "Load Pallete",        // заголовок
-        "",                     // начальная директория
-        1,                      // количество фильтров
-        filterPatterns,         // фильтры
-        NULL,                   // описание фильтров
-        0                       // множественный выбор (0 - нет, 1 - да)
+        "Load Pallete",        // Р·Р°РіРѕР»РѕРІРѕРє
+        "",                     // РЅР°С‡Р°Р»СЊРЅР°СЏ РґРёСЂРµРєС‚РѕСЂРёСЏ
+        1,                      // РєРѕР»РёС‡РµСЃС‚РІРѕ С„РёР»СЊС‚СЂРѕРІ
+        filterPatterns,         // С„РёР»СЊС‚СЂС‹
+        NULL,                   // РѕРїРёСЃР°РЅРёРµ С„РёР»СЊС‚СЂРѕРІ
+        0                       // РјРЅРѕР¶РµСЃС‚РІРµРЅРЅС‹Р№ РІС‹Р±РѕСЂ (0 - РЅРµС‚, 1 - РґР°)
     );
     if (filePath == NULL) {
         std::cout << "No file choosen" << std::endl;
@@ -84,7 +84,7 @@ bool PalleteFile::SaveToFile(const Character s_Char) {
     size_t len = s_Char.Char_Name.length();
     if (len > 15) len = 15;
     memcpy(charName, s_Char.Char_Name.c_str(), len);
-    // charName уже инициализирован нулями, так что остальная часть будет 0
+    // charName СѓР¶Рµ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅ РЅСѓР»СЏРјРё, С‚Р°Рє С‡С‚Рѕ РѕСЃС‚Р°Р»СЊРЅР°СЏ С‡Р°СЃС‚СЊ Р±СѓРґРµС‚ 0
     file.write(charName, 16);
 
     uint32_t numOfColors = s_Char.Num_Of_Color;

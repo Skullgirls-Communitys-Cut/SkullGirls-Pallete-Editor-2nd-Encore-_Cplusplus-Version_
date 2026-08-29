@@ -51,15 +51,15 @@ void AutoPallete::init() {
 void AutoPallete::load() {
     Auto_Pals.clear();
 
-    // Получаем JSON массив из конфига
+    // РџРѕР»СѓС‡Р°РµРј JSON РјР°СЃСЃРёРІ РёР· РєРѕРЅС„РёРіР°
     nlohmann::json autoPalsJson = config::get_json("AutoLoadPals");
 
-    // Проверяем, что это массив
+    // РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ СЌС‚Рѕ РјР°СЃСЃРёРІ
     if (autoPalsJson.is_array()) {
         for (const auto& item : autoPalsJson) {
             Auto_Pal pal;
 
-            // Проверяем наличие полей
+            // РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ РїРѕР»РµР№
             if (item.contains("CharName") && item["CharName"].is_string()) {
                 pal.CharName = item["CharName"];
             }
@@ -80,7 +80,7 @@ void AutoPallete::load() {
 void AutoPallete::save() {
     nlohmann::json autoPalsJson = nlohmann::json::array();
 
-    // Преобразуем вектор в JSON массив
+    // РџСЂРµРѕР±СЂР°Р·СѓРµРј РІРµРєС‚РѕСЂ РІ JSON РјР°СЃСЃРёРІ
     for (const auto& pal : Auto_Pals) {
         nlohmann::json item;
         item["CharName"] = pal.CharName;
@@ -90,6 +90,6 @@ void AutoPallete::save() {
         autoPalsJson.push_back(item);
     }
 
-    // Сохраняем в конфиг
+    // РЎРѕС…СЂР°РЅСЏРµРј РІ РєРѕРЅС„РёРі
     config::set_json("AutoLoadPals", autoPalsJson);
 }
