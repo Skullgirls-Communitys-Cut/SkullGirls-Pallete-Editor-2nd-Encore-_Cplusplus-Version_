@@ -63,7 +63,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(DXSDK_DIR)Lib\x86\d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EmbedManagedResourceFile>SkullGirls Pallete Editor 2nd Encore.rc</EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
@@ -84,7 +84,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(DXSDK_DIR)Lib\x86\d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EmbedManagedResourceFile>SkullGirls Pallete Editor 2nd Encore.rc</EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
