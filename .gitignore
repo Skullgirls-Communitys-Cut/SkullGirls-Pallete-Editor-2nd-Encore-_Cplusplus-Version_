@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 /TODO.md
 /PalleteEditor/TODO.md
+
+# Solution of the master branch; Visual Studio rewrites it after a branch switch
+/PalleteEditor.sln
