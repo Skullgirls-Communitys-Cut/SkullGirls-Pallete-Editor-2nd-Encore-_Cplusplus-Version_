@@ -5,7 +5,7 @@ class AddressTable {
 private:
     // Приватные статические члены с префиксом s_
     inline static int s_Base_Adress_For_Delete = 0x0;
-    inline static int s_Base_Adress = 0x852178;
+    inline static int s_Base_Adress = 0x85EA4C;
     inline static int s_Offset_GameStatus = 0x168;
     inline static int s_Offset_Character = 0x5E8;
     inline static int s_Offset_Name = 0x310;
@@ -15,9 +15,9 @@ private:
     inline static int s_Offset_NumberOfColor = 0x4;
     inline static int s_Offset_ColorCodeOffset = 0x8;
     inline static int s_Offset_HueShiftOffset = 0x2C;
-    inline static int s_NEW_Base_Adress_DonotdisplayCHAR = 0x185534;
-    inline static int s_NEW_Base_Adress_DonotdisplaySHADOWS = 0x186060;
-    inline static int s_NEW_Base_Adress_Display_SuperShadowforever = 0xA479B;
+    inline static int s_NEW_Base_Adress_DonotdisplayCHAR = 0x18FFD4;
+    inline static int s_NEW_Base_Adress_DonotdisplaySHADOWS = 0x190C30;
+    inline static int s_NEW_Base_Adress_Display_SuperShadowforever = 0xA3A8B;
     inline static int s_NEW_Offset_LineColor = 0x38;
     inline static int s_NEW_Offset_SuperShadow = 0xC;
 

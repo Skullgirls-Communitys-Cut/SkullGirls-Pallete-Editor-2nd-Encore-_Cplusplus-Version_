@@ -17,7 +17,7 @@ bool AddressTable::LoadFromFile() {
         std::cout << "No file choosen" << std::endl;
         return true;
     }
-    std::ifstream file(filePath);
+    std::ifstream file(filePath, std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Can't open file" << filePath << std::endl;
         return false;
@@ -34,7 +34,7 @@ bool AddressTable::LoadFromFile() {
     file.read(reinterpret_cast<char*>(&s_Offset_NumberOfColor), sizeof(int32_t));
     file.read(reinterpret_cast<char*>(&s_Offset_ColorCodeOffset), sizeof(int32_t));
     file.read(reinterpret_cast<char*>(&s_Offset_HueShiftOffset), sizeof(int32_t));
-    if (Base_Adress_For_Delete == 0) {
+    if (s_Base_Adress_For_Delete == 0) {
         file.read(reinterpret_cast<char*>(&s_NEW_Base_Adress_DonotdisplayCHAR), sizeof(int32_t));
         file.read(reinterpret_cast<char*>(&s_NEW_Base_Adress_DonotdisplaySHADOWS), sizeof(int32_t));
         file.read(reinterpret_cast<char*>(&s_NEW_Base_Adress_Display_SuperShadowforever), sizeof(int32_t));
@@ -47,7 +47,7 @@ bool AddressTable::LoadFromFile() {
 void AddressTable::ResetToDefaults() {
     // Восстановление значений по умолчанию
     s_Base_Adress_For_Delete = 0x0;
-    s_Base_Adress = 0x852178;
+    s_Base_Adress = 0x85EA4C;
     s_Offset_GameStatus = 0x168;
     s_Offset_Character = 0x5E8;
     s_Offset_Name = 0x310;
@@ -57,9 +57,9 @@ void AddressTable::ResetToDefaults() {
     s_Offset_NumberOfColor = 0x4;
     s_Offset_ColorCodeOffset = 0x8;
     s_Offset_HueShiftOffset = 0x2C;
-    s_NEW_Base_Adress_DonotdisplayCHAR = 0x185534;
-    s_NEW_Base_Adress_DonotdisplaySHADOWS = 0x186060;
-    s_NEW_Base_Adress_Display_SuperShadowforever = 0xA479B;
+    s_NEW_Base_Adress_DonotdisplayCHAR = 0x18FFD4;
+    s_NEW_Base_Adress_DonotdisplaySHADOWS = 0x190C30;
+    s_NEW_Base_Adress_Display_SuperShadowforever = 0xA3A8B;
     s_NEW_Offset_LineColor = 0x38;
     s_NEW_Offset_SuperShadow = 0xC;
 }
