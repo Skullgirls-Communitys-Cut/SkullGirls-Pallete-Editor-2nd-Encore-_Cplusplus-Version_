@@ -364,3 +364,6 @@ FodyWeavers.xsd
 /PalleteEditor/TODO.md
 /PalleteEditor/data01/Palettes
 /PalleteEditor/CHANGELOG.md
+
+# Solution of the dll_version branch; Visual Studio rewrites it after a branch switch
+/PalleteEditor/PaletteEditorDLL.sln
