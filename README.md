@@ -5,14 +5,14 @@ The palette editor for Skullgirls 2nd Encore is a specialized tool for creating,
 ![Palette Editor](./PalleteEditor/data01/image_palette-editor.jpg)
 
 # install .exe version
-- Download the executable file from [GitHub](https://github.com/Skullgirls-Communitys-Cut/SkullGirls-Pallete-Editor-2nd-Encore-_Cplusplus-Version_/releases/download/v0.6.1/SkullGirls.Pallete.Editor.2nd.Encore.exe).
+- Download the executable file from [GitHub](https://github.com/Skullgirls-Communitys-Cut/SkullGirls-Pallete-Editor-2nd-Encore-_Cplusplus-Version_/releases/latest/download/SkullGirls.Pallete.Editor.2nd.Encore.exe).
 - Launch the game
 - Launch the editor
 
 We recommend placing the executable (EXE) outside the game's folder, as the editor currently conflicts with CoreMessaging.dll ([SkullLoader](https://github.com/Skullgirls-Communitys-Cut/SkullLoader)).
 
 # install the .dll version
-- Download the .dll from [GitHub](https://github.com/Skullgirls-Communitys-Cut/SkullGirls-Pallete-Editor-2nd-Encore-_Cplusplus-Version_/releases/download/v0.6.1/d3d9.dll).
+- Download the .dll from [GitHub](https://github.com/Skullgirls-Communitys-Cut/SkullGirls-Pallete-Editor-2nd-Encore-_Cplusplus-Version_/releases/latest/download/d3d9.dll).
 - Place d3d9.dll in the game folder (so that the d3d9.dll is located next to Skullgirls.exe!)
 - Launch the game
 
